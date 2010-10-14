@@ -6,6 +6,11 @@
 module MusicLoom
   class Gesture
     
+    # tick values
+    TICKS_4N = 480
+    TICKS_8N = 240
+    TICKS_16N = 120
+    
     # populate event queue
     # 
     # for subclasses to overwrite
@@ -14,5 +19,14 @@ module MusicLoom
       []
     end
     
+    
+    private
+      
+      # return time of next downbeat (in ticks)
+      # 
+      def next_beat(now)
+        (now / 480).ceil * 480
+      end
+      
   end
 end
