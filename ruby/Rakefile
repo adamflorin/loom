@@ -1,0 +1,12 @@
+# 
+#  Rakefile: tools for Music Loom
+#  
+#  Copyright October 2010, Adam Florin. All rights reserved.
+# 
+
+task :default => [:load]
+
+task :load do
+  require "music_loom/music_loom"
+  puts "Loaded music_loom OK."
+end
