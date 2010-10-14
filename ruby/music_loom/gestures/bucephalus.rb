@@ -25,7 +25,7 @@ module MusicLoom
         delta_ms = LONG_DURATION * (pcnt ** 2.0)
         
         # push onto the queue
-        events << [event_time, ["note", 59.9, 100, 100]]
+        events << [event_time, ["note", 59, 100, 100]]
         
         event_time += delta_ms
       end
