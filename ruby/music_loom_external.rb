@@ -8,6 +8,7 @@
 # relative to ruby.loadpaths in ajm.ruby.properties.
 # For some reason, Ruby doesn't know the path of this external file.
 # 
+require "tools/monkeypatch"
 require "tools/rescuable"
 require "music_loom/music_loom"
 

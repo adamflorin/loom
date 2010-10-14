@@ -7,7 +7,9 @@ module MusicLoom
   class StringThing < Repertoire
     
     def initialize
-      @gestures = [Bucephalus]
+      @gestures = [
+        {:class => Bucephalus, :weight => 1},
+        {:class => Flipper, :weight => 15}]
       super
     end
     

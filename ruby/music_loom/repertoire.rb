@@ -23,9 +23,7 @@ module MusicLoom
       
       # no events... chose a gesture and create some!
       if @event_queue.empty?
-        current_gesture_class = @gestures[rand(@gestures.length)]
-        current_gesture = current_gesture_class.new
-        @event_queue = current_gesture.generate_events(now)
+        @event_queue = select_gesture.generate_events(now)
       end
       
       # TODO: if there are multiple events at the same time...
@@ -40,5 +38,27 @@ module MusicLoom
       @event_queue = []
     end
     
+    
+    private
+      
+      # simple weighted probability to decide which gesture comes next
+      # 
+      def select_gesture
+        next_gesture_class = nil
+        total_weight = @gestures.map{|g| g[:weight]}.sum
+        lucky_number = rand total_weight
+        this_gesture_max = 0
+        
+        @gestures.each do |gesture|
+          this_gesture_max += gesture[:weight]
+          if lucky_number < this_gesture_max
+            next_gesture_class = gesture[:class]
+            break
+          end
+        end
+        
+        return next_gesture_class.new
+      end
+      
   end
 end
