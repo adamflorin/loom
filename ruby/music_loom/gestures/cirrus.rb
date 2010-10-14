@@ -1,12 +1,13 @@
 # 
-#  flipper.rb: just flip on whole step in changing rhythm
+#  cirrus.rb: high-up cloud, curving subtlely downward
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Flipper < Gesture
+  class Cirrus < Gesture
     
-    ROOT_NOTE = 60
+    ROOT_NOTE = 72
+    PATTERN = [TICKS_8N, TICKS_16N, TICKS_16N]
     
     # set up a note to play faster & faster
     # 
@@ -14,22 +15,20 @@ module MusicLoom
       events = []
       event_time = next_beat(now)
       
-      high_note = false
-      num_steps = (rand * 3).to_i + 2
       accent = true
+      pitch = ROOT_NOTE
       
-      num_steps.times do |i|
+      PATTERN.each do |dur|
         # pre-
-        pitch = ROOT_NOTE + (high_note ? ((rand * 10).to_i.zero? ? 8 : 2) : 0)
         velocity = accent ? 100 : 20
         
         # EVENT
-        events << [event_time, ["note", pitch, velocity, TICKS_16N]]
+        events << [event_time, ["note", pitch, velocity, dur]]
         
         # post-
         accent = false
-        high_note = !high_note
-        event_time += TICKS_16N
+        event_time += dur
+        pitch -= rand 3
       end
       
       return events

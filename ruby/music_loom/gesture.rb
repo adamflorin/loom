@@ -10,6 +10,7 @@ module MusicLoom
     TICKS_4N = 480
     TICKS_8N = 240
     TICKS_16N = 120
+    TICKS_32N = 60
     
     # populate event queue
     # 

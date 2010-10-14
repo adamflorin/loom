@@ -9,7 +9,8 @@ module MusicLoom
     def initialize
       @gestures = [
         {:class => Bucephalus, :weight => 1},
-        {:class => Flipper, :weight => 15}]
+        {:class => Flipper, :weight => 12},
+        {:class => Cirrus, :weight => 4}]
       super
     end
     

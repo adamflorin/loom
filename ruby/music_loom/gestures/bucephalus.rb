@@ -18,15 +18,17 @@ module MusicLoom
       # TODO: add a pitch bend continuous event here
       
       NUM_STEPS.times do |i|
+        # pre-
         # > 0. and <= 1.0
         pcnt = (NUM_STEPS - (i+1)).to_f / NUM_STEPS
         
         # exponential for effect
         delta_ms = LONG_DURATION * (pcnt ** 2.0)
         
-        # push onto the queue
+        # EVENT
         events << [event_time, ["note", 59, 100, 100]]
         
+        # post-
         event_time += delta_ms
       end
       
