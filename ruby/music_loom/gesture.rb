@@ -7,6 +7,8 @@ module MusicLoom
   class Gesture
     
     # tick values
+    TICKS_1N = 1920
+    TICKS_2N = 960
     TICKS_4N = 480
     TICKS_8N = 240
     TICKS_16N = 120
@@ -25,8 +27,8 @@ module MusicLoom
       
       # return time of next downbeat (in ticks)
       # 
-      def next_beat(now)
-        (now / 480).ceil * 480
+      def next_beat(now, divis = TICKS_4N)
+        (now / divis).ceil * divis
       end
       
   end
