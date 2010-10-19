@@ -13,17 +13,6 @@ require "tools/rescuable"
 require "music_loom/music_loom"
 
 
-# # INIT
-# # 
-#  TODO: wrap in method to get exception handling
-# 
-$repertoire_classname = ARGV.shift
-$repertoire = MusicLoom.const_get($repertoire_classname).new
-
-
-# # MAX MESSAGES
-# #
-
 # generates gesture if none is in the queue,
 # AND outputs next event
 # 
@@ -38,16 +27,20 @@ def clear_events
 end
 
 
-# wrap all Max messages in rescuable
-# NOTE: must be updated whenever methods are added/deleted!
-#
-Object.init_rescuable [:next_event, :clear_events]
+# INIT
+# 
+rescuable do
+  # build Repretoire
+  $repertoire_classname = ARGV.shift
+  $repertoire = MusicLoom.const_get($repertoire_classname).new
+  
+  # wrap all Max messages in rescuable
+  # NOTE: must be updated whenever methods are added/deleted!
+  Object.init_rescuable [:next_event, :clear_events]
+end
 
 
-#
+# Ready. Log & notify.
 #
 puts "Loaded music_loom_external.rb."
-
-# tell patcher we're ready
-# 
 outlet 0, "ready"
