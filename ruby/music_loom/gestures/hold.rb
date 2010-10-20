@@ -7,13 +7,13 @@ module MusicLoom
   class Hold < Gesture
     
     ROOT_NOTE = 60
-    INTERVALS = [0, 2, -1, -4]
+    INTERVALS = [0, 2, -1]
     
     # set up a note to play faster & faster
     # 
     def generate_events(now)
       events = []
-      event_time = next_beat(now, TICKS_8N)
+      event_time = next_beat(now) #, TICKS_8N)
       
       double_it = (rand 2).zero?
             
