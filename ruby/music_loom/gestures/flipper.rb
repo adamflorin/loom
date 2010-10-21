@@ -12,7 +12,7 @@ module MusicLoom
     # 
     def generate_events(now)
       events = []
-      event_time = next_beat(now)
+      event_time = next_beat(now, TICKS_8N)
       
       high_note = false
       num_steps = (rand * 3).to_i + 2
@@ -31,6 +31,8 @@ module MusicLoom
         high_note = !high_note
         event_time += TICKS_16N
       end
+      
+      events << [event_time + TICKS_16N, "event_done"]
       
       return events
     end

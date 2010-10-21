@@ -27,8 +27,7 @@ module MusicLoom
         events << [event_time + TICKS_8N, ["note", pitch, velocity, TICKS_2N]]
       end
       
-      # FIXME: adding empty event to force pause
-      events << [event_time + (double_it ? TICKS_8N : 0) + TICKS_2N, ["note", pitch, 0, TICKS_32N]]
+      events << [event_time + (double_it ? TICKS_8N : 0) + TICKS_2N, "event_done"]
       
       return events
     end
