@@ -17,7 +17,7 @@ module MusicLoom
       
       do_8ve_up = (rand 3).zero?
       on_downbeat = (rand 3).zero?
-      do_doubles = (rand 6).zero?
+      do_doubles = (rand 4).zero?
       
       event_time += TICKS_8N unless on_downbeat
       
