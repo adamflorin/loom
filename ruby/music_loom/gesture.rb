@@ -29,7 +29,7 @@ module MusicLoom
       # return time of next downbeat (in ticks)
       # 
       def next_beat(now, divis = TICKS_4N)
-        (now / divis).ceil * divis
+        (now.to_f / divis).ceil * divis
       end
       
   end
