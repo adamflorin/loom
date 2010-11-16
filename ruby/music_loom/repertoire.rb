@@ -15,21 +15,22 @@ module MusicLoom
       @event_queue = []
     end
     
+    # 
+    # 
+    def generate_gesture(now)
+      @event_queue = select_gesture.generate_events(now)
+      
+      next_event
+    end
+    
     # get next event, generating some if necessary
     # 
     # now - in ticks (480 / 4n)
     # 
-    def next_event(now)
-      
-      # no events... chose a gesture and create some!
-      if @event_queue.empty?
-        @event_queue = select_gesture.generate_events(now)
-      end
-      
-      # TODO: if there are multiple events at the same time...
-      # what to do? Need more Max logic to tease them apart.
-
-      return ["event", @event_queue.shift].flatten
+    def next_event
+      thing = ["event", @event_queue.shift].flatten unless @event_queue.empty?
+      # puts "SENDING DONE" if !thing.nil? and thing[2] == "done"
+      return thing
     end
     
     # 

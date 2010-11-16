@@ -45,7 +45,7 @@ module MusicLoom
         duration = 250
       end
       
-      events << [event_time + (do_doubles ? 0 : -TICKS_8N), "event_done"]
+      events << [event_time + (do_doubles ? 0 : -TICKS_8N), "done"]
       
       return events
     end

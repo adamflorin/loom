@@ -27,7 +27,7 @@ module MusicLoom
         events << [event_time + TICKS_8N, ["note", pitch, velocity, TICKS_2N]]
       end
       
-      events << [event_time + (double_it ? TICKS_8N : 0) + TICKS_2N, "event_done"]
+      events << [event_time + (double_it ? TICKS_8N : 0) + TICKS_2N, "done"]
       
       return events
     end

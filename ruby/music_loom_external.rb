@@ -13,11 +13,18 @@ require "tools/rescuable"
 require "music_loom/music_loom"
 
 
-# generates gesture if none is in the queue,
-# AND outputs next event
+# generate 1 gesture (= series of events)
+# 
+def generate_gesture(now)
+  # puts "rec'd call to generate_gesture (now: #{now})"
+  $repertoire.generate_gesture(now)
+end
+
+# outputs next event
 # 
 def next_event(now)
-  $repertoire.next_event(now)
+  # puts "event req'd"
+  $repertoire.next_event
 end
 
 # Flush queue
@@ -42,5 +49,5 @@ end
 
 # Ready. Log & notify.
 #
-puts "Loaded music_loom_external.rb."
+puts "Loaded MusicLoom::#{$repertoire_classname}."
 outlet 0, "ready"

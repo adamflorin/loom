@@ -24,7 +24,7 @@ module MusicLoom
         event_time += TICKS_32N
       end
       
-      # events << [event_time, "event_done"]
+      # events << [event_time, "done"]
       
       return events
     end

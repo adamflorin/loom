@@ -29,7 +29,11 @@ module MusicLoom
       # return time of next downbeat (in ticks)
       # 
       def next_beat(now, divis = TICKS_4N)
-        (now.to_f / divis).ceil * divis
+        nb = (now.to_f / divis).ceil * divis
+        
+        # if time is really tight (i.e., generate_gesture event came in _right on_ a beat)
+        # then just skip to next beat rather than letting it fail.
+        return (nb - now < 10) ? (nb + divis) : (nb)
       end
       
   end
