@@ -3,31 +3,57 @@
 #  
 #  Copyright November 2010, Adam Florin. All rights reserved.
 # 
+require "yaml"
+
 module MusicLoom
-  class Tonality
+  module Tonality
     
-    class << self
-       
-      def method_name
-        
-      end
-      
+    CONFIG_DIR = File.join(File.dirname(__FILE__), '..', '..', 'config')
+    
+    # tune the world to C
+    BASE_PITCH = 60
+    
+    attr :scales, :scale_id
+    
+    
+    # Just load up the array of ratios for the current scale,
+    # all as float (never strings)
+    # 
+    def scale_ratios
+      @scales[@scale_id.to_s].map{|p| (p.is_a? String) ? eval(p) : p}
     end
     
-    # JI "major" scale (?)... very sweet + endearing
-    PITCH_RATIOS = [1.0, 9/8.0, 5/4.0, 4/3.0, 3/2.0, 5/3.0, 7/4.0]
+    # For now, just round to nearest scalar tone
+    # 
+    # TODO: variable amount of gravity toward nearest_scale_ratio,
+    # Gaussian distribution around it (?)
+    # 
+    def fit_to_scale(rough_ratio)
+      rough_tonic = 2 ** (Math.log(rough_ratio) / Math.log(2)).floor
+      
+      ratios_and_deltas = scale_ratios.map do |scale_ratio|
         
-    # JI octotonic... a bit square with those high prime numerators
-    # PITCH_RATIOS = [1.0, 9/8.0, 5/4.0, 11/8.0, 3/2.0, 13/8.0, 7/4.0, 15/8.0]
+        # bring scale_ratio into rough_ratio's 8ve
+        scale_ratio *= 2 while scale_ratio < rough_tonic
+        scale_ratio /= 2 while scale_ratio > (rough_tonic * 2)
+        
+        delta = (rough_ratio - scale_ratio).abs
+        {:scale_ratio => scale_ratio, :delta => delta}
+      end
+      
+      nearest_scale_ratio = ratios_and_deltas.sort{|x, y| x[:delta] <=> y[:delta]}.first[:scale_ratio]
+      
+      return nearest_scale_ratio
+    end
     
-    # JI "pentatonic" scale... off-kilter quality
-    # PITCH_RATIOS = [5/5.0, 6/5.0, 7/5.0, 8/5.0, 9/5.0]
     
-    # m3?
-    # PITCH_RATIOS = [1.0, 13/11.0]
+    private
+      
+      def load_scales
+        @scales = {}
     
-    # JI "mixto"
-    # PITCH_RATIOS = [1.0, 6/5.0, 5/4.0, 3/2.0, 8/5.0, 7/4.0, 9/5.0]
-    
+        @scales.update(YAML.load(File.read("#{CONFIG_DIR}/scales.yml")))
+      end
+      
   end
 end

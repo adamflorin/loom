@@ -7,6 +7,7 @@
 
 require "music_loom/gesture"
 require "music_loom/player"
+require "music_loom/tonality"
 require "music_loom/atmosphere"
 
 

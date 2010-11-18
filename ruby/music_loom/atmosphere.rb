@@ -6,11 +6,16 @@
 module MusicLoom
   class Atmosphere
     
+    include Tonality
+    
     attr_accessor :players, :density, :spotlight
     
     SCALE = [1/1, 5/4, 3/2, 7/4]
     
-    def initialize
+    def initialize(new_scale_id)
+      load_scales
+      
+      @scale_id = new_scale_id
       @players = []
     end
     

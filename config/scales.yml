@@ -1,0 +1,17 @@
+# 
+#  scales.yml: pitch sets expressed as JI ratios
+#  
+#  Copyright November 2010, Adam Florin. All rights reserved.
+# 
+
+# JI "major" scale (?)... very sweet + endearing
+major_ji: [1.0, 9/8.0, 5/4.0, 4/3.0, 3/2.0, 5/3.0, 7/4.0]
+    
+# JI "octotonic"... a bit square with those high prime numerators
+octotonic_ji: [1.0, 9/8.0, 5/4.0, 11/8.0, 3/2.0, 13/8.0, 7/4.0, 15/8.0]
+
+# JI "pentatonic" scale... off-kilter quality
+pentatonic_ji: [5/5.0, 6/5.0, 7/5.0, 8/5.0, 9/5.0]
+
+# JI "mixto"
+mixto_ji: [1.0, 6/5.0, 5/4.0, 3/2.0, 8/5.0, 7/4.0, 9/5.0]
