@@ -23,17 +23,35 @@ module MusicLoom
       []
     end
     
+    def self.rest(now)
+      [next_beat(now), "done"]
+    end
+    
     
     private
       
       # return time of next downbeat (in ticks)
       # 
-      def next_beat(now, divis = TICKS_4N)
+      def self.next_beat(now, divis = TICKS_4N)
         nb = (now.to_f / divis).ceil * divis
         
         # if time is really tight (i.e., generate_gesture event came in _right on_ a beat)
         # then just skip to next beat rather than letting it fail.
         return (nb - now < 10) ? (nb + divis) : (nb)
+      end
+      
+      # math util.
+      # 
+      # TODO: cache coefficients after 1st calc
+      # 
+      def ratio_to_pitch_bend(ratio)
+        # ratio to midi note (0 = unison)
+        note_delta = (12.0 / Math.log(2)) * Math.log(ratio)
+        
+        # then to 14-bit pitch bend
+        pitch_bend = (note_delta/12.0 + 1.0) * 8192.0
+        
+        return pitch_bend.to_i
       end
       
   end

@@ -13,7 +13,7 @@ module MusicLoom
     # 
     def generate_events(now)
       events = []
-      event_time = next_beat(now)
+      event_time = Gesture::next_beat(now)
       
       # TODO: add a pitch bend continuous event here
       

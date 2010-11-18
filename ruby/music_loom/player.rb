@@ -1,10 +1,10 @@
 # 
-#  gesture.rb: base class for repertoires (collections of gestures)
+#  player.rb: base class for repertoires (collections of gestures)
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Repertoire
+  class Player
     
     attr_accessor :gestures, :event_queue
     
@@ -15,12 +15,20 @@ module MusicLoom
       @event_queue = []
     end
     
+    # Check in: listen to what's going on & decide whether or not
+    # to generate a gesture
     # 
-    # 
-    def generate_gesture(now)
-      @event_queue = select_gesture.generate_events(now)
+    def check_in(now)
+      if @event_queue.empty?
+        density_space = (1.0 - get_global(:atmosphere).density) * 10 + 1
+        
+        if (rand density_space).zero?
+          @event_queue = select_gesture.generate_events(now)
+        end
+      end
       
-      next_event
+      # TODO: aperiodic rest time? factor of density?
+      return build_event(@event_queue.empty? ? Gesture.rest(now) : next_event)
     end
     
     # get next event, generating some if necessary
@@ -28,9 +36,7 @@ module MusicLoom
     # now - in ticks (480 / 4n)
     # 
     def next_event
-      thing = ["event", @event_queue.shift].flatten unless @event_queue.empty?
-      # puts "SENDING DONE" if !thing.nil? and thing[2] == "done"
-      return thing
+      @event_queue.shift unless @event_queue.empty?
     end
     
     # 
@@ -59,6 +65,12 @@ module MusicLoom
         end
         
         return next_gesture_class.new
+      end
+      
+      # 
+      # 
+      def build_event(event)
+        ["event", event].flatten
       end
       
   end

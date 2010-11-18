@@ -12,7 +12,7 @@ module MusicLoom
     # 
     def generate_events(now)
       events = []
-      event_time = next_beat(now, TICKS_8N)
+      event_time = Gesture::next_beat(now, TICKS_8N)
       
       high_note = false
       num_steps = (rand * 3).to_i + 2

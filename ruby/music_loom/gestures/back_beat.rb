@@ -13,7 +13,7 @@ module MusicLoom
     # 
     def generate_events(now)
       events = []
-      event_time = next_beat(now)
+      event_time = Gesture::next_beat(now)
       
       do_8ve_up = (rand 3).zero?
       on_downbeat = (rand 3).zero?

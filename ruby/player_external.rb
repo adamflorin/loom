@@ -13,24 +13,15 @@ require "tools/rescuable"
 require "music_loom/music_loom"
 
 
-# generate 1 gesture (= series of events)
+# check in: output an event from the queue, generate events, or
+# do nothing but schedule a future check-in
 # 
-def generate_gesture(now)
-  # puts "rec'd call to generate_gesture (now: #{now})"
-  $repertoire.generate_gesture(now)
-end
-
-# outputs next event
-# 
-def next_event(now)
-  # puts "event req'd"
-  $repertoire.next_event
-end
-
-# Flush queue
-# 
-def clear_events
-  $repertoire.clear_events
+def check_in(now)
+  # takin it from the top
+  $player.clear_events if (now <= 0)
+  
+  # check in, returning _some_ kind of an event
+  $player.check_in(now)
 end
 
 
@@ -38,16 +29,19 @@ end
 # 
 rescuable do
   # build Repretoire
-  $repertoire_classname = ARGV.shift
-  $repertoire = MusicLoom.const_get($repertoire_classname).new
+  $player_classname = ARGV.shift
+  $player = MusicLoom.const_get($player_classname).new
+  
+  # register w/ atmosphere
+  get_global(:atmosphere).register_player($player)
   
   # wrap all Max messages in rescuable
   # NOTE: must be updated whenever methods are added/deleted!
-  Object.init_rescuable [:next_event, :clear_events]
+  Object.init_rescuable [:check_in]
 end
 
 
 # Ready. Log & notify.
 #
-puts "Loaded MusicLoom::#{$repertoire_classname}."
+puts "Loaded MusicLoom::#{$player_classname}."
 outlet 0, "ready"
