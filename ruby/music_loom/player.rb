@@ -23,7 +23,9 @@ module MusicLoom
         density_space = (1.0 - get_global(:atmosphere).density) * 10 + 1
         
         if (rand density_space).zero?
-          @event_queue = select_gesture.generate_events(now)
+          next_gesture = select_gesture
+          
+          @event_queue = next_gesture.generate_events(now)
         end
       end
       

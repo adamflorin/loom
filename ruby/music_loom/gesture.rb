@@ -54,5 +54,12 @@ module MusicLoom
         return pitch_bend.to_i
       end
       
+      # to manage things like timescale shifts which for now 
+      # must be divisible by 2
+      # 
+      def round_to_power(x, power = 2)
+        power ** (Math.log(x) / Math.log(power)).round
+      end
+      
   end
 end
