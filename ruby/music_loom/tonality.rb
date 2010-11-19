@@ -29,20 +29,23 @@ module MusicLoom
     # Gaussian distribution around it (?)
     # 
     def fit_to_scale(rough_ratio)
-      rough_tonic = 2 ** (Math.log(rough_ratio) / Math.log(2)).floor
+      nearest_scale_ratio = if rough_ratio > 0
+        rough_tonic = 2 ** (Math.log(rough_ratio) / Math.log(2)).floor
       
-      ratios_and_deltas = scale_ratios.map do |scale_ratio|
+        ratios_and_deltas = scale_ratios.map do |scale_ratio|
         
-        # bring scale_ratio into rough_ratio's 8ve
-        scale_ratio *= 2 while scale_ratio < rough_tonic
-        scale_ratio /= 2 while scale_ratio > (rough_tonic * 2)
+          # bring scale_ratio into rough_ratio's 8ve
+          scale_ratio *= 2 while scale_ratio < rough_tonic
+          scale_ratio /= 2 while scale_ratio > (rough_tonic * 2)
         
-        delta = (rough_ratio - scale_ratio).abs
-        {:scale_ratio => scale_ratio, :delta => delta}
+          delta = (rough_ratio - scale_ratio).abs
+          {:scale_ratio => scale_ratio, :delta => delta}
+        end
+      
+        nearest_scale_ratio = ratios_and_deltas.sort{|x, y| x[:delta] <=> y[:delta]}.first[:scale_ratio]
+      else
+        nearest_scale_ratio = 0
       end
-      
-      nearest_scale_ratio = ratios_and_deltas.sort{|x, y| x[:delta] <=> y[:delta]}.first[:scale_ratio]
-      
       return nearest_scale_ratio
     end
     

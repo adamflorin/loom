@@ -29,11 +29,11 @@ module MusicLoom
       
       
       # TONALITY options
-      options[:melody_offset] ||= 0.5 # pitch ratio
+      options[:melody_offset] ||= 1.0 # pitch ratio
       
-      options[:melody_arc] ||= 1.4 # pitch ratio
+      options[:melody_arc] ||= 1.0 # pitch ratio
       
-      options[:melody_angle] ||= 0.8 # pitch ratio
+      options[:melody_angle] ||= 1.0 # pitch ratio
       
       options[:portamento_dur] ||= 0.0 # 0. - 1.
       
@@ -61,15 +61,20 @@ module MusicLoom
         
         # PITCH (BEND)
         
-        bend_ratio = stress ? get_global(:atmosphere).fit_to_scale(options[:melody_arc]) : 1.0
+        # apply melody ARC
+        bend_ratio = stress ? options[:melody_arc] : 1.0
         
+        # apply melody ANGLE
         angle_amount = (i.to_f / (STRESSES.size - 1)) # 0. - 1.
-        
         bend_ratio *= (options[:melody_angle] ** angle_amount)
         
+        # apply melody OFFSET
         bend_ratio *= options[:melody_offset]
         
-        # bend_ratio = stress ? options[:melody_arc] : 1.0
+        # fit melody to SCALE
+        bend_ratio = get_global(:atmosphere).fit_to_scale(bend_ratio)
+        
+        # output as pitch bend!
         pitch_bend = ratio_to_pitch_bend(bend_ratio)
         events << [event_time, ["bend", pitch_bend, dur * options[:portamento_dur]]]
         

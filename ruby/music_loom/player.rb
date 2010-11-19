@@ -6,13 +6,14 @@
 module MusicLoom
   class Player
     
-    attr_accessor :gestures, :event_queue
+    attr_accessor :gestures, :event_queue, :gesture_options
     
     # set up gestures. for subclasses to overwrite
     # 
     def initialize
       # @gestures = []
       @event_queue = []
+      @gesture_options = {}
     end
     
     # Check in: listen to what's going on & decide whether or not
@@ -25,7 +26,7 @@ module MusicLoom
         if (rand density_space).zero?
           next_gesture = select_gesture
           
-          @event_queue = next_gesture.generate_events(now)
+          @event_queue = next_gesture.generate_events(now, @gesture_options)
         end
       end
       
@@ -45,6 +46,10 @@ module MusicLoom
     # 
     def clear_events
       @event_queue = []
+    end
+    
+    def set_gesture_option(key, value)
+      @gesture_options[key] = value
     end
     
     

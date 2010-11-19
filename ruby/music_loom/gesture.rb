@@ -45,13 +45,16 @@ module MusicLoom
       # TODO: cache coefficients after 1st calc
       # 
       def ratio_to_pitch_bend(ratio)
-        # ratio to midi note (0 = unison)
-        note_delta = (12.0 / Math.log(2)) * Math.log(ratio)
-        
-        # then to 14-bit pitch bend
-        pitch_bend = (note_delta/12.0 + 1.0) * 8192.0
-        
-        return pitch_bend.to_i
+        pitch_bend = if ratio > 0
+          # ratio to midi note (0 = unison)
+          note_delta = (12.0 / Math.log(2)) * Math.log(ratio)
+
+          # then to 14-bit pitch bend
+          (note_delta/12.0 + 1.0) * 8192.0
+        else
+          0
+        end
+        return pitch_bend
       end
       
       # to manage things like timescale shifts which for now 
@@ -59,6 +62,13 @@ module MusicLoom
       # 
       def round_to_power(x, power = 2)
         power ** (Math.log(x) / Math.log(power)).round
+      end
+      
+      # TEMP I think... just to retrofit old gestures into new
+      # ratio-based system
+      # 
+      def mtof(midi_note)
+        return (440.0 * Math.exp(0.057762265 * (midi_note - 69.0)))
       end
       
   end

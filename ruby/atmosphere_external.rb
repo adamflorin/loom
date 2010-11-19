@@ -16,7 +16,7 @@ require "music_loom/music_loom"
 # 
 rescuable do
   # build atmosphere
-  $atmosphere = MusicLoom::Atmosphere.new(:major_ji)
+  $atmosphere = MusicLoom::Atmosphere.new(:pentatonic_ji)
   
   # set_global so that other ajm.ruby instances can get it
   set_global(:atmosphere, $atmosphere)

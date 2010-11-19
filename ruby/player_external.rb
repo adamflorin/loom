@@ -24,6 +24,12 @@ def check_in(now)
   $player.check_in(now)
 end
 
+# for patcher control of gesture morphological params
+# 
+def set_option(key, value)
+  $player.set_gesture_option(key, value)
+end
+
 
 # INIT
 # 
@@ -37,7 +43,7 @@ rescuable do
   
   # wrap all Max messages in rescuable
   # NOTE: must be updated whenever methods are added/deleted!
-  Object.init_rescuable [:check_in]
+  Object.init_rescuable [:check_in, :set_option]
 end
 
 

@@ -12,11 +12,11 @@ module MusicLoom
     
     # set up a note to play faster & faster
     # 
-    def generate_events(now)
+    def generate_events(now, options = {})
       events = []
       
       # check globals
-      num_events = PATTERN.size * (1.0 - get_global(:brevity)) + 1
+      num_events = PATTERN.size # * (1.0 - get_global(:brevity)) + 1
       
       # PATTERN[0] = TICKS_32N if get_global(:brevity > 0.9)
       
@@ -26,19 +26,29 @@ module MusicLoom
       accent = false
       pitch = ROOT_NOTES[rand ROOT_NOTES.length]
       
-      num_events = PATTERN.size * (1.0 - get_global(:brevity)) + 1
-      
       PATTERN.slice(0, num_events).each do |dur|
         # pre-
         velocity = accent ? 120 : 80
         
+        
+        # PITCH TWEAK
+        bend_ratio = mtof(pitch) / 261.62558
+        
+        # fit melody to SCALE
+        bend_ratio = get_global(:atmosphere).fit_to_scale(bend_ratio)
+        
+        # output as pitch bend!
+        pitch_bend = ratio_to_pitch_bend(bend_ratio)
+        events << [event_time, ["bend", pitch_bend, dur * 0.25]]
+        
+        
         # EVENT
-        events << [event_time, ["note", pitch, velocity, dur]]
+        events << [event_time, ["note", Tonality::BASE_PITCH, velocity, dur]]
         
         # post-
         accent = !accent
         event_time += dur
-        pitch = pitch + ((rand 3) - 1) * 12
+        # pitch = pitch + ((rand 3) - 1) * 12
       end
       
       events << [event_time, "done"]
