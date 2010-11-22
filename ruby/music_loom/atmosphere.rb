@@ -10,8 +10,8 @@ module MusicLoom
     
     attr_accessor :players, :density, :spotlight
     
-    SCALE = [1/1, 5/4, 3/2, 7/4]
-    
+    # 
+    # 
     def initialize(new_scale_id)
       load_scales
       
@@ -22,8 +22,25 @@ module MusicLoom
     # When players come online, they register themselves here
     # 
     def register_player(new_player)
+      # add player
       @players << new_player
+      
+      # reconfigure ensemble
+      set_player_focal_points
     end
     
+    
+    private
+      
+      # reset all players' focal points, round robin-style
+      # 
+      def set_player_focal_points
+        spacing = 1.0 / @players.size
+        
+        @players.each_with_index do |player, i|
+          player.focal_point = (i * spacing) + (spacing / 2)
+        end
+      end
+      
   end
 end

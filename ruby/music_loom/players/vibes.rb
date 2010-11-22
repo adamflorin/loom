@@ -9,6 +9,7 @@ module MusicLoom
     def initialize
       @gestures = [
         {:class => Amphibrach, :weight => 10}]
+      
       super
     end
     

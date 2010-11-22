@@ -1,7 +1,8 @@
 # 
-#  pump.rb: pump on 8ve
+#  amphibrach.rb: flexible gesture with exposed morphological parameters
+#  based on metric feet (poetry) and just intonation.
 #  
-#  Copyright October 2010, Adam Florin. All rights reserved.
+#  Copyright November 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
   class Amphibrach < Gesture
@@ -9,63 +10,92 @@ module MusicLoom
     # # CONSTANTS
     # #
     
-    STRESSES = [false, true, false]
-    
-    
-    # # SCALES
-    # # 
-    
-    # FIXME: pitches
-    
-    # set up a note to play faster & faster
+    # "morphological" parameters. typically overwritten by players.
     # 
-    def generate_events(now, options = {})
+    DEFAULT_OPTIONS = {
+      # RHYTHM
+      :swing_ratio => 0.2, # 0. - 1. (0. is strong short/long beats, 1.0 is triplets)
+      :time_scale => 0.25, # time ratio (rounded to nearest power of 2)
       
-      # RHYTHM options
-      # 0. is strong short/long beats, 1.0 is triplets
-      options[:swing_ratio] ||= 0.2 # 0. - 1.
+      # TONALITY
+      :melody_offset => 1.0, # pitch ratio
+      :melody_arc => 1.0, # pitch ratio
+      :melody_angle => 1.0, # pitch ratio
       
-      options[:time_scale] ||= 0.25 # time ratio (rounded to nearest power of 2)
+      # DYNAMICS/TIMBRE
+      :volume => 0.75,
       
-      
-      # TONALITY options
-      options[:melody_offset] ||= 1.0 # pitch ratio
-      
-      options[:melody_arc] ||= 1.0 # pitch ratio
-      
-      options[:melody_angle] ||= 1.0 # pitch ratio
-      
-      options[:portamento_dur] ||= 0.0 # 0. - 1.
-      
-      
+      # (unused)
+      :portamento_dur => 0.0 # 0. - 1.
+    }
+    
+    # stress patterns ("metric foot")
+    # 
+    METRIC_FEET = {
+      :trochee => [:strong, :weak],
+      :iamb => [:weak, :strong],
+      :dactyl => [:strong, :weak, :weak],
+      :spondee => [:strong, :strong],
+      :amphibrach => [:weak, :strong, :weak]
+    }
+    
+    DEFAULT_DURATIONS = {
+      :weak => TICKS_16N,
+      :strong => TICKS_8N
+    }
+    
+    # ranges
+    # 
+    MIN_TIME_SCALE = 0.125
+    
+    
+    # Generate a series of events based on core structure & above params
+    # 
+    def generate_events(now, player_options = {})
+      # init
+      options = DEFAULT_OPTIONS.merge player_options
       events = []
-      event_time = Gesture::next_beat(now) - TICKS_16N
       
+      # select a random metric foot.
+      use_foot = METRIC_FEET.keys[rand METRIC_FEET.size]
+      stress_pattern = METRIC_FEET[use_foot]
       
-      STRESSES.each_with_index do |stress, i|
+      # set event to start at next beat.
+      event_time = Gesture::next_beat(now)
+      
+      # pull it back onto upbeat so that stress lands on downbeat...
+      # won't always want this, but works for now.
+      event_time -= DEFAULT_DURATIONS[:weak] if stress_pattern.first == :weak
+      
+      # and iterate through stresses!
+      stress_pattern.each_with_index do |stress, i|
         
         # ACCENT
-        velocity = 40 + (stress ? 40 : 0) * (1.0 - options[:swing_ratio])
+        # 
+        velocity = ((47 +
+          (stress == :strong ? 40 : 0) +
+          (40 - options[:swing_ratio])
+        ) * options[:volume]).to_i.constrain(0..127)
         
         
         # RHYTHM
-        
-        dur = stress ? TICKS_8N : TICKS_16N
+        # 
+        dur = DEFAULT_DURATIONS[stress]
         
         # morph from strong 4/4 accents to tuplet
-        tuplet_dur = (TICKS_4N / STRESSES.size)
+        tuplet_dur = (TICKS_4N / stress_pattern.size)
         dur += (tuplet_dur - dur) * options[:swing_ratio]
         
-        dur *= round_to_power(options[:time_scale] * 4)
+        dur *= round_to_power [options[:time_scale], MIN_TIME_SCALE].max
         
         
         # PITCH (BEND)
-        
+        # 
         # apply melody ARC
-        bend_ratio = stress ? options[:melody_arc] : 1.0
+        bend_ratio = (stress == :strong) ? options[:melody_arc] : 1.0
         
         # apply melody ANGLE
-        angle_amount = (i.to_f / (STRESSES.size - 1)) # 0. - 1.
+        angle_amount = (i.to_f / (stress_pattern.size - 1)) # 0. - 1.
         bend_ratio *= (options[:melody_angle] ** angle_amount)
         
         # apply melody OFFSET
@@ -80,11 +110,10 @@ module MusicLoom
         
         
         # => EVENT!
-        
+        # 
         events << [event_time, ["note", Tonality::BASE_PITCH, velocity, dur]]
         
         event_time += dur
-        
       end
       
       # DONE event. if Player wants a longer pause, can just add another...?

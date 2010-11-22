@@ -12,7 +12,9 @@ module MusicLoom
         # {:class => Hold, :weight => 10},
         # {:class => Pump, :weight => 40}] # ,
         # {:class => Purr, :weight => 20}]
-        {:class => Pumpernickel, :weight => 10}]
+        {:class => Amphibrach, :weight => 10}]
+        # {:class => Pumpernickel, :weight => 10}]
+      
       super
     end
     

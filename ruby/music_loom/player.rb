@@ -6,7 +6,13 @@
 module MusicLoom
   class Player
     
-    attr_accessor :gestures, :event_queue, :gesture_options
+    attr_accessor :gestures, :focal_point, :event_queue, :gesture_options
+    
+    
+    # # CONSTANTS
+    # #
+    
+    DENSITY_COEFF = 5
     
     # set up gestures. for subclasses to overwrite
     # 
@@ -21,25 +27,38 @@ module MusicLoom
     # 
     def check_in(now)
       if @event_queue.empty?
-        density_space = (1.0 - get_global(:atmosphere).density) * 10 + 1
+        density_space = (1.0 - get_global(:atmosphere).density) * DENSITY_COEFF + 1
         
         if (rand density_space).zero?
           next_gesture = select_gesture
+          
+          # TODO: vary parameters more based on focus
+          @gesture_options[:volume] = focus
           
           @event_queue = next_gesture.generate_events(now, @gesture_options)
         end
       end
       
       # TODO: aperiodic rest time? factor of density?
-      return build_event(@event_queue.empty? ? Gesture.rest(now) : next_event)
+      return build_event(@event_queue.empty? ? Gesture.rest(now) : next_event(now))
     end
     
-    # get next event, generating some if necessary
+    # get next event off the queue,
+    # do a sanity check to make sure we're not behind schedule--
+    # if we are, just fake like we're not.
     # 
-    # now - in ticks (480 / 4n)
-    # 
-    def next_event
-      @event_queue.shift unless @event_queue.empty?
+    def next_event(now)
+      out_event = @event_queue.shift unless @event_queue.empty?
+      
+      # check if the event we're sending out is in the past or is close to it (!)
+      if !out_event.nil? and (out_event[0] < now)
+        error "TIMER FAIL! Event's scheduled at #{out_event[0]} but it's already #{now}!"
+        
+        # try to get back on track. This seems to work...?
+        out_event[0] = now.ceil + 1 # enough?
+      end
+      
+      return out_event
     end
     
     # 
@@ -72,6 +91,15 @@ module MusicLoom
         end
         
         return next_gesture_class.new
+      end
+      
+      # returns distance as 0. - 1. (= player "focus")
+      # 
+      def focus
+        # get radial distance (max 0.5)
+        distance = [(@focal_point - get_global(:atmosphere).spotlight).abs, 0.5].min
+        
+        return 1.0 - distance * 2.0
       end
       
       # 
