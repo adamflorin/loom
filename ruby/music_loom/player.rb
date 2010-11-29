@@ -12,7 +12,7 @@ module MusicLoom
     # # CONSTANTS
     # #
     
-    DENSITY_COEFF = 5
+    DENSITY_COEFF = 10
     
     # set up gestures. for subclasses to overwrite
     # 
