@@ -7,6 +7,8 @@
 
 require "music_loom/gesture"
 require "music_loom/player"
+require "music_loom/space"
+require "music_loom/randomness"
 require "music_loom/tonality"
 require "music_loom/atmosphere"
 
@@ -28,5 +30,8 @@ end
 # 
 # 
 module MusicLoom
+  
+  include Randomness
+  include Space
   
 end

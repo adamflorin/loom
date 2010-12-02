@@ -8,7 +8,8 @@ module MusicLoom
     
     include Tonality
     
-    attr_accessor :players, :density, :spotlight
+    attr_accessor :players, :density, :intensity, :deviance, :spotlight
+    
     
     # 
     # 
@@ -38,7 +39,10 @@ module MusicLoom
         spacing = 1.0 / @players.size
         
         @players.each_with_index do |player, i|
-          player.focal_point = (i * spacing) + (spacing / 2)
+          # 0. - 1. position on the circle
+          radial_pos = (i * spacing) + (spacing / 2)
+          
+          player.focal_point = MusicLoom::radial_to_coords(radial_pos)
         end
       end
       

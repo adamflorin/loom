@@ -14,7 +14,7 @@ module MusicLoom
     # 
     DEFAULT_OPTIONS = {
       # RHYTHM
-      :swing_ratio => 0.2, # 0. - 1. (0. is strong short/long beats, 1.0 is triplets)
+      :swing_ratio => 0.4, # 0. - 2. (0. is strong short/long beats, 2.0 is triplets)
       :time_scale => 0.25, # time ratio (rounded to nearest power of 2)
       
       # TONALITY
@@ -74,9 +74,8 @@ module MusicLoom
         # 
         velocity = ((47 +
           (stress == :strong ? 40 : 0) +
-          (40 - options[:swing_ratio])
+          (40 - options[:swing_ratio])      # FIXME: 40 - 2.0????
         ) * options[:volume]).to_i.constrain(0..127)
-        
         
         # RHYTHM
         # 
@@ -84,7 +83,7 @@ module MusicLoom
         
         # morph from strong 4/4 accents to tuplet
         tuplet_dur = (TICKS_4N / stress_pattern.size)
-        dur += (tuplet_dur - dur) * options[:swing_ratio]
+        dur += (tuplet_dur - dur) * (options[:swing_ratio] / 2.0)
         
         dur *= round_to_power [options[:time_scale], MIN_TIME_SCALE].max
         
@@ -103,6 +102,9 @@ module MusicLoom
         
         # fit melody to SCALE
         bend_ratio = get_global(:atmosphere).fit_to_scale(bend_ratio)
+        
+        # FIXME: sanity check!!
+        bend_ratio ||= 1.0
         
         # output as pitch bend!
         pitch_bend = ratio_to_pitch_bend(bend_ratio)

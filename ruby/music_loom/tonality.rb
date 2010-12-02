@@ -29,7 +29,9 @@ module MusicLoom
     # Gaussian distribution around it (?)
     # 
     def fit_to_scale(rough_ratio)
-      nearest_scale_ratio = if rough_ratio > 0
+      nearest_scale_ratio = 0 # FIXME: why not 1.0?
+      
+      if rough_ratio > 0
         rough_tonic = 2 ** (Math.log(rough_ratio) / Math.log(2)).floor
       
         ratios_and_deltas = scale_ratios.map do |scale_ratio|
@@ -41,11 +43,20 @@ module MusicLoom
           delta = (rough_ratio - scale_ratio).abs
           {:scale_ratio => scale_ratio, :delta => delta}
         end
-      
+        
+        # FIXME!!!!!!!!!!!! HUGE FUCKING BUG; MAKES NO SENSE!
+        # says delta is nil, when it's obviously not!!
+        # 
+        ratios_and_deltas.each do |rd|
+          if rd[:delta].nil?
+            error "NULL DELTA! #{rd.inspect}" 
+            return 0
+          end
+        end
+        
         nearest_scale_ratio = ratios_and_deltas.sort{|x, y| x[:delta] <=> y[:delta]}.first[:scale_ratio]
-      else
-        nearest_scale_ratio = 0
       end
+      
       return nearest_scale_ratio
     end
     

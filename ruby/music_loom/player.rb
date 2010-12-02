@@ -6,7 +6,7 @@
 module MusicLoom
   class Player
     
-    attr_accessor :gestures, :focal_point, :event_queue, :gesture_options
+    attr_accessor :gestures, :focal_point, :event_queue, :gesture_options, :option_means
     
     
     # # CONSTANTS
@@ -19,6 +19,7 @@ module MusicLoom
     def initialize
       # @gestures = []
       @event_queue = []
+      @option_means = {}
       @gesture_options = {}
     end
     
@@ -32,8 +33,13 @@ module MusicLoom
         if (rand density_space).zero?
           next_gesture = select_gesture
           
-          # TODO: vary parameters more based on focus
-          @gesture_options[:volume] = focus
+          focus = calc_focus
+          
+          # now generate random options
+          generate_gesture_options(focus)
+          
+          # volume is a factor of focus + global intensity
+          @gesture_options[:volume] = focus * get_global(:atmosphere).intensity.constrain(0.1..1.0)
           
           @event_queue = next_gesture.generate_events(now, @gesture_options)
         end
@@ -68,7 +74,7 @@ module MusicLoom
     end
     
     def set_gesture_option(key, value)
-      @gesture_options[key] = value
+      @option_means[key] = value
     end
     
     
@@ -93,13 +99,33 @@ module MusicLoom
         return next_gesture_class.new
       end
       
+      # create gesture_options from @option_means
+      # 
+      # generate a target value, then shoot toward it.
+      # player deviance is based on global & focus.
+      # 
+      # low deviance = stay where you are. high deviance = go crazy!
+      # 
+      def generate_gesture_options(focus)
+        player_deviance = get_global(:atmosphere).deviance * focus
+        
+        stddev = player_deviance / 4.0
+        
+        @option_means.each do |key, mean|
+          target = MusicLoom::gaussian_rand(mean, stddev).constrain(0.0..2.0)
+          
+          # (init on first run)
+          @gesture_options[key] ||= target
+          
+          # shoot toward target
+          @gesture_options[key] += (target - @gesture_options[key]) * player_deviance
+        end
+      end
+      
       # returns distance as 0. - 1. (= player "focus")
       # 
-      def focus
-        # get radial distance (max 0.5)
-        distance = [(@focal_point - get_global(:atmosphere).spotlight).abs, 0.5].min
-        
-        return 1.0 - distance * 2.0
+      def calc_focus
+        MusicLoom::spotlight_focus(@focal_point)
       end
       
       # 
