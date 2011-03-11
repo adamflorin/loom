@@ -112,13 +112,19 @@ module MusicLoom
         stddev = player_deviance / 4.0
         
         @option_means.each do |key, mean|
-          target = MusicLoom::gaussian_rand(mean, stddev).constrain(0.0..2.0)
+          # just do gaussian math for floats (i.e., means)
+          if mean.is_a? Float
+            target = MusicLoom::gaussian_rand(mean, stddev).constrain(0.0..2.0)
           
-          # (init on first run)
-          @gesture_options[key] ||= target
+            # (init on first run)
+            @gesture_options[key] ||= target
           
-          # shoot toward target
-          @gesture_options[key] += (target - @gesture_options[key]) * player_deviance
+            # shoot toward target
+            @gesture_options[key] += (target - @gesture_options[key]) * player_deviance
+          else
+            # just pass the data along otherwise (?)
+            @gesture_options[key] = mean
+          end
         end
       end
       
