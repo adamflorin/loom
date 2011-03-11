@@ -6,12 +6,13 @@
 module MusicLoom
   class Bucephalus < Gesture
     
-    LONG_DURATION = 480
+    ROOT_NOTE = 59
+    LONG_DURATION = TICKS_4N
     NUM_STEPS = 20
     
     # set up a note to play faster & faster
     # 
-    def generate_events(now)
+    def generate_events(now, player_options = {})
       events = []
       event_time = Gesture::next_beat(now)
       
@@ -25,8 +26,10 @@ module MusicLoom
         # exponential for effect
         delta_ms = LONG_DURATION * (pcnt ** 2.0)
         
+        velocity = 100
+        
         # EVENT
-        events << [event_time, ["note", 59, 100, 100]]
+        events << [event_time, ["note", ROOT_NOTE, velocity, delta_ms]]
         
         # post-
         event_time += delta_ms
