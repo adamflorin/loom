@@ -24,7 +24,7 @@ module MusicLoom
         velocity = accent ? 100 : 20
         
         # EVENT
-        events << [event_time, ["note", pitch, velocity, TICKS_16N]]
+        events << [event_time.ceil, ["note", pitch, velocity, TICKS_16N]]
         
         # post-
         accent = false
@@ -32,7 +32,7 @@ module MusicLoom
         event_time += TICKS_16N
       end
       
-      events << [event_time + TICKS_16N, "done"]
+      events << [event_time.ceil + TICKS_16N, "done"]
       
       return events
     end

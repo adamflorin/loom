@@ -39,11 +39,11 @@ module MusicLoom
         
         # output as pitch bend!
         pitch_bend = ratio_to_pitch_bend(bend_ratio)
-        events << [event_time, ["bend", pitch_bend, dur * 0.25]]
+        events << [event_time.ceil, ["bend", pitch_bend, dur * 0.25]]
         
         
         # EVENT
-        events << [event_time, ["note", Tonality::BASE_PITCH, velocity, dur]]
+        events << [event_time.ceil, ["note", Tonality::BASE_PITCH, velocity, dur]]
         
         # post-
         accent = !accent

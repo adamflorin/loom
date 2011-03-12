@@ -23,7 +23,7 @@ module MusicLoom
         velocity = accent ? 120 : 80
         
         # EVENT
-        events << [event_time, ["note", pitch, velocity, dur]]
+        events << [event_time.ceil, ["note", pitch, velocity, dur]]
         
         # post-
         accent = !accent

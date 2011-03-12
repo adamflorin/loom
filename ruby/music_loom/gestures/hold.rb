@@ -21,13 +21,13 @@ module MusicLoom
       velocity = 100 #rand 20 + 100
       pitch = ROOT_NOTE + INTERVALS[rand INTERVALS.length]
       
-      events << [event_time, ["note", pitch, velocity, double_it ? TICKS_8N : TICKS_2N]]
+      events << [event_time.ceil, ["note", pitch, velocity, double_it ? TICKS_8N : TICKS_2N]]
       
       if double_it
-        events << [event_time + TICKS_8N, ["note", pitch, velocity, TICKS_2N]]
+        events << [event_time.ceil + TICKS_8N, ["note", pitch, velocity, TICKS_2N]]
       end
       
-      events << [event_time + (double_it ? TICKS_8N : 0) + TICKS_2N, "done"]
+      events << [event_time.ceil + (double_it ? TICKS_8N : 0) + TICKS_2N, "done"]
       
       return events
     end

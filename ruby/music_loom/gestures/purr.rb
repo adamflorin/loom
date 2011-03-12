@@ -19,7 +19,7 @@ module MusicLoom
       # pitch = ROOT_NOTE + INTERVALS[rand INTERVALS.length]
       
       4.times do
-        events << [event_time, ["note", ROOT_NOTE, 80, TICKS_64N]]
+        events << [event_time.ceil, ["note", ROOT_NOTE, 80, TICKS_64N]]
         
         event_time += TICKS_32N
       end
