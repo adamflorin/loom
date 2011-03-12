@@ -24,7 +24,8 @@ module MusicLoom
     end
     
     def self.rest(now)
-      [next_beat(now), "done"]
+      start_time = next_beat(now)
+      return [next_beat(now), "done"], start_time
     end
     
     
@@ -38,6 +39,13 @@ module MusicLoom
         # if time is really tight (i.e., generate_gesture event came in _right on_ a beat)
         # then just skip to next beat rather than letting it fail.
         return (nb - now < 10) ? (nb + divis) : (nb)
+      end
+      
+      # find the nearest beat--earlier if we can do it, otherwise leave a gap
+      # 
+      def self.nearest_beat(now, first_event, divis = TICKS_4N)
+        earlier_beat = next_beat(now - TICKS_4N)
+        return (earlier_beat + first_event < now) ? next_beat(now) : earlier_beat
       end
       
       # math util.

@@ -14,7 +14,8 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      event_time = Gesture::next_beat(now)
+      start_time = Gesture::next_beat(now)
+      event_time = start_time
       
       accent = true
       pitch = ROOT_NOTE
@@ -34,7 +35,7 @@ module MusicLoom
         desc_by += rand 3
       end
       
-      return events
+      return events, start_time
     end
     
   end

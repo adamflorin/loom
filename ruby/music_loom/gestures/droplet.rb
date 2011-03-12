@@ -30,7 +30,8 @@ module MusicLoom
       region_no = options[:region].to_i.constrain(0..1)
       
       events = []
-      event_time = Gesture::next_beat(now, DUR * (region_no.zero? ? 4 : 1))
+      start_time = Gesture::next_beat(now, DUR * (region_no.zero? ? 4 : 1))
+      event_time = start_time
             
       # (rand 3).times do
       # PATTERN.each do |dur|
@@ -56,7 +57,7 @@ module MusicLoom
       
       events << [event_time + dur, "done"]
       
-      return events
+      return events, start_time
     end
     
   end

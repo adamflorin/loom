@@ -20,7 +20,8 @@ module MusicLoom
       events = []
       
       # every 4 beats ISH
-      event_time = Gesture::next_beat(now, TICKS_1N) + ((rand 4) * TICKS_4N)
+      start_time = Gesture::next_beat(now, TICKS_1N) + ((rand 4) * TICKS_4N)
+      event_time = start_time
             
       dur = TICKS_1N * 2
       velocity = 100
@@ -41,7 +42,7 @@ module MusicLoom
       
       events << [event_time, ["note", Tonality::BASE_PITCH, velocity, dur]]
       
-      return events
+      return events, start_time
     end
     
   end

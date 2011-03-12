@@ -13,7 +13,8 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      event_time = Gesture::next_beat(now)
+      start_time = Gesture::next_beat(now)
+      event_time = start_time
       
       do_8ve_up = (rand 3).zero?
       on_downbeat = (rand 3).zero?
@@ -47,7 +48,7 @@ module MusicLoom
       
       events << [event_time + (do_doubles ? 0 : -TICKS_8N), "done"]
       
-      return events
+      return events, start_time
     end
     
   end

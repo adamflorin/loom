@@ -13,7 +13,8 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      event_time = Gesture::next_beat(now)
+      start_time = Gesture::next_beat(now)
+      event_time = start_time
       
       # morph.
       pitch_index = (MORPHOLOGY[0] * (PITCHES.size - 1)).ceil
@@ -27,7 +28,7 @@ module MusicLoom
       
       events << [event_time + TICKS_8N, ["done"]]
       
-      return events
+      return events, start_time
     end
     
   end

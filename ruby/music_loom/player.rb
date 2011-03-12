@@ -76,19 +76,19 @@ module MusicLoom
           
           # decide whether to generate an event or to rest
           density_space = (1.0 - get_global(:atmosphere).density) * DENSITY_COEFF + 1
-          if (rand density_space).zero?
+          gesture_events, start_time = if (rand density_space).zero?
             
             # generate events
-            gesture_events = generate_gesture_events(now)
+            generate_gesture_events(now)
           else
           
             # just put a rest on the queue
-            gesture_events = [Gesture.rest(now)]
+            [Gesture.rest(now)]
           end
           
           # subtract NOW from event times to make zero-based ("normalized") list
           normalized_gesture_events = gesture_events.map do |event|
-            [event[0] - now] + event[1..event.size]
+            [event[0] - start_time] + event[1..event.size]
           end
           
           # push gesture events onto sequence.
@@ -154,7 +154,7 @@ module MusicLoom
         # volume is a factor of focus + global intensity
         @gesture_options[:volume] = focus * get_global(:atmosphere).intensity.constrain(0.1..1.0)
 
-        next_gesture.generate_events(now, @gesture_options)
+        return next_gesture.generate_events(now, @gesture_options)
       end
       
       # simple weighted probability to decide which gesture comes next
@@ -207,9 +207,14 @@ module MusicLoom
       
       # take an event queue and bump up all times according to a delta
       # 
+      # must sanitize 'now' in case scheduler has slipped?
+      # 
       def repeat_events(gesture_events, now)
+        # sanitize 'now'... may be earlier or later
+        fixed_now = Gesture::nearest_beat(now, gesture_events.first[0]).ceil
+        
         return gesture_events.map do |event|
-          [event[0] + now] + event[1..event.size]
+          [event[0] + fixed_now] + event[1..event.size]
         end
       end
       

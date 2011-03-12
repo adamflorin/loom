@@ -14,7 +14,7 @@ module MusicLoom
     # 
     DEFAULT_OPTIONS = {
       # RHYTHM
-      :swing_ratio => 0.4, # 0. - 2. (0. is strong short/long beats, 2.0 is triplets)
+      :swing_ratio => 0.0, # 0. - 2. (0. is strong short/long beats, 2.0 is triplets)
       :time_scale => 0.25, # time ratio (rounded to nearest power of 2)
       
       # TONALITY
@@ -60,12 +60,18 @@ module MusicLoom
       use_foot = METRIC_FEET.keys[rand METRIC_FEET.size]
       stress_pattern = METRIC_FEET[use_foot]
       
-      # set event to start at next beat.
-      event_time = Gesture::next_beat(now)
+      time_scale = round_to_power [options[:time_scale], MIN_TIME_SCALE].max
       
-      # pull it back onto upbeat so that stress lands on downbeat...
-      # won't always want this, but works for now.
-      event_time -= DEFAULT_DURATIONS[:weak] if stress_pattern.first == :weak
+      # set event to start at next beat.
+      start_time = Gesture::next_beat(now)
+      event_time = start_time
+      
+      # WHOA... this is a cool idea, but need to use ACTUAL duration, not default!
+      # 
+      # # pull it back onto upbeat so that stress lands on downbeat...
+      # # won't always want this, but works for now.
+      # event_time -= DEFAULT_DURATIONS[:weak] if stress_pattern.first == :weak
+      # event_time = start_time if event_time < now # sanity check
       
       # and iterate through stresses!
       stress_pattern.each_with_index do |stress, i|
@@ -85,7 +91,8 @@ module MusicLoom
         tuplet_dur = (TICKS_4N / stress_pattern.size)
         dur += (tuplet_dur - dur) * (options[:swing_ratio] / 2.0)
         
-        dur *= round_to_power [options[:time_scale], MIN_TIME_SCALE].max
+        # apply time scale
+        dur *= time_scale
         
         
         # PITCH (BEND)
@@ -122,7 +129,7 @@ module MusicLoom
       events << [event_time + 0, ["done"]]
     
       # NOTE! sorting events just in case they didn't end up that way...?
-      return events.sort{|x, y| x[0] <=> y[0]}
+      return events.sort{|x, y| x[0] <=> y[0]}, start_time
     end
     
   end

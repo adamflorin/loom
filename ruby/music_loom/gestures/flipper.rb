@@ -12,7 +12,8 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      event_time = Gesture::next_beat(now, TICKS_8N)
+      start_time = Gesture::next_beat(now, TICKS_8N)
+      event_time = start_time
       
       high_note = false
       num_steps = (rand * 3).to_i + 2
@@ -34,7 +35,7 @@ module MusicLoom
       
       events << [event_time.ceil + TICKS_16N, "done"]
       
-      return events
+      return events, start_time
     end
     
   end

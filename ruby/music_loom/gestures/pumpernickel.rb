@@ -21,7 +21,8 @@ module MusicLoom
       # PATTERN[0] = TICKS_32N if get_global(:brevity > 0.9)
       
       # mainly so that it's tight in hocket mode
-      event_time = Gesture::next_beat(now, PATTERN.first)
+      start_time = Gesture::next_beat(now, PATTERN.first)
+      event_time = start_time
       
       accent = false
       pitch = ROOT_NOTES[rand ROOT_NOTES.length]
@@ -53,7 +54,7 @@ module MusicLoom
       
       events << [event_time, "done"]
       
-      return events
+      return events, start_time
     end
     
   end
