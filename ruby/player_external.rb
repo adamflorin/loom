@@ -17,6 +17,9 @@ require "music_loom/music_loom"
 # do nothing but schedule a future check-in
 # 
 def check_in(now)
+  # because float precision triggers TIMER FAILs
+  now = now.ceil
+  
   # takin it from the top
   $player.clear_events if (now <= 0)
   
@@ -26,10 +29,15 @@ end
 
 # for patcher control of gesture morphological params
 # 
-def set_option(key, value)
+def set_gesture_option(key, value)
   $player.set_gesture_option(key, value)
 end
 
+# for patcher control of gesture morphological params
+# 
+def set_player_option(key, value)
+  $player.set_player_option(key, value)
+end
 
 # INIT
 # 
@@ -43,7 +51,7 @@ rescuable do
   
   # wrap all Max messages in rescuable
   # NOTE: must be updated whenever methods are added/deleted!
-  Object.init_rescuable [:check_in, :set_option]
+  Object.init_rescuable [:check_in, :set_gesture_option, :set_player_option]
 end
 
 

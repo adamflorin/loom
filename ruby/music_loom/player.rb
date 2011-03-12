@@ -6,7 +6,9 @@
 module MusicLoom
   class Player
     
-    attr_accessor :gestures, :focal_point, :event_queue, :gesture_options, :option_means
+    attr_accessor :gestures, :focal_point, :event_queue, :gesture_options, :option_means,
+      :gesture_history, :gesture_history_index,
+      :options
     
     
     # # CONSTANTS
@@ -14,13 +16,35 @@ module MusicLoom
     
     DENSITY_COEFF = 10
     
+    # SEQUENCE_LENGTH = 2
+    # SEQUENCE_REPEATS = 4
+    
+    MAX_LOOP_LENGTH = 16
+    
+    DEFAULT_OPTIONS = {
+      :loop_on => false,
+      :loop_length => 4
+    }
+    
     # set up gestures. for subclasses to overwrite
     # 
     def initialize
       # @gestures = []
+      
+      # set by code
       @event_queue = []
+      
+      # player options from max
+      @options = DEFAULT_OPTIONS
+      
+      # gesture options (& means)
       @option_means = {}
       @gesture_options = {}
+      
+      # looping
+      @gesture_history = []
+      
+      @gesture_history_index = 0
     end
     
     # Check in: listen to what's going on & decide whether or not
@@ -28,25 +52,58 @@ module MusicLoom
     # 
     def check_in(now)
       if @event_queue.empty?
-        density_space = (1.0 - get_global(:atmosphere).density) * DENSITY_COEFF + 1
-        
-        if (rand density_space).zero?
-          next_gesture = select_gesture
           
-          focus = calc_focus
+        # if we're in loop mode and have a sufficient backlog
+        if !@options[:loop_on].zero? and @gesture_history.size >= @options[:loop_length]
           
-          # now generate random options
-          generate_gesture_options(focus)
+          # wrap index (loop_length may have changed earlier)
+          @gesture_history_index = 0 if @gesture_history_index >= @options[:loop_length]
           
-          # volume is a factor of focus + global intensity
-          @gesture_options[:volume] = focus * get_global(:atmosphere).intensity.constrain(0.1..1.0)
+          # trim down history to just what we need (so it regenerates later) (?)
+          @gesture_history.slice! 0, @gesture_history.size - @options[:loop_length]
           
-          @event_queue = next_gesture.generate_events(now, @gesture_options)
+          # find our place in the loop (index)
+          play_index = @gesture_history_index + (@gesture_history.size - @options[:loop_length])
+          
+          # grab event at that index, update it to now
+          @event_queue = repeat_events(@gesture_history[play_index], now)
+          
+          # increment index
+          @gesture_history_index += 1
+          
+        # we need to generate some event lists
+        else
+          
+          # decide whether to generate an event or to rest
+          density_space = (1.0 - get_global(:atmosphere).density) * DENSITY_COEFF + 1
+          if (rand density_space).zero?
+            
+            # generate events
+            gesture_events = generate_gesture_events(now)
+          else
+          
+            # just put a rest on the queue
+            gesture_events = [Gesture.rest(now)]
+          end
+          
+          # subtract NOW from event times to make zero-based ("normalized") list
+          normalized_gesture_events = gesture_events.map do |event|
+            [event[0] - now] + event[1..event.size]
+          end
+          
+          # push gesture events onto sequence.
+          # ALWAYS track whatever we just did, in case we decide to do it again.
+          @gesture_history << normalized_gesture_events
+          
+          # memory mngmt: trim oldest event lists off
+          @gesture_history.shift if @gesture_history.size > MAX_LOOP_LENGTH
+          
+          # now assign events to queue so they'll get played
+          @event_queue = gesture_events
         end
       end
       
-      # TODO: aperiodic rest time? factor of density?
-      return build_event(@event_queue.empty? ? Gesture.rest(now) : next_event(now))
+      return build_event(next_event(now))
     end
     
     # get next event off the queue,
@@ -77,8 +134,28 @@ module MusicLoom
       @option_means[key] = value
     end
     
+    def set_player_option(key, value)
+      @options[key] = value
+    end
+    
     
     private
+      
+      # generate events from gesture
+      # 
+      def generate_gesture_events(now)
+        next_gesture = select_gesture
+
+        focus = calc_focus
+
+        # now generate random options
+        generate_gesture_options(focus)
+
+        # volume is a factor of focus + global intensity
+        @gesture_options[:volume] = focus * get_global(:atmosphere).intensity.constrain(0.1..1.0)
+
+        next_gesture.generate_events(now, @gesture_options)
+      end
       
       # simple weighted probability to decide which gesture comes next
       # 
@@ -125,6 +202,14 @@ module MusicLoom
             # just pass the data along otherwise (?)
             @gesture_options[key] = mean
           end
+        end
+      end
+      
+      # take an event queue and bump up all times according to a delta
+      # 
+      def repeat_events(gesture_events, now)
+        return gesture_events.map do |event|
+          [event[0] + now] + event[1..event.size]
         end
       end
       
