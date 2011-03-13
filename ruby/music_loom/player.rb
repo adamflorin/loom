@@ -164,16 +164,18 @@ module MusicLoom
         total_weight = @gestures.map{|g| g[:weight]}.sum
         lucky_number = rand total_weight
         this_gesture_max = 0
+        options = {}
         
         @gestures.each do |gesture|
           this_gesture_max += gesture[:weight]
           if lucky_number < this_gesture_max
             next_gesture_class = gesture[:class]
+            options = gesture[:options] || {}
             break
           end
         end
         
-        return next_gesture_class.new
+        return next_gesture_class.new(options)
       end
       
       # create gesture_options from @option_means

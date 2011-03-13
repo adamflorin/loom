@@ -6,6 +6,8 @@
 module MusicLoom
   class Gesture
     
+    attr_accessor :options
+    
     # tick values
     TICKS_1N = 1920
     TICKS_2N = 960
@@ -14,6 +16,12 @@ module MusicLoom
     TICKS_16N = 120
     TICKS_32N = 60
     TICKS_64N = 30
+    
+    # 
+    # 
+    def initialize(options = {})
+      @options = options
+    end
     
     # populate event queue
     # 

@@ -60,6 +60,7 @@ module MusicLoom
       use_foot = METRIC_FEET.keys[rand METRIC_FEET.size]
       stress_pattern = METRIC_FEET[use_foot]
       
+      # time scale
       time_scale = round_to_power [options[:time_scale], MIN_TIME_SCALE].max
       
       # set event to start at next beat.

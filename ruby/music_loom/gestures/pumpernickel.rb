@@ -25,7 +25,8 @@ module MusicLoom
       event_time = start_time
       
       accent = false
-      pitch = ROOT_NOTES[rand ROOT_NOTES.length]
+      notes = @options[:notes] || ROOT_NOTES
+      pitch = notes[rand notes.length]
       
       PATTERN.slice(0, num_events).each do |dur|
         # pre-

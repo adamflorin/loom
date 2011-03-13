@@ -24,7 +24,12 @@ module MusicLoom
       PATTERN.each do |dur|
         # pre-
         velocity = accent ? 100 : 20
-        pitch = ROOT_NOTE + DESCENDING_NOTES[desc_by]
+        unless @options[:notes].nil?
+          pitch = @options[:notes][rand @options[:notes].size]
+        else
+          pitch = ROOT_NOTE + DESCENDING_NOTES[desc_by]
+        end
+        
         
         # EVENT
         events << [event_time, ["note", pitch, velocity, dur]]
