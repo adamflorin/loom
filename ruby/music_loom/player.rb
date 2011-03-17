@@ -83,7 +83,7 @@ module MusicLoom
           else
           
             # just put a rest on the queue
-            [Gesture.rest(now)]
+            Gesture.rest(now)
           end
           
           # subtract NOW from event times to make zero-based ("normalized") list

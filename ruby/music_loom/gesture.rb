@@ -33,7 +33,7 @@ module MusicLoom
     
     def self.rest(now)
       start_time = next_beat(now)
-      return [next_beat(now), "done"], start_time
+      return [[[next_beat(now), "done"]], start_time]
     end
     
     
