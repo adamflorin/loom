@@ -28,7 +28,7 @@ module MusicLoom
       # 
       # 
       def spotlight_focus(player)
-        spotlight_x, spotlight_y = get_global(:atmosphere).spotlight
+        spotlight_x, spotlight_y = get_global(:environment).spotlight
         player_x, player_y = player
         
         # pythag.

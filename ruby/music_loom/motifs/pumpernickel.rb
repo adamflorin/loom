@@ -37,7 +37,7 @@ module MusicLoom
         bend_ratio = mtof(pitch) / 261.62558
         
         # fit melody to SCALE
-        bend_ratio = get_global(:atmosphere).fit_to_scale(bend_ratio)
+        bend_ratio = get_global(:environment).fit_to_scale(bend_ratio)
         
         # output as pitch bend!
         pitch_bend = ratio_to_pitch_bend(bend_ratio)

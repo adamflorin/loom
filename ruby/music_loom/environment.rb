@@ -1,10 +1,10 @@
 # 
-#  atmosphere.rb: the air in which players negotiate ensemble variables
+#  environment.rb: the air in which players negotiate ensemble variables
 #  
 #  Copyright November 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Atmosphere
+  class Environment
     
     include Tonality
     

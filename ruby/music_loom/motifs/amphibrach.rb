@@ -109,7 +109,7 @@ module MusicLoom
         bend_ratio *= options[:melody_offset]
         
         # fit melody to SCALE
-        bend_ratio = get_global(:atmosphere).fit_to_scale(bend_ratio)
+        bend_ratio = get_global(:environment).fit_to_scale(bend_ratio)
         
         # FIXME: sanity check!!
         bend_ratio ||= 1.0

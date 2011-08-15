@@ -33,8 +33,8 @@ module MusicLoom
       end_ratio = start_ratio * options[:bend_down_ratio]
       
       # fit_to_scale
-      start_ratio = get_global(:atmosphere).fit_to_scale(start_ratio)
-      end_ratio = get_global(:atmosphere).fit_to_scale(end_ratio)
+      start_ratio = get_global(:environment).fit_to_scale(start_ratio)
+      end_ratio = get_global(:environment).fit_to_scale(end_ratio)
       
       # two bend events: go straight to pitch, then bend down
       events << [event_time, ["bend", ratio_to_pitch_bend(start_ratio)]]

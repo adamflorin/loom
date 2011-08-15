@@ -43,12 +43,13 @@ end
 # INIT
 # 
 
-# build Repretoire
+# build player
 $player_classname = ARGV.shift
 $player = MusicLoom.const_get($player_classname).new
 
-# register w/ atmosphere
-get_global(:atmosphere).register_player($player)
+# register w/ environment
+$environment = get_global(:environment)
+$environment.register_player($player)
 
 
 # Ready. Log & notify.

@@ -10,7 +10,7 @@ require "music_loom/player"
 require "music_loom/space"
 require "music_loom/randomness"
 require "music_loom/tonality"
-require "music_loom/atmosphere"
+require "music_loom/environment"
 
 
 APP_ROOT = File.expand_path(File.dirname(__FILE__)) + "/"

@@ -88,7 +88,7 @@ module MusicLoom
         else
           
           # decide whether to generate an event or to rest
-          density_space = (1.0 - get_global(:atmosphere).density) * DENSITY_COEFF + 1
+          density_space = (1.0 - get_global(:environment).density) * DENSITY_COEFF + 1
           gesture_events, start_time = if (@do_density == false) or (rand density_space).zero?
             
             # generate events
@@ -124,7 +124,7 @@ module MusicLoom
       
       # TODO: tidy up normalization of global decay
       if @do_decay
-        @motif_options[:decay] = (@motif_options[:decay] + get_global(:atmosphere).decay_rate).constrain(0.0..1.27)
+        @motif_options[:decay] = (@motif_options[:decay] + get_global(:environment).decay_rate).constrain(0.0..1.27)
       end
       
       return build_event(next_event(now))
@@ -166,7 +166,7 @@ module MusicLoom
       @options[key] = value
     end
     
-    # atmosphere now hooks back in to tell players about their neighbors
+    # environment now hooks back in to tell players about their neighbors
     # 
     def register_neighbors(neighbors)
       @neighbors = neighbors
@@ -195,7 +195,7 @@ module MusicLoom
         
         # volume is a factor of focus + global intensity
         # FIXME:TEMP--drop volume calc
-        @motif_options[:volume] = 1.0 #focus * get_global(:atmosphere).intensity.constrain(0.1..1.0)
+        @motif_options[:volume] = 1.0 #focus * get_global(:environment).intensity.constrain(0.1..1.0)
         
         return next_motif.generate_events(now, @motif_options)
       end
@@ -211,7 +211,7 @@ module MusicLoom
         if has_fancy_weights
           @motifs.each do |motif|
             global_param = motif[:weight_param].keys.first
-            global_param_value = get_global(:atmosphere).send(global_param)
+            global_param_value = get_global(:environment).send(global_param)
             motif_probability_peak_at = motif[:weight_param][global_param]
             
             distance_from_peak = (global_param_value - motif_probability_peak_at).abs
@@ -246,7 +246,7 @@ module MusicLoom
       # low deviance = stay where you are. high deviance = go crazy!
       # 
       def generate_motif_options(focus)
-        player_deviance = get_global(:atmosphere).deviance * focus
+        player_deviance = get_global(:environment).deviance * focus
         
         stddev = player_deviance / 4.0
         

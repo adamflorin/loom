@@ -1,5 +1,5 @@
 # 
-#  atmosphere_external.rb: Max object for "atmosphere" object
+#  environment_external.rb: Max object for "environment" object
 #  
 #  Copyright November 2010, Adam Florin. All rights reserved.
 # 
@@ -11,14 +11,14 @@ require "music_loom/music_loom"
 
 # INIT
 # 
-# build atmosphere
-$atmosphere = MusicLoom::Atmosphere.new(:phrygian_ish)
+# build environment
+$environment = MusicLoom::Environment.new(:phrygian_ish)
 
 # set_global so that other JRuby for Max instances can get it
-set_global(:atmosphere, $atmosphere)
+set_global(:environment, $environment)
 
 
 # Ready. Log & notify.
 #
-puts "Loaded MusicLoom::Atmosphere."
+puts "Loaded MusicLoom::Environment."
 outlet 0, "ready"
