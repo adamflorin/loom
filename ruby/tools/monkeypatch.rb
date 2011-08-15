@@ -5,7 +5,7 @@
 # 
 
 
-# Monkeypatch Array so we can cleanly get SUM (for mass word count)
+# Monkeypatch Array so we can cleanly get SUM
 #
 class Array
   def sum
@@ -22,10 +22,9 @@ class Symbol
   end
 end
 
+# Constrainable so we can constrain all numbers (Fixnum & Float)
 #
-# constrain
-#
-class Fixnum
+module Constrainable
   def constrain(range)
     if self > range.end
       return range.end
@@ -36,17 +35,11 @@ class Fixnum
     end
   end
 end
-
+class Fixnum
+  include Constrainable
+end
 class Float
-  def constrain(range)
-    if self > range.end
-      return range.end
-    elsif self < range.begin
-      return range.begin
-    else
-      return self
-    end
-  end
+  include Constrainable
 end
 
 # To convert :symbol_names to ClassNames and back.
