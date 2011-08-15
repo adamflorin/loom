@@ -1,13 +1,10 @@
 # 
-#  music_loom_external.rb: Max external for mxj/ajm.ruby to access MusicLoom
+#  music_loom_external.rb: Max external for JRuby to access MusicLoom
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 
 
-# relative to ruby.loadpaths in ajm.ruby.properties.
-# For some reason, Ruby doesn't know the path of this external file.
-# 
 require "tools/monkeypatch"
 require "music_loom/music_loom"
 

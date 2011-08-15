@@ -8,8 +8,8 @@ Requirements:
 
   Ableton Live 8+
   MaxMSP 5+
-  Max For Live
-  ajm.ruby
+  Max for Live
+  JRuby for Max
   Java
 
 
@@ -24,11 +24,7 @@ To install on Mac OS:
 * In Max, make sure the "ruby" and "max" dirs are picked up in Options > File Preferences...
   (so that subpatchers and Ruby max external code is picked up)
 
-* Make sure the "ruby.loadpaths" ajm.ruby setting points to the "ruby" dir (WITH trailing slash!):
-  /Applications/Max5/Cycling '74/java/lib/ajm.ruby.properties
-  (so that Ruby requires can pull in libraries)
-
-* Be sure to quit & re-start MaxMSP & Live after changing any of these settings!
+Be sure to quit & re-start MaxMSP & Live after changing any of these settings!
 
 
 NOTE: Max and Ruby will both log to Console.app, so check there first to troubleshoot.
