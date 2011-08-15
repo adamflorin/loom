@@ -5,7 +5,7 @@
 # 
 
 
-require "music_loom/gesture"
+require "music_loom/motif"
 require "music_loom/player"
 require "music_loom/space"
 require "music_loom/randomness"
@@ -15,8 +15,8 @@ require "music_loom/atmosphere"
 
 APP_ROOT = File.expand_path(File.dirname(__FILE__)) + "/"
 
-# require all individual gestures & players
-["gestures", "players"].each do |dir|
+# require all individual motifs & players
+["motifs", "players"].each do |dir|
   dir_path = "#{APP_ROOT}#{dir}"
   
   if File.directory? dir_path

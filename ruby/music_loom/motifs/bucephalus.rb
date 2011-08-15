@@ -4,7 +4,7 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Bucephalus < Gesture
+  class Bucephalus < Motif
     
     ROOT_NOTE = 59
     LONG_DURATION = TICKS_4N
@@ -14,7 +14,7 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      start_time = Gesture::next_beat(now)
+      start_time = Motif::next_beat(now)
       event_time = start_time
       
       # TODO: add a pitch bend continuous event here

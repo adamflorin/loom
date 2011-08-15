@@ -7,7 +7,7 @@ module MusicLoom
   class Cloud < Player
     
     def initialize
-      @gestures = [
+      @motifs = [
         {:class => Droplet, :weight => 10}]
       
       super

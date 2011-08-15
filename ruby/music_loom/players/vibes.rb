@@ -7,8 +7,10 @@ module MusicLoom
   class Vibes < Player
     
     def initialize
-      @gestures = [
+      @motifs = [
         {:class => Amphibrach, :weight => 10}]
+      
+      @do_decay = false
       
       super
     end

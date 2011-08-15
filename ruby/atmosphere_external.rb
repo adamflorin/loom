@@ -8,19 +8,16 @@
 # For some reason, Ruby doesn't know the path of this external file.
 # 
 require "tools/monkeypatch"
-require "tools/rescuable"
 require "music_loom/music_loom"
 
 
 # INIT
 # 
-rescuable do
-  # build atmosphere
-  $atmosphere = MusicLoom::Atmosphere.new(:major_ji)
-  
-  # set_global so that other ajm.ruby instances can get it
-  set_global(:atmosphere, $atmosphere)
-end
+# build atmosphere
+$atmosphere = MusicLoom::Atmosphere.new(:phrygian_ish)
+
+# set_global so that other ajm.ruby instances can get it
+set_global(:atmosphere, $atmosphere)
 
 
 # Ready. Log & notify.

@@ -4,7 +4,7 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Hold < Gesture
+  class Hold < Motif
     
     ROOT_NOTE = 60
     INTERVALS = [0, 2, -1]
@@ -13,7 +13,7 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      start_time = Gesture::next_beat(now).ceil #, TICKS_8N)
+      start_time = Motif::next_beat(now).ceil #, TICKS_8N)
       event_time = start_time
       
       double_it = (rand 2).zero?

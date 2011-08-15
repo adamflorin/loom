@@ -9,7 +9,6 @@
 # For some reason, Ruby doesn't know the path of this external file.
 # 
 require "tools/monkeypatch"
-require "tools/rescuable"
 require "music_loom/music_loom"
 
 
@@ -17,6 +16,7 @@ require "music_loom/music_loom"
 # do nothing but schedule a future check-in
 # 
 def check_in(now)
+  
   # because float precision triggers TIMER FAILs
   now = now.ceil
   
@@ -24,16 +24,20 @@ def check_in(now)
   $player.clear_events if (now <= 0)
   
   # check in, returning _some_ kind of an event
-  $player.check_in(now)
+  outlet 0, $player.check_in(now)
 end
 
-# for patcher control of gesture morphological params
+def impulse(velocity)
+  $player.set_velocity(velocity)
+end
+
+# for patcher control of motif morphological params
 # 
-def set_gesture_option(key, value)
-  $player.set_gesture_option(key, value)
+def set_motif_option(key, value)
+  $player.set_motif_option(key, value)
 end
 
-# for patcher control of gesture morphological params
+# for patcher control of motif morphological params
 # 
 def set_player_option(key, value)
   $player.set_player_option(key, value)
@@ -41,18 +45,13 @@ end
 
 # INIT
 # 
-rescuable do
-  # build Repretoire
-  $player_classname = ARGV.shift
-  $player = MusicLoom.const_get($player_classname).new
-  
-  # register w/ atmosphere
-  get_global(:atmosphere).register_player($player)
-  
-  # wrap all Max messages in rescuable
-  # NOTE: must be updated whenever methods are added/deleted!
-  Object.init_rescuable [:check_in, :set_gesture_option, :set_player_option]
-end
+
+# build Repretoire
+$player_classname = ARGV.shift
+$player = MusicLoom.const_get($player_classname).new
+
+# register w/ atmosphere
+get_global(:atmosphere).register_player($player)
 
 
 # Ready. Log & notify.

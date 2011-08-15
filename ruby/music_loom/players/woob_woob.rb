@@ -7,7 +7,7 @@ module MusicLoom
   class WoobWoob < Player
     
     def initialize
-      @gestures = [
+      @motifs = [
         {:class => Flipper, :weight => 40},
         {:class => Hold, :weight => 10},
         {:class => Pump, :weight => 40},

@@ -5,7 +5,7 @@
 #  Copyright November 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Amphibrach < Gesture
+  class Amphibrach < Motif
     
     # # CONSTANTS
     # #
@@ -64,7 +64,7 @@ module MusicLoom
       time_scale = round_to_power [options[:time_scale], MIN_TIME_SCALE].max
       
       # set event to start at next beat.
-      start_time = Gesture::next_beat(now)
+      start_time = Motif::next_beat(now)
       event_time = start_time
       
       # WHOA... this is a cool idea, but need to use ACTUAL duration, not default!

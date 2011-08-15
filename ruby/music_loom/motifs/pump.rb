@@ -4,7 +4,7 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Pump < Gesture
+  class Pump < Motif
     
     ROOT_NOTES = [47, 56, 50, 59, 60, 62]
     PATTERN = [TICKS_8N, TICKS_16N, TICKS_16N]
@@ -13,7 +13,7 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      start_time = Gesture::next_beat(now) + TICKS_8N
+      start_time = Motif::next_beat(now) + TICKS_8N
       event_time = start_time
       
       accent = false

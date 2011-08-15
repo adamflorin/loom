@@ -8,7 +8,10 @@ module MusicLoom
     
     include Tonality
     
-    attr_accessor :players, :density, :intensity, :deviance, :spotlight
+    # REGISTER GLOBAL PARAMS HERE
+    attr_accessor :players, :density, :intensity, :deviance, :spotlight, :temperature,
+      :decay_rate,
+      :celsius
     
     
     # 
@@ -28,6 +31,9 @@ module MusicLoom
       
       # reconfigure ensemble
       set_player_focal_points
+      
+      # now tell each player about their new neighbors
+      @players.each{|player| player.register_neighbors(@players - [player])}
     end
     
     

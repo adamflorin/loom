@@ -4,7 +4,7 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Pumpernickel < Gesture
+  class Pumpernickel < Motif
     
     ROOT_NOTES = [47, 56, 50, 59, 60, 62]
     PATTERN = [TICKS_16N, TICKS_8N, TICKS_16N, TICKS_16N, TICKS_16N, TICKS_8N]
@@ -21,7 +21,7 @@ module MusicLoom
       # PATTERN[0] = TICKS_32N if get_global(:brevity > 0.9)
       
       # mainly so that it's tight in hocket mode
-      start_time = Gesture::next_beat(now, PATTERN.first)
+      start_time = Motif::next_beat(now, PATTERN.first)
       event_time = start_time
       
       accent = false

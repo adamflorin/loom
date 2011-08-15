@@ -7,11 +7,14 @@ module MusicLoom
   class StringThing < Player
     
     def initialize
-      @gestures = [
+      @motifs = [
         {:class => Bucephalus, :weight => 2},
         {:class => Flipper, :weight => 20},
         {:class => Cirrus, :weight => 12},
         {:class => Pump, :weight => 10}]
+      
+      @do_decay = false
+      
       super
     end
     

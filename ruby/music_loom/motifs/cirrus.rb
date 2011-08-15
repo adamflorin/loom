@@ -4,7 +4,7 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Cirrus < Gesture
+  class Cirrus < Motif
     
     ROOT_NOTE = 72
     PATTERN = [TICKS_8N, TICKS_16N, TICKS_16N]
@@ -14,7 +14,7 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      start_time = Gesture::next_beat(now)
+      start_time = Motif::next_beat(now)
       event_time = start_time
       
       accent = true

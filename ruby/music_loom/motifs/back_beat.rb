@@ -4,7 +4,7 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class BackBeat < Gesture
+  class BackBeat < Motif
     
     ROOT_NOTE = 60
     INTERVALS = [2, 5, 9, 11]
@@ -13,7 +13,7 @@ module MusicLoom
     # 
     def generate_events(now, player_options = {})
       events = []
-      start_time = Gesture::next_beat(now)
+      start_time = Motif::next_beat(now)
       event_time = start_time
       
       do_8ve_up = (rand 3).zero?

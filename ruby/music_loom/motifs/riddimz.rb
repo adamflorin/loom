@@ -4,7 +4,7 @@
 #  Copyright March 2011, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Riddimz < Gesture
+  class Riddimz < Motif
     
     ROOT_NOTE = 60
     NUM_DRUMS = 13
@@ -44,7 +44,7 @@ module MusicLoom
       options = DEFAULT_OPTIONS.merge player_options
       
       # 
-      start_time = Gesture::next_beat(now, TICKS_8N).ceil #, TICKS_8N)
+      start_time = Motif::next_beat(now, TICKS_8N).ceil #, TICKS_8N)
       event_time = start_time
       
       # select a random metric foot.

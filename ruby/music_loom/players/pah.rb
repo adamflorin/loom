@@ -8,7 +8,7 @@ module MusicLoom
   class Pah < Player
     
     def initialize
-      @gestures = [
+      @motifs = [
         {:class => BackBeat, :weight => 10}]
       super
     end

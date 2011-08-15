@@ -4,7 +4,7 @@
 #  Copyright December 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Droplet < Gesture
+  class Droplet < Motif
     
     ROOT_NOTE = 36
     DUR = TICKS_32N
@@ -30,21 +30,29 @@ module MusicLoom
       region_no = options[:region].to_i.constrain(0..1)
       
       events = []
-      start_time = Gesture::next_beat(now, DUR * (region_no.zero? ? 4 : 1))
+      start_time = Motif::next_beat(now, DUR * (region_no.zero? ? 4 : 1))
       event_time = start_time
-            
+      
+      events << [event_time, ["bend", ratio_to_pitch_bend(1.0)]]
+      
       # (rand 3).times do
       # PATTERN.each do |dur|
         # pre-
-        dur = DUR
+        dur = DUR * (2 ** (rand 5))
         velocity = (150.0 * options[:volume]).to_i.constrain(0..127)
         
+        event_time += DUR / 2 if (rand 2).zero?
         
         # pitch = CUICA[rand CUICA.size]
         # pitch = BREATH[rand BREATH.size]
         # pitch = ROOT_NOTE + (rand 16) # DESCENDING_NOTES[desc_by]
-        region = REGIONS.values[options[:region].to_i.constrain(0..1)]
-        pitch = region[rand region.size]
+        pitch = unless @options[:notes].nil?
+          @options[:notes][rand @options[:notes].size]
+        else
+          region = REGIONS.values[options[:region].to_i.constrain(0..1)]
+          region[rand region.size]
+        end
+      
         
         # EVENT
         events << [event_time, ["note", pitch, velocity, dur]]
