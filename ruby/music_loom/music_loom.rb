@@ -16,7 +16,7 @@ require "music_loom/environment"
 APP_ROOT = File.expand_path(File.dirname(__FILE__)) + "/"
 
 # require all individual motifs & players
-["motifs", "players"].each do |dir|
+["behaviors", "motifs", "players"].each do |dir|
   dir_path = "#{APP_ROOT}#{dir}"
   
   if File.directory? dir_path
