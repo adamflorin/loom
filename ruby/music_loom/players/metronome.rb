@@ -12,6 +12,7 @@ module MusicLoom
     
     def initialize
       @motifs = [
+        {:class => Bucephalus, :weight => 10},
         {:class => Ding, :weight => 10}]
       
       # @motifs = [

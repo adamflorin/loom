@@ -7,26 +7,16 @@
 module MusicLoom
   class Ding < Motif
     
-    ROOT_NOTE = 60
-    
-    # set up a note to play faster & faster
+    # Go ding
     # 
     def generate_events(now, player_options = {})
-      events = []
-      start_time = Motif::next_beat(now).ceil
-      event_time = start_time
-      
-      duration = TICKS_4N
-      velocity = 100
-      pitch = ROOT_NOTE
-      
-      # note event
-      events << [event_time.ceil, ["note", pitch, velocity, duration]]
-      
-      # "done" event
-      events << [event_time.ceil + duration, "done"]
-      
-      return events, start_time
+      Gesture.new(now) do |gesture|
+        duration = TICKS_4N
+        
+        gesture.make :note, :at => 0, :data => {:duration => duration}
+
+        gesture.make :done, :at => duration
+      end
     end
     
   end

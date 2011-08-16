@@ -13,30 +13,29 @@ module MusicLoom
     # set up a note to play faster & faster
     # 
     def generate_events(now, player_options = {})
-      events = []
-      start_time = Motif::next_beat(now)
-      event_time = start_time
-      
-      # TODO: add a pitch bend continuous event here
-      
-      NUM_STEPS.times do |i|
-        # pre-
-        # > 0. and <= 1.0
-        pcnt = (NUM_STEPS - (i+1)).to_f / NUM_STEPS
+      Gesture.new(now) do |gesture|
         
-        # exponential for effect
-        delta_ms = LONG_DURATION * (pcnt ** 2.0)
-        
-        velocity = 100
-        
-        # EVENT
-        events << [event_time, ["note", ROOT_NOTE, velocity, delta_ms]]
-        
-        # post-
-        event_time += delta_ms
+        event_time = 0
+
+        NUM_STEPS.times do |i|
+          # pre-
+          # > 0. and <= 1.0
+          pcnt = (NUM_STEPS - (i+1)).to_f / NUM_STEPS
+
+          # exponential for effect
+          delta_ms = LONG_DURATION * (pcnt ** 2.0)
+
+          velocity = 100
+
+          # EVENT
+          gesture.make :note, :at => event_time, :data => {
+            :pitch => ROOT_NOTE, :velocity => velocity, :duration => delta_ms
+          }
+
+          # post-
+          event_time += delta_ms
+        end
       end
-      
-      return events, start_time
     end
     
   end

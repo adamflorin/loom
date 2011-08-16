@@ -6,15 +6,36 @@
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Event
+  module Event
     
-    attr_accessor :time, :data
-    
-    # only necessary if time is non-canonical...
-    # maybe this should apply to gestures?
-    # 
-    def minus_time_offset(offset)
-      # TODO
+    class Event
+
+      attr_accessor :at, :data
+      
+      # init from args
+      # 
+      def initialize(args = {})
+        @data ||= {}
+        
+        args.each do |k, v|
+          self.send("#{k}=", v) unless v.nil?
+        end
+      end
+      
+      # 
+      # 
+      def data=(data)
+        @data.merge! data if data.is_a? Hash
+      end
+      
+      # convert event into array form for output into Max world.
+      # allow subclasses to specify data.
+      # 
+      def output(data = nil)
+        event_type = self.class.name.gsub(/[^:]+$/).first.underscorize
+        [@at, event_type] + (data || [])
+      end
+      
     end
     
   end

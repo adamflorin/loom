@@ -53,33 +53,27 @@ module MusicLoom
 
           # increment index
           @gesture_history_index += 1
-
+          
           # grab event at that index, update it to now
-          return repeat_events(@gesture_history[play_index], now)
+          gesture = @gesture_history[play_index]
+          gesture.start_time = gesture.new_now(now)
+          
+          return gesture
 
         # we need to generate some event lists
         else
           
-          # hmm, guess we can't use
-          # populate_event_queue_without_loop(now)
-          # ?
-          
-          gesture_events, start_time = generate_gesture_events(now)
-
-          # subtract NOW from event times to make zero-based ("normalized") list
-          normalized_gesture_events = gesture_events.map do |event|
-            [event[0] - start_time] + event[1..event.size]
-          end
+          gesture = populate_event_queue_without_loop(now)
 
           # push gesture events onto sequence.
           # ALWAYS track whatever we just did, in case we decide to do it again.
-          @gesture_history << normalized_gesture_events
+          @gesture_history << gesture
 
           # memory mngmt: trim oldest event lists off
           @gesture_history.shift if @gesture_history.size > MAX_LOOP_LENGTH
 
           # now assign events to queue so they'll get played
-          return gesture_events
+          return gesture
         end
       end
       

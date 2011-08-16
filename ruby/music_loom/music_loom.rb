@@ -4,7 +4,8 @@
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 
-
+require "music_loom/event"
+require "music_loom/gesture"
 require "music_loom/motif"
 require "music_loom/player"
 require "music_loom/space"
@@ -16,7 +17,7 @@ require "music_loom/environment"
 APP_ROOT = File.expand_path(File.dirname(__FILE__)) + "/"
 
 # require all individual motifs & players
-["behaviors", "motifs", "players"].each do |dir|
+["event", "behaviors", "motifs", "players"].each do |dir|
   dir_path = "#{APP_ROOT}#{dir}"
   
   if File.directory? dir_path

@@ -40,7 +40,9 @@ module MusicLoom
       # no events in the queue--either generate new gesture or loop old one
       if @event_queue.empty?
         
-        @event_queue = populate_event_queue(now)
+        gesture = populate_event_queue(now)
+        
+        @event_queue = gesture.output_events
       end
       
       return build_event(next_event(now))
@@ -82,28 +84,29 @@ module MusicLoom
         out_event = @event_queue.shift unless @event_queue.empty?
 
         # check if the event we're sending out is in the past or is close to it (!)
-        if !out_event.nil? and (out_event[0] < now)
-          error "TIMER FAIL! Event's scheduled at #{out_event[0]} but it's already #{now}!"
+        if !out_event.nil? and (out_event.at < now)
+          error "TIMER FAIL! Event's scheduled at #{out_event.at} but it's already #{now}!"
 
           # try to get back on track. This seems to work...?
-          out_event[0] = now.ceil + 1 # enough?
+          out_event.at = now.ceil + 1 # enough?
         end
 
         return out_event
       end
       
-      # just generate some events
+      # NOTE: this method may now be obsolete.
+      # have loop just chain onto generate_gesture_events?
+      # 
+      # return gesture, which contains events
       # 
       def populate_event_queue(now)
-        gesture_events, start_time = generate_gesture_events(now)
-
         # TODO: notify neighbors that we output an event.
         # This doesn't work because our references to other players are incomplete (?)
         # @neighbors.each do |player|
         #   # player.check_in(now)
         # end
 
-        return gesture_events
+        generate_gesture_events(now)
       end
       
       # generate events from gesture
@@ -120,7 +123,7 @@ module MusicLoom
         # FIXME:TEMP--drop volume calc
         @motif_options[:volume] = 1.0 #focus * get_global(:environment).intensity.constrain(0.1..1.0)
         
-        return next_motif.generate_events(now, @motif_options)
+        next_motif.generate_events(now, @motif_options)
       end
       
       # simple weighted probability to decide which gesture comes next
@@ -190,19 +193,6 @@ module MusicLoom
         end
       end
       
-      # take an event queue and bump up all times according to a delta
-      # 
-      # must sanitize 'now' in case scheduler has slipped?
-      # 
-      def repeat_events(gesture_events, now)
-        # sanitize 'now'... may be earlier or later
-        fixed_now = Motif::nearest_beat(now, gesture_events.first[0]).ceil
-        
-        return gesture_events.map do |event|
-          [event[0] + fixed_now] + event[1..event.size]
-        end
-      end
-      
       # DISABLED FOR SOUNDAFFECTS--
       # just let distance always be zero for now!
       # 
@@ -215,7 +205,7 @@ module MusicLoom
       # 
       # 
       def build_event(event)
-        ["event", event.clone].flatten
+        ["event", event.output].flatten
       end
       
   end
