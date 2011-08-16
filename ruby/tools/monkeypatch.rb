@@ -53,3 +53,12 @@ class String
     self.gsub(/[A-Z]/, "_\\0").gsub(/^_/, '').downcase
   end
 end
+
+# for Rails-like method chaining
+# 
+class Module
+  def alias_method_chain(target, feature)
+    alias_method "#{target}_without_#{feature}", target
+    alias_method target, "#{target}_with_#{feature}"
+  end
+end

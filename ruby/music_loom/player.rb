@@ -13,13 +13,11 @@ module MusicLoom
       :gesture_history, :gesture_history_index,
       :options,
       :neighbors,
-      :do_decay, :do_density # start teasing out behaviors
+      :do_decay # start teasing out behaviors
     
     
     # # CONSTANTS
     # #
-    
-    DENSITY_COEFF = 10
     
     # SEQUENCE_LENGTH = 2
     # SEQUENCE_REPEATS = 4
@@ -46,8 +44,6 @@ module MusicLoom
       }
       
       @do_decay ||= true if @do_decay.nil?
-      
-      @do_density ||= true if @do_density.nil?
       
       clear_events
     end
@@ -87,17 +83,7 @@ module MusicLoom
         # we need to generate some event lists
         else
           
-          # decide whether to generate an event or to rest
-          density_space = (1.0 - get_global(:environment).density) * DENSITY_COEFF + 1
-          gesture_events, start_time = if (@do_density == false) or (rand density_space).zero?
-            
-            # generate events
-            generate_gesture_events(now)
-          else
-            
-            # just put a rest on the queue
-            Motif.rest(now)
-          end
+          gesture_events, start_time = generate_gesture_events(now)
           
           # TODO: notify neighbors that we output an event.
           # This doesn't work because our references to other players are incomplete (?)
