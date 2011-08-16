@@ -10,24 +10,15 @@ module MusicLoom
     DECAY_RATE = 0.5
     
     attr_accessor :motifs, :focal_point, :event_queue, :motif_options, :option_means,
-      :gesture_history, :gesture_history_index,
       :options,
       :neighbors,
       :do_decay # start teasing out behaviors
     
-    
-    # # CONSTANTS
-    # #
-    
-    # SEQUENCE_LENGTH = 2
-    # SEQUENCE_REPEATS = 4
-    
-    MAX_LOOP_LENGTH = 16
-    
-    DEFAULT_OPTIONS = {
-      :loop_on => 0, # false
-      :loop_length => 4
-    }
+    # can be extended by behaviors
+    # 
+    def default_options
+      {}
+    end
     
     # set up gestures. for subclasses to overwrite
     # 
@@ -35,7 +26,7 @@ module MusicLoom
       # @motifs = []
       
       # player options from max
-      @options = DEFAULT_OPTIONS
+      @options = default_options
       
       # motif options (& means)
       @option_means = {}
@@ -47,7 +38,7 @@ module MusicLoom
       
       clear_events
     end
-        
+    
     # Check in: listen to what's going on & decide whether or not
     # to generate a gesture
     # 
@@ -62,50 +53,7 @@ module MusicLoom
           return ["stop"]
         end
         
-        # if we're in loop mode and have a sufficient backlog
-        if !@options[:loop_on].zero? and @gesture_history.size >= @options[:loop_length]
-          
-          # wrap index (loop_length may have changed earlier)
-          @gesture_history_index = 0 if @gesture_history_index >= @options[:loop_length]
-          
-          # trim down history to just what we need (so it regenerates later) (?)
-          @gesture_history.slice! 0, @gesture_history.size - @options[:loop_length]
-          
-          # find our place in the loop (index)
-          play_index = @gesture_history_index + (@gesture_history.size - @options[:loop_length])
-          
-          # grab event at that index, update it to now
-          @event_queue = repeat_events(@gesture_history[play_index], now)
-          
-          # increment index
-          @gesture_history_index += 1
-          
-        # we need to generate some event lists
-        else
-          
-          gesture_events, start_time = generate_gesture_events(now)
-          
-          # TODO: notify neighbors that we output an event.
-          # This doesn't work because our references to other players are incomplete (?)
-          # @neighbors.each do |player|
-          #   # player.check_in(now)
-          # end
-          
-          # subtract NOW from event times to make zero-based ("normalized") list
-          normalized_gesture_events = gesture_events.map do |event|
-            [event[0] - start_time] + event[1..event.size]
-          end
-          
-          # push gesture events onto sequence.
-          # ALWAYS track whatever we just did, in case we decide to do it again.
-          @gesture_history << normalized_gesture_events
-          
-          # memory mngmt: trim oldest event lists off
-          @gesture_history.shift if @gesture_history.size > MAX_LOOP_LENGTH
-          
-          # now assign events to queue so they'll get played
-          @event_queue = gesture_events
-        end
+        @event_queue = populate_event_queue(now)
       end
       
       # TODO: tidy up normalization of global decay
@@ -116,32 +64,10 @@ module MusicLoom
       return build_event(next_event(now))
     end
     
-    # get next event off the queue,
-    # do a sanity check to make sure we're not behind schedule--
-    # if we are, just fake like we're not.
-    # 
-    def next_event(now)
-      out_event = @event_queue.shift unless @event_queue.empty?
-      
-      # check if the event we're sending out is in the past or is close to it (!)
-      if !out_event.nil? and (out_event[0] < now)
-        error "TIMER FAIL! Event's scheduled at #{out_event[0]} but it's already #{now}!"
-        
-        # try to get back on track. This seems to work...?
-        out_event[0] = now.ceil + 1 # enough?
-      end
-      
-      return out_event
-    end
-    
     # on init & stop
     # 
     def clear_events
       @event_queue = []
-
-      # looping
-      @gesture_history = []
-      @gesture_history_index = 0
     end
     
     def set_motif_option(key, value)
@@ -168,6 +94,38 @@ module MusicLoom
     
     
     private
+      
+      # get next event off the queue,
+      # do a sanity check to make sure we're not behind schedule--
+      # if we are, just fake like we're not.
+      # 
+      def next_event(now)
+        out_event = @event_queue.shift unless @event_queue.empty?
+
+        # check if the event we're sending out is in the past or is close to it (!)
+        if !out_event.nil? and (out_event[0] < now)
+          error "TIMER FAIL! Event's scheduled at #{out_event[0]} but it's already #{now}!"
+
+          # try to get back on track. This seems to work...?
+          out_event[0] = now.ceil + 1 # enough?
+        end
+
+        return out_event
+      end
+      
+      # just generate some events
+      # 
+      def populate_event_queue(now)
+        gesture_events, start_time = generate_gesture_events(now)
+
+        # TODO: notify neighbors that we output an event.
+        # This doesn't work because our references to other players are incomplete (?)
+        # @neighbors.each do |player|
+        #   # player.check_in(now)
+        # end
+
+        return gesture_events
+      end
       
       # generate events from gesture
       # 

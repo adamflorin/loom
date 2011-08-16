@@ -7,10 +7,17 @@ module MusicLoom
   class Metronome < Player
     
     include Behaviors::Density
+    include Behaviors::Loop
     
     def initialize
       @motifs = [
         {:class => Ding, :weight => 10}]
+      
+      # @motifs = [
+      #   {:class => Bucephalus, :weight => 2},
+      #   {:class => Flipper, :weight => 20},
+      #   {:class => Cirrus, :weight => 12},
+      #   {:class => Pump, :weight => 10}]
       
       super
     end
