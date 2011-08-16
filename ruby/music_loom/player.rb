@@ -7,12 +7,9 @@
 module MusicLoom
   class Player
     
-    DECAY_RATE = 0.5
-    
     attr_accessor :motifs, :focal_point, :event_queue, :motif_options, :option_means,
       :options,
-      :neighbors,
-      :do_decay # start teasing out behaviors
+      :neighbors
     
     # can be extended by behaviors
     # 
@@ -30,11 +27,7 @@ module MusicLoom
       
       # motif options (& means)
       @option_means = {}
-      @motif_options = {
-        :decay => 1.0
-      }
-      
-      @do_decay ||= true if @do_decay.nil?
+      @motif_options = {}
       
       clear_events
     end
@@ -47,18 +40,7 @@ module MusicLoom
       # no events in the queue--either generate new gesture or loop old one
       if @event_queue.empty?
         
-        # TODO: if decay is too low, just die
-        if @do_decay and (@motif_options[:decay] <= 0)
-
-          return ["stop"]
-        end
-        
         @event_queue = populate_event_queue(now)
-      end
-      
-      # TODO: tidy up normalization of global decay
-      if @do_decay
-        @motif_options[:decay] = (@motif_options[:decay] + get_global(:environment).decay_rate).constrain(0.0..1.27)
       end
       
       return build_event(next_event(now))
@@ -87,9 +69,6 @@ module MusicLoom
     # on impulse
     # 
     def set_velocity(velocity)
-      if @do_decay
-        @motif_options[:decay] = velocity / 100.0
-      end
     end
     
     
@@ -236,16 +215,7 @@ module MusicLoom
       # 
       # 
       def build_event(event)
-        out_event = event.clone
-        
-        # apply decay
-        if @do_decay
-          if out_event[1][0] == "note"
-            out_event[1][2] = (out_event[1][2] * @motif_options[:decay]).to_i.constrain(0..127)
-          end
-        end
-        
-        ["event", out_event].flatten
+        ["event", event.clone].flatten
       end
       
   end

@@ -6,8 +6,9 @@
 module MusicLoom
   class Metronome < Player
     
-    include Behaviors::Density
-    include Behaviors::Loop
+    # include Behaviors::Density
+    # include Behaviors::Loop
+    # include Behaviors::Decay
     
     def initialize
       @motifs = [
