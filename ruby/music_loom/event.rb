@@ -15,7 +15,8 @@ module MusicLoom
       # init from args
       # 
       def initialize(args = {})
-        @data ||= {}
+        # must clone or all note events will point to same structure!
+        @data ||= default_data.clone
         
         args.each do |k, v|
           self.send("#{k}=", v) unless v.nil?
@@ -36,6 +37,15 @@ module MusicLoom
         [@at, event_type] + (data || [])
       end
       
+      
+      private
+        
+        # to be overwritten
+        # 
+        def default_data
+          {}
+        end
+        
     end
     
   end

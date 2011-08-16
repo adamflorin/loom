@@ -1,25 +1,24 @@
 # 
-#  note.rb: MIDI note event
+#  bend.rb: MIDI pitch bend event
 #  
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module MusicLoom
   module Event
     
-    class Note < Event
+    class Bend < Event
       
-      # serialize note event into format Max makenote wants
+      # serialize bend event into format Max xbendout likes
       # 
       def output(data = nil)
-        super([@data[:pitch], @data[:velocity], @data[:duration]])
+        super([@data[:pitch_bend], @data[:duration]])
       end
       
       
       private
         
         def default_data
-          { :pitch => 60,
-            :velocity => 100,
+          { :pitch_bend => 0,
             :duration => Motif::TICKS_4N}
         end
         
