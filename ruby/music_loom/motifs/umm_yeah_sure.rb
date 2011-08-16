@@ -13,7 +13,7 @@ module MusicLoom
     
     # 
     # 
-    def generate_events(now, player_options = {})
+    def generate_gesture(now, player_options = {})
       #notes = [0,2,5,8,5,8,2,8,7,5,0]
       #notes = [0,0,0,4,4,5,9,9,9,11]
       notes = [0,0,0,7,7,7,9]

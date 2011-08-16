@@ -12,8 +12,8 @@ module MusicLoom
     
     # set up a note to play faster & faster
     # 
-    def generate_events(now, player_options = {})
-      Gesture.new(now) do |gesture|
+    def generate_gesture(now, player_options = {})
+      Gesture.new(Motif::next_beat(now)) do |gesture|
         
         event_time = 0
 

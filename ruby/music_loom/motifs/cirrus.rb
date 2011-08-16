@@ -12,35 +12,26 @@ module MusicLoom
     
     # set up a note to play faster & faster
     # 
-    def generate_events(now, player_options = {})
-      events = []
-      start_time = Motif::next_beat(now)
-      event_time = start_time
-      
-      accent = true
-      pitch = ROOT_NOTE
-      desc_by = 0
-      
-      PATTERN.each do |dur|
-        # pre-
-        velocity = accent ? 100 : 20
-        unless @options[:notes].nil?
-          pitch = @options[:notes][rand @options[:notes].size]
-        else
-          pitch = ROOT_NOTE + DESCENDING_NOTES[desc_by]
+    def generate_gesture(now, player_options = {})
+      Gesture.new(Motif::next_beat(now)) do |gesture|
+        event_time = 0
+        accent = true
+        desc_by = 0
+
+        PATTERN.each do |dur|
+          gesture.make :note, :at => event_time, :data => {
+            :pitch => !@options[:notes].nil? ?
+              @options[:notes][rand @options[:notes].size] :
+              ROOT_NOTE + DESCENDING_NOTES[desc_by],
+            :velocity => accent ? 100 : 20,
+            :duration => dur
+          }
+          
+          accent = false
+          event_time += dur
+          desc_by += rand 3
         end
-        
-        
-        # EVENT
-        events << [event_time, ["note", pitch, velocity, dur]]
-        
-        # post-
-        accent = false
-        event_time += dur
-        desc_by += rand 3
       end
-      
-      return events, start_time
     end
     
   end

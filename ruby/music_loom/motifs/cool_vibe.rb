@@ -12,7 +12,7 @@ module MusicLoom
     
     # 
     # 
-    def generate_events(now, player_options = {})
+    def generate_gesture(now, player_options = {})
       events = []
       # start_time & event_time are just timestamps in ticks
       start_time = Motif::next_beat(now, TICKS_1N) #TICKS_8N)

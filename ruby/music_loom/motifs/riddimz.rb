@@ -38,7 +38,7 @@ module MusicLoom
     
     # set up a note to play faster & faster
     # 
-    def generate_events(now, player_options = {})
+    def generate_gesture(now, player_options = {})
       # init
       events = []
       options = DEFAULT_OPTIONS.merge player_options

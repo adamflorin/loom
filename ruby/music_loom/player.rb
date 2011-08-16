@@ -40,7 +40,7 @@ module MusicLoom
       # no events in the queue--either generate new gesture or loop old one
       if @event_queue.empty?
         
-        gesture = populate_event_queue(now)
+        gesture = generate_gesture(now)
         
         @event_queue = gesture.output_events
       end
@@ -94,24 +94,9 @@ module MusicLoom
         return out_event
       end
       
-      # NOTE: this method may now be obsolete.
-      # have loop just chain onto generate_gesture_events?
-      # 
-      # return gesture, which contains events
-      # 
-      def populate_event_queue(now)
-        # TODO: notify neighbors that we output an event.
-        # This doesn't work because our references to other players are incomplete (?)
-        # @neighbors.each do |player|
-        #   # player.check_in(now)
-        # end
-
-        generate_gesture_events(now)
-      end
-      
       # generate events from gesture
       # 
-      def generate_gesture_events(now)
+      def generate_gesture(now)
         next_motif = select_motif
         
         focus = calc_focus
@@ -123,7 +108,7 @@ module MusicLoom
         # FIXME:TEMP--drop volume calc
         @motif_options[:volume] = 1.0 #focus * get_global(:environment).intensity.constrain(0.1..1.0)
         
-        next_motif.generate_events(now, @motif_options)
+        next_motif.generate_gesture(now, @motif_options)
       end
       
       # simple weighted probability to decide which gesture comes next

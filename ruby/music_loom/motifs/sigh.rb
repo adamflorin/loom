@@ -14,7 +14,7 @@ module MusicLoom
     
     # 
     # 
-    def generate_events(now, player_options = {})
+    def generate_gesture(now, player_options = {})
       # init
       options = DEFAULT_OPTIONS.merge player_options
       events = []

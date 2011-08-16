@@ -27,7 +27,7 @@ module MusicLoom
     # 
     # for subclasses to overwrite
     # 
-    def generate_events(now)
+    def generate_gesture(now)
       []
     end
     

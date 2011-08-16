@@ -8,11 +8,11 @@ module MusicLoom
     
     attr_accessor :events, :start_time
     
-    # TODO: args to pass thru to next_beat
     # 
-    def initialize(now, &block)
+    # 
+    def initialize(start_time, &block)
       @events = []
-      @start_time = Motif::next_beat(now).ceil
+      @start_time = start_time
       yield self if block_given?
     end
     

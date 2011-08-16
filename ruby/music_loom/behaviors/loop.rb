@@ -14,7 +14,7 @@ module MusicLoom
       # init
       # 
       def self.included(base)
-        base.alias_method_chain :populate_event_queue, :loop
+        base.alias_method_chain :generate_gesture, :loop
         base.alias_method_chain :clear_events, :loop
         base.alias_method_chain :default_options, :loop
       end
@@ -38,7 +38,7 @@ module MusicLoom
       
       # returns event array--might be new events or rescheduled (looped) old ones
       # 
-      def populate_event_queue_with_loop(now)
+      def generate_gesture_with_loop(now)
         # if we're in loop mode and have a sufficient backlog
         if !@options[:loop_on].zero? and @gesture_history.size >= @options[:loop_length]
 
@@ -63,7 +63,7 @@ module MusicLoom
         # we need to generate some event lists
         else
           
-          gesture = populate_event_queue_without_loop(now)
+          gesture = generate_gesture_without_loop(now)
 
           # push gesture events onto sequence.
           # ALWAYS track whatever we just did, in case we decide to do it again.

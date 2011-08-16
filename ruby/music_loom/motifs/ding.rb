@@ -9,8 +9,8 @@ module MusicLoom
     
     # Go ding
     # 
-    def generate_events(now, player_options = {})
-      Gesture.new(now) do |gesture|
+    def generate_gesture(now, player_options = {})
+      Gesture.new(Motif::next_beat(now)) do |gesture|
         duration = TICKS_4N
         
         gesture.make :note, :at => 0, :data => {:duration => duration}
