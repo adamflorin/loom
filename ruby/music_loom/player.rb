@@ -7,7 +7,9 @@
 module MusicLoom
   class Player
     
-    attr_accessor :motifs, :focal_point, :event_queue, :motif_options, :option_means,
+    attr_accessor :motifs, :event_queue,
+      :motif_options,
+      :option_means,
       :options,
       :neighbors
     
@@ -76,6 +78,17 @@ module MusicLoom
     
     private
       
+      # generate events from gesture
+      # 
+      def generate_gesture(now)
+        next_motif = select_motif
+        
+        # now generate random options
+        generate_motif_options
+                
+        next_motif.generate_gesture(now, @motif_options)
+      end
+      
       # get next event off the queue,
       # do a sanity check to make sure we're not behind schedule--
       # if we are, just fake like we're not.
@@ -92,23 +105,6 @@ module MusicLoom
         end
 
         return out_event
-      end
-      
-      # generate events from gesture
-      # 
-      def generate_gesture(now)
-        next_motif = select_motif
-        
-        focus = calc_focus
-        
-        # now generate random options
-        generate_motif_options(focus)
-        
-        # volume is a factor of focus + global intensity
-        # FIXME:TEMP--drop volume calc
-        @motif_options[:volume] = 1.0 #focus * get_global(:environment).intensity.constrain(0.1..1.0)
-        
-        next_motif.generate_gesture(now, @motif_options)
       end
       
       # simple weighted probability to decide which gesture comes next
@@ -152,14 +148,11 @@ module MusicLoom
       # create motif_options from @option_means
       # 
       # generate a target value, then shoot toward it.
-      # player deviance is based on global & focus.
       # 
       # low deviance = stay where you are. high deviance = go crazy!
       # 
-      def generate_motif_options(focus)
-        player_deviance = get_global(:environment).deviance * focus
-        
-        stddev = player_deviance / 4.0
+      def generate_motif_options
+        stddev = deviance / 4.0
         
         @option_means.each do |key, mean|
           # just do gaussian math for floats (i.e., means)
@@ -170,7 +163,7 @@ module MusicLoom
             @motif_options[key] ||= target
           
             # shoot toward target
-            @motif_options[key] += (target - @motif_options[key]) * player_deviance
+            @motif_options[key] += (target - @motif_options[key]) * deviance
           else
             # just pass the data along otherwise (?)
             @motif_options[key] = mean
@@ -178,13 +171,10 @@ module MusicLoom
         end
       end
       
-      # DISABLED FOR SOUNDAFFECTS--
-      # just let distance always be zero for now!
+      # player deviance from global
       # 
-      # returns distance as 0. - 1. (= player "focus")
-      # 
-      def calc_focus
-        0.0 #MusicLoom::spotlight_focus(@focal_point)
+      def deviance
+        get_global(:environment).deviance
       end
       
       # 

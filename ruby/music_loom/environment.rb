@@ -29,8 +29,10 @@ module MusicLoom
       # add player
       @players << new_player
       
+      # TODO: re-enable space
+      # 
       # reconfigure ensemble
-      set_player_focal_points
+      # set_player_focal_points
       
       # now tell each player about their new neighbors
       @players.each{|player| player.register_neighbors(@players - [player])}
@@ -39,18 +41,18 @@ module MusicLoom
     
     private
       
-      # reset all players' focal points, round robin-style
-      # 
-      def set_player_focal_points
-        spacing = 1.0 / @players.size
-        
-        @players.each_with_index do |player, i|
-          # 0. - 1. position on the circle
-          radial_pos = (i * spacing) + (spacing / 2)
-          
-          player.focal_point = MusicLoom::radial_to_coords(radial_pos)
-        end
-      end
+      # # reset all players' focal points, round robin-style
+      # # 
+      # def set_player_focal_points
+      #   spacing = 1.0 / @players.size
+      #   
+      #   @players.each_with_index do |player, i|
+      #     # 0. - 1. position on the circle
+      #     radial_pos = (i * spacing) + (spacing / 2)
+      #     
+      #     player.focal_point = MusicLoom::radial_to_coords(radial_pos)
+      #   end
+      # end
       
   end
 end

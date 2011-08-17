@@ -31,8 +31,6 @@ end
 # 
 # 
 module MusicLoom
-  
-  include Randomness
-  include Space
-  
+  extend Randomness
+  extend Space
 end
