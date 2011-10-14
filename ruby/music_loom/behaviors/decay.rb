@@ -14,7 +14,7 @@ module MusicLoom
       def self.included(base)
         base.alias_method_chain :check_in, :decay
         base.alias_method_chain :set_velocity, :decay
-        base.alias_method_chain :populate_event_queue, :decay
+        base.alias_method_chain :generate_gesture, :decay
         base.alias_method_chain :build_event, :decay
         
         # does this matter? or do we depend on set_velocity being called?
@@ -42,10 +42,14 @@ module MusicLoom
       
         # when decay goes below a threshold (zero), don't produce any new events.
         # 
-        def populate_event_queue_with_decay(now)
-          return ["stop"] if @motif_options[:decay] <= 0
+        def generate_gesture_with_decay(now)
+          if @motif_options[:decay] <= 0
+            return Gesture.new(Motif::next_beat(now)) do |gesture|
+              gesture.make :done, :at => 0
+            end
+          end
         
-          populate_event_queue_without_decay(now)
+          generate_gesture_without_decay(now)
         end
         
         # apply decay to velocity

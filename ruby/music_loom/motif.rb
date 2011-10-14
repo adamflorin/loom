@@ -33,7 +33,10 @@ module MusicLoom
     
     def self.rest(now)
       start_time = next_beat(now)
-      return [[[next_beat(now), "done"]], start_time]
+      
+      return Gesture.new(start_time) do |gesture|
+        gesture.make :done, :at => 0
+      end
     end
     
     
