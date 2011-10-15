@@ -37,11 +37,14 @@ module MusicLoom
           this_motif_max += motif[:weight]
           if lucky_number < this_motif_max
             next_motif_class = motif[:class]
-            options = motif[:options] || {}
+            
+            # FIXME: ignoring :options, using :parameters!
+            options = motif[:parameters] || {}
             break
           end
         end
         
+        # FIXME: next_motif_class may be nil if device was JUST deleted!!
         return next_motif_class.new(options)
       end
       

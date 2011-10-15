@@ -13,7 +13,9 @@ module MusicLoom
       Gesture.new(Motif::next_beat(now)) do |gesture|
         duration = TICKS_4N
         
-        gesture.make :note, :at => 0, :data => {:duration => duration}
+        gesture.make :note, :at => 0, :data => {
+          :pitch => @options[:pitch],
+          duration => duration}
 
         gesture.make :done, :at => duration
       end

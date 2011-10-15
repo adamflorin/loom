@@ -24,6 +24,8 @@ module MusicLoom
     # set up gestures. for subclasses to overwrite
     # 
     def initialize
+      @motifs = []
+      
       # player options from max
       @options = default_options
       
@@ -83,8 +85,9 @@ module MusicLoom
       def generate_gesture(now)
         next_motif = select_motif
         
+        # FIXME: commented out during refactor
         # now generate random options
-        generate_motif_options
+        # generate_motif_options
                 
         next_motif.generate_gesture(now, @motif_options)
       end
@@ -142,7 +145,7 @@ module MusicLoom
       # 
       # 
       def build_event(event)
-        ["event", event.output].flatten
+        event.output.flatten
       end
       
   end
