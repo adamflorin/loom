@@ -88,11 +88,15 @@ def remove_motif(device_id)
 end
 
 def set_motif_parameter(device_id, parameter_key, parameter_value)
-  puts "Setting #{parameter_key} -> #{parameter_value} on device #{device_id}"
+  # puts "Setting #{parameter_key} -> #{parameter_value} on device #{device_id}"
   
   $player.motifs.select do |motif|
     motif[:device_id] == device_id
   end.first[:parameters][parameter_key] = parameter_value
+end
+
+def notify_loaded
+  outlet 1, 'bang'
 end
 
 # INIT
@@ -109,4 +113,4 @@ $environment = get_global(:environment)
 # Ready. Log & notify.
 #
 puts "Loaded MusicLoom::Player."
-outlet 1, 'bang'
+notify_loaded
