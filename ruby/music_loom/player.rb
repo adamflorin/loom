@@ -58,13 +58,15 @@ module MusicLoom
       @event_queue = []
     end
     
-    def set_motif_option(key, value)
-      @option_means[key] = value
-    end
-    
-    def set_player_option(key, value)
-      @options[key] = value
-    end
+    # FIXME:REFACTOR: disabled for now!
+    #
+    # def set_motif_option(key, value)
+    #   @option_means[key] = value
+    # end
+    # 
+    # def set_player_option(key, value)
+    #   @options[key] = value
+    # end
     
     # environment now hooks back in to tell players about their neighbors
     # 
@@ -72,9 +74,37 @@ module MusicLoom
       @neighbors = neighbors
     end
     
-    # on impulse
+    # FIXME:REFACTOR. behavior-specific!
     # 
-    def set_velocity(velocity)
+    # # on impulse
+    # # 
+    # def set_velocity(velocity)
+    # end
+    
+    # 
+    # 
+    def add_motif(device_id, motif_class_name)
+      motif_class = MusicLoom.const_get(motif_class_name.to_s.camelize)
+      @motifs << {
+        :class => motif_class,
+        :device_id => device_id,
+        :parameters => {}}
+    end
+    
+    # 
+    # 
+    def remove_motif(device_id)
+      @motifs.delete_if do |motif|
+        motif[:device_id] == device_id
+      end
+    end
+    
+    # 
+    # 
+    def get_motif(device_id)
+      @motifs.select do |motif|
+        motif[:device_id] == device_id
+      end.first
     end
     
     
