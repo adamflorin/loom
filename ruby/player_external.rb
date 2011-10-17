@@ -86,7 +86,7 @@ end
 # 
 # 
 def set_motif_parameter(device_id, parameter_key, parameter_value)
-  puts "Setting #{parameter_key} -> #{parameter_value} on device #{device_id}"
+  # puts "Setting #{parameter_key} -> #{parameter_value} on device #{device_id}"
   $player.get_motif(device_id)[:parameters][parameter_key] = parameter_value
 end
 

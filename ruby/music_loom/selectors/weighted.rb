@@ -10,24 +10,9 @@ module MusicLoom
       # simple weighted probability to decide which gesture comes next
       # 
       def select_motif
+        # init_fancy_weights
+        
         next_motif_class = nil
-        
-        has_fancy_weights = !@motifs.select{|g| g.has_key? :weight_param}.size.zero?
-        
-        # list uses fancy weights. well, give each motif a concrete weight!
-        if has_fancy_weights
-          @motifs.each do |motif|
-            global_param = motif[:weight_param].keys.first
-            global_param_value = get_global(:environment).send(global_param)
-            motif_probability_peak_at = motif[:weight_param][global_param]
-            
-            distance_from_peak = (global_param_value - motif_probability_peak_at).abs
-            
-            # overwrite motif weight
-            motif[:weight] = (((1.0 - distance_from_peak) ** 4) * 100).to_i
-          end
-        end
-        
         total_weight = @motifs.map{|g| g[:weight]}.sum
         lucky_number = rand total_weight
         this_motif_max = 0
@@ -44,8 +29,28 @@ module MusicLoom
           end
         end
         
-        # FIXME: next_motif_class may be nil if device was JUST deleted!!
-        return next_motif_class.new(options)
+        return next_motif_class.nil? ? nil : next_motif_class.new(options)
+      end
+      
+      # "fancy" = tied to globals. This code is on the chopping block
+      # since Live has its own ways of shifting params based on others!
+      # 
+      def init_fancy_weights
+        has_fancy_weights = !@motifs.select{|g| g.has_key? :weight_param}.size.zero?
+        
+        # list uses fancy weights. well, give each motif a concrete weight!
+        if has_fancy_weights
+          @motifs.each do |motif|
+            global_param = motif[:weight_param].keys.first
+            global_param_value = get_global(:environment).send(global_param)
+            motif_probability_peak_at = motif[:weight_param][global_param]
+            
+            distance_from_peak = (global_param_value - motif_probability_peak_at).abs
+            
+            # overwrite motif weight
+            motif[:weight] = (((1.0 - distance_from_peak) ** 4) * 100).to_i
+          end
+        end
       end
       
     end

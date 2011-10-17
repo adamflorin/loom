@@ -115,11 +115,13 @@ module MusicLoom
       def generate_gesture(now)
         next_motif = select_motif
         
+        return Motif::rest(now) if next_motif.nil?
+        
         # FIXME: commented out during refactor
         # now generate random options
         # generate_motif_options
                 
-        next_motif.generate_gesture(now, @motif_options)
+        return next_motif.generate_gesture(now, @motif_options)
       end
       
       # get next event off the queue,
