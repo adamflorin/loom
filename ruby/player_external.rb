@@ -41,27 +41,26 @@ end
 # def set_motif_option(key, value)
 #   $player.set_motif_option(key, value)
 # end
-# 
-# # for patcher control of motif morphological params
-# # 
-# def set_player_option(key, value)
-#   $player.set_player_option(key, value)
-# end
 
-# # TODO: LOAD & UNLOAD behaviors!
-# # 
-# def load_behavior(filename)
-#   class_name = filename.match(/(.*)\.rb/)[1].capitalize
-#   $player_class.send(:include, MusicLoom::Behaviors.const_get(class_name))
-#   puts "Loaded behavior #{class_name}."
-# end
-
-# NOTE that we CLONE the Player class first, so that we can add behaviors
-# to it and still be able to revert to behavior-less state later.
+#  
 # 
 def init_player
-  $player_class = MusicLoom::Player.clone
-  $player = $player_class.new
+  $player = MusicLoom::Player.new
+end
+
+# 
+# 
+def load_behavior(behavior_class_name)
+  behavior_class = MusicLoom::Behaviors.const_get(behavior_class_name.to_s.camelize)
+  MusicLoom::Player.send(:include, behavior_class)
+  puts "Loaded behavior #{behavior_class_name}."
+end
+
+# 
+# 
+def set_behavior_parameter(key, value)
+  # puts "Setting #{key} -> #{value}"
+  $player.set_player_option(key, value)
 end
 
 # load one motif
@@ -85,9 +84,9 @@ end
 
 # 
 # 
-def set_motif_parameter(device_id, parameter_key, parameter_value)
-  # puts "Setting #{parameter_key} -> #{parameter_value} on device #{device_id}"
-  $player.get_motif(device_id)[:parameters][parameter_key] = parameter_value
+def set_motif_parameter(device_id, key, value)
+  # puts "Setting #{key} -> #{value} on device #{device_id}"
+  $player.get_motif(device_id)[:parameters][key] = value
 end
 
 # 

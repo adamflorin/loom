@@ -12,7 +12,7 @@ module MusicLoom
     
     attr_accessor :motifs, :event_queue,
       :options,
-      :motif_options, :option_means,
+      # :motif_options, :option_means,
       :neighbors
     
     # can be extended by behaviors
@@ -30,8 +30,8 @@ module MusicLoom
       @options = default_options
       
       # motif options (& means)
-      @option_means = {}
-      @motif_options = {}
+      # @option_means = {}
+      # @motif_options = {}
       
       clear_events
     end
@@ -63,10 +63,12 @@ module MusicLoom
     # def set_motif_option(key, value)
     #   @option_means[key] = value
     # end
+    
+    # These are typically behavior parameters (?)
     # 
-    # def set_player_option(key, value)
-    #   @options[key] = value
-    # end
+    def set_player_option(key, value)
+      @options[key] = value
+    end
     
     # environment now hooks back in to tell players about their neighbors
     # 
@@ -121,7 +123,7 @@ module MusicLoom
         # now generate random options
         # generate_motif_options
                 
-        return next_motif.generate_gesture(now, @motif_options)
+        return next_motif.generate_gesture(now, {}) #@motif_options)
       end
       
       # get next event off the queue,
@@ -142,31 +144,33 @@ module MusicLoom
         return out_event
       end
       
-      # create motif_options from @option_means
-      # 
-      # generate a target value, then shoot toward it.
-      # 
-      # low deviance = stay where you are. high deviance = go crazy!
-      # 
-      def generate_motif_options
-        stddev = deviance / 4.0
-        
-        @option_means.each do |key, mean|
-          # just do gaussian math for floats (i.e., means)
-          if mean.is_a? Float
-            target = MusicLoom::gaussian_rand(mean, stddev).constrain(0.0..2.0)
-          
-            # (init on first run)
-            @motif_options[key] ||= target
-          
-            # shoot toward target
-            @motif_options[key] += (target - @motif_options[key]) * deviance
-          else
-            # just pass the data along otherwise (?)
-            @motif_options[key] = mean
-          end
-        end
-      end
+      # # FIXME:REFACTOR
+      # # 
+      # # create motif_options from @option_means
+      # # 
+      # # generate a target value, then shoot toward it.
+      # # 
+      # # low deviance = stay where you are. high deviance = go crazy!
+      # # 
+      # def generate_motif_options
+      #   stddev = deviance / 4.0
+      #   
+      #   @option_means.each do |key, mean|
+      #     # just do gaussian math for floats (i.e., means)
+      #     if mean.is_a? Float
+      #       target = MusicLoom::gaussian_rand(mean, stddev).constrain(0.0..2.0)
+      #     
+      #       # (init on first run)
+      #       @motif_options[key] ||= target
+      #     
+      #       # shoot toward target
+      #       @motif_options[key] += (target - @motif_options[key]) * deviance
+      #     else
+      #       # just pass the data along otherwise (?)
+      #       @motif_options[key] = mean
+      #     end
+      #   end
+      # end
       
       # player deviance from global
       # 
