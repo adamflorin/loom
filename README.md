@@ -29,3 +29,16 @@ As you add more motifs to the rack, they will be randomly selected. Adjust their
 You can then add behaviors in the same way to the same rack.
 
 So long as they're all in the same rack, they'll be treated as a single player. (You can actually put multiple racks on a same track to have multiple players.)
+
+## Modules
+
+### Motifs
+
+* *Pulse*: just a steady pulse.
+* *Prosody*: melody generation based on the inflections of metric feet.
+* *Bounce*: accelerating/decelerating rhythms.
+
+### Behaviors
+
+* *Density*: probability of silence (rests) vs motifs.
+* *Skate*: only begin on user-input impulse, and decay over time.
