@@ -5,7 +5,7 @@
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Ding < Motif
+  class Pulse < Motif
     
     # Go ding
     # 
