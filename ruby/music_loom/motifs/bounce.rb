@@ -1,35 +1,32 @@
 # 
-#  bucephalus.rb: as in, the bouncing ball
+#  bounce.rb: as in Bucephalus Bouncing Ball
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 module MusicLoom
-  class Bucephalus < Motif
+  class Bounce < Motif
     
-    ROOT_NOTE = 59
     LONG_DURATION = TICKS_4N
-    NUM_STEPS = 20
     
     # set up a note to play faster & faster
     # 
     def generate_gesture(now, player_options = {})
       Gesture.new(Motif::next_beat(now)) do |gesture|
-        
         event_time = 0
-
-        NUM_STEPS.times do |i|
-          # pre-
+        steps = @options[:steps].to_i
+        
+        steps.times do |i|
           # > 0. and <= 1.0
-          pcnt = (NUM_STEPS - (i+1)).to_f / NUM_STEPS
+          pcnt = (steps - (i+1)).to_f / steps
 
           # exponential for effect
           delta_ms = LONG_DURATION * (pcnt ** 2.0)
 
-          velocity = 100
-
           # EVENT
           gesture.make :note, :at => event_time, :data => {
-            :pitch => ROOT_NOTE, :velocity => velocity, :duration => delta_ms
+            :pitch => @options[:pitch],
+            :velocity => 100,
+            :duration => delta_ms
           }
 
           # post-
