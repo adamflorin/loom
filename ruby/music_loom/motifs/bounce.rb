@@ -13,7 +13,7 @@ module MusicLoom
     # TODO: input: timescale (for LONG_DURATION)
     # 
     def generate_gesture(now)
-      Gesture.new(next_beat(now)) do |gesture|
+      Gesture.new(Motif::next_beat(now)) do |gesture|
         event_time = 0
         steps = @parameters[:steps].to_i
         

@@ -18,7 +18,7 @@ module MusicLoom
       private
         
         def default_data
-          { :pitch => 60,
+          { :pitch => Tonality::BASE_PITCH,
             :velocity => 100,
             :duration => Motif::TICKS_4N}
         end

@@ -21,7 +21,11 @@ module MusicLoom
     # 
     def initialize(device_id)
       @device_id = device_id
-      @parameters = {}
+      @parameters = default_parameters
+    end
+    
+    def default_parameters
+      {}
     end
     
     # main motif logic for subclasses to overwrite
