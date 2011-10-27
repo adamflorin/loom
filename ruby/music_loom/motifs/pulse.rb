@@ -17,7 +17,7 @@ module MusicLoom
         duration = TICKS_4N
         
         gesture.make :note, :at => 0, :data => {
-          :pitch => @parameters[:pitch],
+          :pitch => parameter(:pitch),
           :duration => duration}
 
         gesture.make :done, :at => duration

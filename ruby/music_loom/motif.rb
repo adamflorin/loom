@@ -62,6 +62,50 @@ module MusicLoom
         return (earlier_beat + first_event < now) ? next_beat(now) : earlier_beat
       end
       
+      # get parameter with option to deviate
+      # 
+      # TODO: create proper Parameter property, so we don't
+      # just throw :*_deviation and :*_output values in there.
+      # 
+      # The reason not to do that now has to do with [autopattr]
+      # load order in max.
+      # 
+      def parameter(key)
+        output_key = "#{key.to_s}_output".to_sym
+        value = @parameters[key]
+        deviation = @parameters["#{key.to_s}_deviation".to_sym]
+        
+        if value.is_a?(Float) and !!deviation
+          return @parameters[output_key] = deviate(value, @parameters[output_key], deviation / 100.0)
+        else
+          return value
+        end
+      end
+      
+      # shoot toward target value
+      # 
+      # NOTE: deviation is used two ways:
+      # - once as the parameter to gaussian_rand
+      # - then again as a constraint for how much to listen to randomness
+      # 
+      # FIXME: as a result of the above, if you crank deviation up,
+      # then bring it back to 0, you won't ever get back the input_value!!
+      # because it can't take steps to make it back! this needs more thought.
+      # 
+      def deviate(input_value, last_output_value, deviation)
+        
+        # random but near(-ish) the value
+        near_value = MusicLoom::gaussian_rand(input_value, deviation)
+        
+        # TODO: constrain near_value?
+        # .constrain(0.0..2.0)
+        
+        # first time this motif is being run
+        last_output_value ||= near_value
+        
+        return last_output_value + (near_value - last_output_value) * deviation
+      end
+      
       # math util.
       # 
       # TODO: cache coefficients after 1st calc
