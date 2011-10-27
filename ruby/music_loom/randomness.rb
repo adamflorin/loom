@@ -27,4 +27,16 @@ module MusicLoom
     alias_method :gaussian_rand, :box_mueller
           
   end
+  
+  # rand within a range (syntax helper)
+  # 
+  def rand_in(range)
+    range.min + rand(range.max - range.min + 1)
+  end
+  
+  # as in "a 1 in 10 chance"  (syntax helper)
+  # 
+  def one_in?(chance)
+    (rand chance).zero?
+  end
 end
