@@ -10,26 +10,20 @@ module MusicLoom
       # simple weighted probability to decide which gesture comes next
       # 
       def select_motif
-        # init_fancy_weights
-        
-        next_motif_class = nil
-        total_weight = @motifs.map{|g| g[:weight]}.sum
+        next_motif = nil
+        total_weight = @motifs.map(&:weight).sum
         lucky_number = rand total_weight
         this_motif_max = 0
-        options = {}
         
         @motifs.each do |motif|
-          this_motif_max += motif[:weight]
+          this_motif_max += motif.weight
           if lucky_number < this_motif_max
-            next_motif_class = motif[:class]
-            
-            # FIXME: ignoring :options, using :parameters!
-            options = motif[:parameters] || {}
+            next_motif = motif
             break
           end
         end
         
-        return next_motif_class.nil? ? nil : next_motif_class.new(options)
+        return next_motif
       end
       
       # "fancy" = tied to globals. This code is on the chopping block

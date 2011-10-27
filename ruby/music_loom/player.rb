@@ -7,13 +7,10 @@
 module MusicLoom
   class Player
     
-    # default selector. TODO: more options, more configurable.
+    # default selector
     include Selectors::Weighted
     
-    attr_accessor :motifs, :event_queue,
-      :options,
-      # :motif_options, :option_means,
-      :neighbors
+    attr_accessor :motifs, :options, :event_queue
     
     # can be extended by behaviors
     # 
@@ -29,15 +26,11 @@ module MusicLoom
       # player options from max
       @options = default_options
       
-      # motif options (& means)
-      # @option_means = {}
-      # @motif_options = {}
-      
       clear_events
     end
     
-    # Check in: listen to what's going on & decide whether or not
-    # to generate a gesture
+    # output the next event in the queue, generating a gesture
+    # from a motif if necessary.
     # 
     def check_in(now)
       
@@ -58,54 +51,32 @@ module MusicLoom
       @event_queue = []
     end
     
-    # FIXME:REFACTOR: disabled for now!
-    #
-    # def set_motif_option(key, value)
-    #   @option_means[key] = value
-    # end
-    
     # These are typically behavior parameters (?)
     # 
     def set_player_option(key, value)
       @options[key] = value
     end
-    
-    # environment now hooks back in to tell players about their neighbors
-    # 
-    def register_neighbors(neighbors)
-      @neighbors = neighbors
-    end
-    
-    # FIXME:REFACTOR. behavior-specific!
-    # 
-    # # on impulse
-    # # 
-    # def set_velocity(velocity)
-    # end
-    
-    # 
+        
+    # Motif mgmt.
     # 
     def add_motif(device_id, motif_class_name)
       motif_class = MusicLoom.const_get(motif_class_name.to_s.camelize)
-      @motifs << {
-        :class => motif_class,
-        :device_id => device_id,
-        :parameters => {}}
+      @motifs << motif_class.new(device_id)
     end
     
-    # 
+    # Motif mgmt.
     # 
     def remove_motif(device_id)
       @motifs.delete_if do |motif|
-        motif[:device_id] == device_id
+        motif.device_id == device_id
       end
     end
     
-    # 
+    # Motif mgmt.
     # 
     def get_motif(device_id)
       @motifs.select do |motif|
-        motif[:device_id] == device_id
+        motif.device_id == device_id
       end.first
     end
     
@@ -119,16 +90,12 @@ module MusicLoom
         
         return Motif::rest(now) if next_motif.nil?
         
-        # FIXME: commented out during refactor
-        # now generate random options
-        # generate_motif_options
-                
-        return next_motif.generate_gesture(now, {}) #@motif_options)
+        return next_motif.generate_gesture(now)
       end
       
       # get next event off the queue,
       # do a sanity check to make sure we're not behind schedule--
-      # if we are, just fake like we're not.
+      # if we are, just fake like we're not (but output an error).
       # 
       def next_event(now)
         out_event = @event_queue.shift unless @event_queue.empty?
@@ -142,40 +109,6 @@ module MusicLoom
         end
 
         return out_event
-      end
-      
-      # # FIXME:REFACTOR
-      # # 
-      # # create motif_options from @option_means
-      # # 
-      # # generate a target value, then shoot toward it.
-      # # 
-      # # low deviance = stay where you are. high deviance = go crazy!
-      # # 
-      # def generate_motif_options
-      #   stddev = deviance / 4.0
-      #   
-      #   @option_means.each do |key, mean|
-      #     # just do gaussian math for floats (i.e., means)
-      #     if mean.is_a? Float
-      #       target = MusicLoom::gaussian_rand(mean, stddev).constrain(0.0..2.0)
-      #     
-      #       # (init on first run)
-      #       @motif_options[key] ||= target
-      #     
-      #       # shoot toward target
-      #       @motif_options[key] += (target - @motif_options[key]) * deviance
-      #     else
-      #       # just pass the data along otherwise (?)
-      #       @motif_options[key] = mean
-      #     end
-      #   end
-      # end
-      
-      # player deviance from global
-      # 
-      def deviance
-        get_global(:environment).deviance
       end
       
       # 

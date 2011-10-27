@@ -10,10 +10,12 @@ module MusicLoom
     
     # set up a note to play faster & faster
     # 
-    def generate_gesture(now, player_options = {})
-      Gesture.new(Motif::next_beat(now)) do |gesture|
+    # TODO: input: timescale (for LONG_DURATION)
+    # 
+    def generate_gesture(now)
+      Gesture.new(next_beat(now)) do |gesture|
         event_time = 0
-        steps = @options[:steps].to_i
+        steps = @parameters[:steps].to_i
         
         steps.times do |i|
           # > 0. and <= 1.0
@@ -24,7 +26,7 @@ module MusicLoom
 
           # EVENT
           gesture.make :note, :at => event_time, :data => {
-            :pitch => @options[:pitch],
+            :pitch => @parameters[:pitch],
             :velocity => 100,
             :duration => delta_ms
           }

@@ -1,20 +1,23 @@
 # 
-#  ding.rb: the most dead simple motif possible:
-#  just cue up one quarter note on middle C
+#  pulse.rb: emit one or more notes in a regular rhythm on a given pitch
 #  
-#  Copyright August 2011, Adam Florin. All rights reserved.
+#  Copyright October 2011, Adam Florin. All rights reserved.
 # 
 module MusicLoom
   class Pulse < Motif
     
-    # Go ding
+    # Emit one single note
     # 
-    def generate_gesture(now, player_options = {})
-      Gesture.new(Motif::next_beat(now)) do |gesture|
+    # TODO: input: # of steps
+    # TODO: input: velocity
+    # TODO: timescale
+    # 
+    def generate_gesture(now)
+      Gesture.new(next_beat(now)) do |gesture|
         duration = TICKS_4N
         
         gesture.make :note, :at => 0, :data => {
-          :pitch => @options[:pitch],
+          :pitch => @parameters[:pitch],
           duration => duration}
 
         gesture.make :done, :at => duration

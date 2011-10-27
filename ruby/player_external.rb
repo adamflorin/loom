@@ -34,14 +34,6 @@ end
 #   $player.set_velocity(velocity)
 # end
 
-# FIXME:REFACTOR: disabled for now!
-# 
-# # for patcher control of motif morphological params
-# # 
-# def set_motif_option(key, value)
-#   $player.set_motif_option(key, value)
-# end
-
 #  
 # 
 def init_player
@@ -72,7 +64,7 @@ end
 
 def set_motif_weight(device_id, weight)
   # puts "Setting weight to #{weight} for motif on device #{device_id}"
-  $player.get_motif(device_id)[:weight] = weight
+  $player.get_motif(device_id).weight = weight
 end
 
 # remove motif
@@ -86,7 +78,7 @@ end
 # 
 def set_motif_parameter(device_id, key, value)
   # puts "Setting #{key} -> #{value} on device #{device_id}"
-  $player.get_motif(device_id)[:parameters][key] = value
+  $player.get_motif(device_id).parameters[key] = value
 end
 
 # 

@@ -6,7 +6,7 @@
 module MusicLoom
   class Motif
     
-    attr_accessor :options
+    attr_accessor :device_id, :weight, :parameters
     
     # tick values
     TICKS_1N = 1920
@@ -19,18 +19,19 @@ module MusicLoom
     
     # 
     # 
-    def initialize(options = {})
-      @options = options
+    def initialize(device_id)
+      @device_id = device_id
+      @parameters = {}
     end
     
-    # populate event queue
-    # 
-    # for subclasses to overwrite
+    # main motif logic for subclasses to overwrite
     # 
     def generate_gesture(now)
-      []
+      Motif.rest(now)
     end
     
+    # generate a rest, i.e. a silent gesture
+    # 
     def self.rest(now)
       return Gesture.new(next_beat(now)) do |gesture|
         gesture.make :done, :at => 0
