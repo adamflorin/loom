@@ -12,7 +12,7 @@ Requirements:
 
 To install on Mac OS:
 
-* Point one of your filebrowsers in Live to the Loom "m4l" directory.
-* In Max, create a search path for the Loom directory in *Options > File Preferences...*, then quit & restart MaxMSP and Live
+* Point a file browser in Live to the `loom/m4l` directory.
+* In Max, create a search path for the `loom` directory in *Options > File Preferences...*, then quit & restart MaxMSP and Live
 
 NOTE: On Mac OS, Max and Ruby will both log to Console.app, so check there first to troubleshoot.
