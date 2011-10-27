@@ -12,7 +12,7 @@ Players have motifs and behaviors:
 
 *Motifs* describe low-level musical/stylistic patterns. The MIDI data output by a motif is called a *gesture*.
 
-*Behaviors* govern high-level player decisions, including selectong which motifs to use.
+*Behaviors* govern high-level player decisions, including selecting which motifs to use.
 
 All players are affected by the *environment*, which goes in the master track.
 
@@ -45,7 +45,7 @@ To reload _all_ modules across _all_ players, hit `MASTER RELOAD` in the environ
 ### Motifs
 
 * *Pulse*: just a steady pulse.
-* *Prosody*: melody generation based on the inflections of metric feet.
+* *Prosody*: melody generation based on the inflections of metric feet plus some pitch-space geometry.
 * *Bounce*: accelerating/decelerating rhythms.
 
 ### Behaviors
