@@ -9,6 +9,8 @@ module MusicLoom
     # From: http://matt.blogs.it/entries/00002641.html
     # Author: Matt Mower
     # 
+    # "does not preclude generating numbers outside of the range"
+    # 
     def box_mueller( mean = 0.0, stddev = 1.0 )
       x1 = 0.0, x2 = 0.0, w = 0.0
 
