@@ -9,9 +9,11 @@ module MusicLoom
     # because enum'd live.dials only output the INDEX of the dial! silly!
     TIMESCALE_VALUES = [TICKS_64N, TICKS_32N, TICKS_16N, TICKS_8N, TICKS_4N, TICKS_2N, TICKS_1N]    
     
-    # Emit one single note
+    # Emit a "pulse train" of notes
     # 
-    # TODO: input: velocity
+    # NOTE: pitch may change over the course of the motif--
+    # which was not the intent here. (that's for "step".)
+    # TODO: make pitch optionally inherit from player/behavior?
     # 
     def generate_gesture(now)
       Gesture.new(Motif::next_beat(now)) do |gesture|
@@ -22,6 +24,7 @@ module MusicLoom
         parameter(:steps).to_i.constrain(0..16).times do |i|
           gesture.make :note, :at => event_time, :data => {
             :pitch => parameter(:pitch),
+            :velocity => parameter(:velocity)
             :duration => rate}
           event_time += rate
         end
