@@ -45,10 +45,15 @@ end
 def load_behavior(behavior_class_name)
   behavior_class = MusicLoom::Behaviors.const_get(behavior_class_name.to_s.camelize)
   
-  # TODO: check Player ancestors to see if behavior has already been loaded!
+  # FIXME: handle duplicate behaviors better
+  if MusicLoom::Player.ancestors.include? behavior_class
+    raise "Cannot include same behavior twice!"
+  end
   
+  # mix in
   MusicLoom::Player.send(:include, behavior_class)
-  puts "Loaded behavior #{behavior_class_name}."
+  
+  puts "Loaded behavior #{behavior_class_name.to_s.camelize}."
 end
 
 # 
