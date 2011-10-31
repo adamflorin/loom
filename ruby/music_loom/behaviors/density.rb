@@ -12,25 +12,18 @@ module MusicLoom
       
       DENSITY_COEFF = 10
       
+      attr_accessor :density
+      
       # init
       # 
       def self.included(base)
         base.alias_method_chain :make_gesture, :density
-        base.alias_method_chain :default_options, :density
-      end
-      
-      # 
-      # 
-      def default_options_with_density
-        default_options_without_density.merge({
-          :density => 1.0})
       end
       
       # decide whether to generate an event or to rest
       # 
       def make_gesture_with_density(now)
-        
-        density_space = (1.0 - @options[:density]) * DENSITY_COEFF + 1
+        density_space = (1.0 - @density.generate(0.0..1.0)) * DENSITY_COEFF + 1
         
         if (rand density_space).zero?
           

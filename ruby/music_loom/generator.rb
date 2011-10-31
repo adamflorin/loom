@@ -32,9 +32,9 @@ module MusicLoom
     
     # get output value, typically generating it (using "deviate")
     # 
-    def generate
+    def generate(range = nil)
       if @input.is_a?(Float) and !!@deviation
-        return @last_output = deviate
+        return @last_output = deviate(range)
       else
         return @input
       end
@@ -48,14 +48,13 @@ module MusicLoom
       # - @deviation: std. dev. for gaussian_rand
       # - @inertia: how quickly (or not) to jump to new rand value
       # 
-      def deviate
+      def deviate(range)
       
         # random but near(-ish) the value
         near_value = MusicLoom::gaussian_rand(@input, @deviation)
-      
-        # TODO: constrain near_value? but we don't know its range!
-        # .constrain(0.0..2.0)
-      
+        
+        near_value = near_value.constrain(range) if range
+        
         # first time this motif is being run
         @last_output ||= near_value
       
