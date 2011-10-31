@@ -64,11 +64,11 @@ module MusicLoom
         # 
         metric_foot.each_with_index do |stress, i|
           # duration for note + pitch bend must line up
-          duration = duration(stress, metric_foot)
+          duration = duration(stress, metric_foot.size)
           
           # out pitch as pitch bend
           gesture.make :bend, :at => event_time.ceil, :data => {
-            :pitch_bend => ratio_to_pitch_bend(bend_ratio(stress, metric_foot, i)),
+            :pitch_bend => ratio_to_pitch_bend(bend_ratio(stress, metric_foot.size, i)),
             :duration => duration * @parameters[:portamento_dur]}
           
           # + a static note
@@ -104,11 +104,11 @@ module MusicLoom
       
       # 
       # 
-      def duration(stress, metric_foot)
+      def duration(stress, num_steps)
         duration = DEFAULT_DURATIONS[stress]
         
         # morph from strong 4/4 accents to tuplet
-        tuplet_duration = (TICKS_4N / metric_foot.size)
+        tuplet_duration = (TICKS_4N / num_steps)
         duration += (tuplet_duration - duration) * (@parameters[:swing_ratio] / 2.0)
 
         # apply time scale
@@ -119,11 +119,11 @@ module MusicLoom
       
       # 
       # 
-      def bend_ratio(stress, metric_foot, i)
+      def bend_ratio(stress, num_steps, i)
         bend_ratio = (stress == :strong) ? @parameters[:melody_arc] : 1.0
 
         # apply melody ANGLE
-        angle_amount = (i.to_f / (metric_foot.size - 1)) # 0. - 1.
+        angle_amount = (i.to_f / (num_steps - 1)) # 0. - 1.
         bend_ratio *= (@parameters[:melody_angle] ** angle_amount)
 
         # apply melody OFFSET

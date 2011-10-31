@@ -15,7 +15,7 @@ module MusicLoom
       # init
       # 
       def self.included(base)
-        base.alias_method_chain :generate_gesture, :density
+        base.alias_method_chain :make_gesture, :density
         base.alias_method_chain :default_options, :density
       end
       
@@ -28,14 +28,14 @@ module MusicLoom
       
       # decide whether to generate an event or to rest
       # 
-      def generate_gesture_with_density(now)
+      def make_gesture_with_density(now)
         
         density_space = (1.0 - @options[:density]) * DENSITY_COEFF + 1
         
         if (rand density_space).zero?
           
           # generate events
-          generate_gesture_without_density(now)
+          make_gesture_without_density(now)
         else
           
           # just put a rest on the queue

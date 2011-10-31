@@ -24,7 +24,7 @@ module MusicLoom
         parameter(:steps).to_i.constrain(0..16).times do |i|
           gesture.make :note, :at => event_time, :data => {
             :pitch => parameter(:pitch),
-            :velocity => parameter(:velocity)
+            :velocity => parameter(:velocity),
             :duration => rate}
           event_time += rate
         end

@@ -20,7 +20,9 @@ module MusicLoom
     # 
     def make(event_type, event_data = {})
       event_class = Event.const_get(event_type.to_s.camelize)
-      @events << event_class.new(event_data)
+      event = event_class.new(event_data)
+      @events << event
+      return event
     end
     
     # spit out time-adjusted event list

@@ -37,6 +37,12 @@ module MusicLoom
         [@at, event_type] + (data || [])
       end
       
+      # 
+      # 
+      def end_at
+        @at + @data[:duration]
+      end
+      
       
       private
         

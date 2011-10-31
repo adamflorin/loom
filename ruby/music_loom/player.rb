@@ -1,43 +1,30 @@
 # 
-#  player.rb: base class for players which generate gestures from motifs
+#  player.rb: base class for players which generate gestures
 #  and interact with one another
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
+
 module MusicLoom
   class Player
     
-    # default selector
-    include Selectors::Weighted
-    
-    attr_accessor :motifs, :options, :event_queue
-    
-    # can be extended by behaviors
-    # 
-    def default_options
-      {}
-    end
+    attr_accessor :event_queue
     
     # set up gestures. for subclasses to overwrite
     # 
     def initialize
-      @motifs = []
-      
-      # player options from max
-      @options = default_options
-      
       clear_events
     end
     
     # output the next event in the queue, generating a gesture
-    # from a motif if necessary.
+    # if necessary.
     # 
     def check_in(now)
       
       # no events in the queue--either generate new gesture or loop old one
       if @event_queue.empty?
         
-        gesture = generate_gesture(now)
+        gesture = make_gesture(now)
         
         @event_queue = gesture.output_events
       end
@@ -51,46 +38,51 @@ module MusicLoom
       @event_queue = []
     end
     
-    # These are typically behavior parameters (?)
+    # setter
     # 
-    def set_player_option(key, value)
-      @options[key] = value
-    end
-        
-    # Motif mgmt.
+    # TODO: what if player does not have attribute for generator?
     # 
-    def add_motif(device_id, motif_class_name)
-      motif_class = MusicLoom.const_get(motif_class_name.to_s.camelize)
-      @motifs << motif_class.new(device_id)
-    end
-    
-    # Motif mgmt.
-    # 
-    def remove_motif(device_id)
-      @motifs.delete_if do |motif|
-        motif.device_id == device_id
+    def set_generator_parameter(key, parameter)
+      base_key = Generator.base_key(key)
+      
+      if (generator = generator(base_key)).nil?
+        generator = self.send("#{base_key}=", Generator.new)
       end
+      
+      generator.set_parameter(key, parameter)
     end
     
-    # Motif mgmt.
+    # getter
     # 
-    def get_motif(device_id)
-      @motifs.select do |motif|
-        motif.device_id == device_id
-      end.first
+    def generator(base_key)
+      self.send(base_key)
+    rescue NoMethodError
+      # let nil be returned
     end
     
     
     private
       
-      # generate events from gesture
+      # generate a gesture (which contains events)
       # 
-      def generate_gesture(now)
-        next_motif = select_motif
-        
-        return Motif::rest(now) if next_motif.nil?
-        
-        return next_motif.generate_gesture(now)
+      def make_gesture(now)
+        Gesture.new(Motif::next_beat(now)) do |gesture|
+          event = make_event(gesture, 0)
+          gesture.make :done, :at => event.end_at
+        end
+      end
+      
+      # # make N events (1 by default), return end time of last event.
+      # # 
+      # def make_events(gesture, event_time = 0)
+      #   event = make_event(gesture, event_time)
+      #   return event.end_at
+      # end
+      
+      # make a single event, return it.
+      # 
+      def make_event(gesture, event_time)
+        gesture.make :note, :at => event_time
       end
       
       # get next event off the queue,

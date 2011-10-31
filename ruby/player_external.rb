@@ -44,42 +44,20 @@ end
 # 
 def load_behavior(behavior_class_name)
   behavior_class = MusicLoom::Behaviors.const_get(behavior_class_name.to_s.camelize)
+  
+  # TODO: check Player ancestors to see if behavior has already been loaded!
+  
   MusicLoom::Player.send(:include, behavior_class)
   puts "Loaded behavior #{behavior_class_name}."
 end
 
 # 
 # 
-def set_behavior_parameter(key, value)
-  # puts "Setting #{key} -> #{value}"
-  $player.set_player_option(key, value)
+def set_behavior_parameter(key, parameter)
+  # puts "Setting #{key} -> #{parameter}"
+  $player.set_generator_parameter(key, parameter)
 end
 
-# load one motif
-# 
-def load_motif(device_id, motif_class_name)
-  $player.add_motif(device_id, motif_class_name)
-  puts "Loaded motif #{motif_class_name} on device #{device_id}"
-end
-
-def set_motif_weight(device_id, weight)
-  # puts "Setting weight to #{weight} for motif on device #{device_id}"
-  $player.get_motif(device_id).weight = weight
-end
-
-# remove motif
-# 
-def remove_motif(device_id)
-  $player.remove_motif(device_id)
-  puts "Removed motif on device #{device_id}"
-end
-
-# 
-# 
-def set_motif_parameter(device_id, key, value)
-  # puts "Setting #{key} -> #{value} on device #{device_id}"
-  $player.get_motif(device_id).parameters[key] = value
-end
 
 # 
 # 

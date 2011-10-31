@@ -7,15 +7,15 @@
 require "music_loom/event"
 require "music_loom/gesture"
 require "music_loom/motif"
-Dir.glob(File.dirname(__FILE__) + '/selectors/*', &method(:require))
+require "music_loom/generator"
 require "music_loom/player"
 require "music_loom/space"
 require "music_loom/randomness"
 require "music_loom/tonality"
 require "music_loom/environment"
+
 Dir.glob(File.dirname(__FILE__) + '/event/*', &method(:require))
 Dir.glob(File.dirname(__FILE__) + '/behaviors/*', &method(:require))
-Dir.glob(File.dirname(__FILE__) + '/motifs/*', &method(:require))
 Dir.glob(File.dirname(__FILE__) + '/players/*', &method(:require))
 
 # 
