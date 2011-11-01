@@ -21,10 +21,10 @@ module MusicLoom
     # 
     def check_in(now)
       
-      # no events in the queue--either generate new gesture or loop old one
+      # no events in the queue generate new gesture
       if @event_queue.empty?
         
-        gesture = make_gesture(now)
+        gesture = Gesture.new(now, self)
         
         @event_queue = gesture.output_events
       end
@@ -62,28 +62,6 @@ module MusicLoom
     
     
     private
-      
-      # generate a gesture (which contains events)
-      # 
-      def make_gesture(now)
-        Gesture.new(Motif::next_beat(now)) do |gesture|
-          event = make_event(gesture, 0)
-          gesture.make :done, :at => event.end_at
-        end
-      end
-      
-      # # make N events (1 by default), return end time of last event.
-      # # 
-      # def make_events(gesture, event_time = 0)
-      #   event = make_event(gesture, event_time)
-      #   return event.end_at
-      # end
-      
-      # make a single event, return it.
-      # 
-      def make_event(gesture, event_time)
-        gesture.make :note, :at => event_time
-      end
       
       # get next event off the queue,
       # do a sanity check to make sure we're not behind schedule--

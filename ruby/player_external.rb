@@ -28,25 +28,13 @@ def check_in(now)
   outlet 0, $player.check_in(now)
 end
 
-# FIXME:REFACTOR: behavior-specific!
-# 
-# def impulse(velocity)
-#   $player.set_velocity(velocity)
-# end
-
-#  
-# 
-def init_player
-  $player = MusicLoom::Player.new
-end
-
 # 
 # 
 def load_behavior(behavior_class_name)
   behavior_class = MusicLoom::Behaviors.const_get(behavior_class_name.to_s.camelize)
   
-  # FIXME: handle duplicate behaviors better
   if MusicLoom::Player.ancestors.include? behavior_class
+    outlet 1, 'error'
     raise "Cannot include same behavior twice!"
   end
   
@@ -63,23 +51,16 @@ def set_behavior_parameter(key, *parameter)
   $player.set_generator_parameter(key, parameter)
 end
 
-
 # 
 # 
 def notify_loaded
-  outlet 1, 'bang'
+  outlet 1, 'loaded'
 end
 
 # INIT
 # 
 
-init_player
-
-# FIXME: register w/ env. (getting weird error now)
-# 
-# register w/ environment
-# $environment = get_global(:environment)
-# $environment.register_player($player)
+$player = MusicLoom::Player.new
 
 # Ready. Log & notify.
 #

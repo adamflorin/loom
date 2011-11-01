@@ -45,7 +45,7 @@ module MusicLoom
         def generate_gesture_with_decay(now)
           if @motif_options[:decay] <= 0
             return Gesture.new(Motif::next_beat(now)) do |gesture|
-              gesture.make :done, :at => 0
+              gesture.make_event :done, :at => 0
             end
           end
         

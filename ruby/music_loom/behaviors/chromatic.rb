@@ -7,13 +7,15 @@ module MusicLoom
   module Behaviors
     module Chromatic
       
-      attr_accessor :pitches
+      attr_accessor :pitches, :min_pitch, :max_pitch, :pitch_pos
       
       # init
       # 
       def self.included(base)
         @pitches = []
         base.alias_method_chain :set_generator_parameter, :chromatic
+        
+        Gesture.send :include, GestureMethods
       end
       
       # intercept "pitches" param
@@ -30,6 +32,46 @@ module MusicLoom
         else
           @pitches = parameter.sort - [-1]
         end
+      end
+      
+      # Loaded into Gesture, not Player
+      # 
+      module GestureMethods
+        
+        def self.included(base)
+          base.alias_method_chain :make_event, :chromatic
+        end
+        
+        # while pitch_pos moves in undifferentiated pitch space,
+        # we fit it to the given (chromatic) scale in a given range.
+        # 
+        def make_event_with_chromatic(event_type, event_data = {})
+          event_data[:data] ||= {}
+          
+          if event_type == :note and !@player.pitches.empty?
+            all_pitches = []
+            
+            # range
+            bounds = [@player.min_pitch.generate, @player.max_pitch.generate]
+            
+            # desired "normalized" (no 8ve offset) pitch
+            position = @player.pitch_pos.generate.constrain(0..1)
+            desired = (position * (bounds.max - bounds.min) + bounds.min).round
+            octave_offset = (desired / 12).floor.to_i
+            desired_normal = desired - octave_offset * 12
+            
+            # nearest normal pitch
+            nearest_normal = @player.pitches.sort do |px, py|
+              (px - desired_normal).abs <=> (py - desired_normal).abs
+            end.first
+            
+            # add 8ve offset back in
+            event_data[:data][:pitch] = nearest_normal + octave_offset * 12
+          end
+          
+          make_event_without_chromatic(event_type, event_data)
+        end
+        
       end
       
     end

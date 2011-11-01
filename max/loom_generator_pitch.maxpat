@@ -7,9 +7,9 @@
 			"revision" : 9
 		}
 ,
-		"rect" : [ 755.0, 230.0, 614.0, 480.0 ],
+		"rect" : [ 657.0, 442.0, 614.0, 480.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 755.0, 230.0, 614.0, 480.0 ],
+		"defrect" : [ 657.0, 442.0, 614.0, 480.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -46,9 +46,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 144.0, 168.0, 71.0, 18.0 ],
+					"patching_rect" : [ 144.0, 168.0, 147.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 4.0, 0.0, 59.0, 18.0 ],
+					"presentation_rect" : [ 4.0, 0.0, 91.0, 18.0 ],
 					"text" : "#1"
 				}
 
@@ -64,13 +64,13 @@
 					"outlettype" : [ "", "", "", "" ],
 					"patching_rect" : [ 152.0, 264.0, 59.5, 20.0 ],
 					"restore" : 					{
-						"#1" : [ 0.5 ],
+						"#1" : [ 60.0 ],
 						"#1_deviation" : [ 0.0 ],
 						"#1_inertia" : [ 0.0 ]
 					}
 ,
 					"text" : "autopattr",
-					"varname" : "u073002855"
+					"varname" : "u539002441"
 				}
 
 			}
@@ -201,9 +201,9 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 152.0, 184.0, 25.0, 23.0 ],
+					"patching_rect" : [ 152.0, 184.0, 47.0, 23.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 7.0, 16.0, 25.0, 23.0 ],
+					"presentation_rect" : [ 7.0, 16.0, 47.0, 23.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_units" : "",
@@ -214,11 +214,11 @@
 							"parameter_invisible" : 0,
 							"parameter_exponent" : 1.0,
 							"parameter_annotation_name" : "",
-							"parameter_unitstyle" : 0,
-							"parameter_mmax" : 1.0,
+							"parameter_unitstyle" : 8,
+							"parameter_mmax" : 127.0,
 							"parameter_mmin" : 0.0,
-							"parameter_initial" : [ 0.5 ],
-							"parameter_type" : 0,
+							"parameter_initial" : [ 60.0 ],
+							"parameter_type" : 1,
 							"parameter_initial_enable" : 1,
 							"parameter_shortname" : "#1",
 							"parameter_modmax" : 127.0,
@@ -232,7 +232,6 @@
 					}
 ,
 					"showname" : 0,
-					"shownumber" : 0,
 					"varname" : "#1"
 				}
 

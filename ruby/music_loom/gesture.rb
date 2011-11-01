@@ -6,23 +6,31 @@
 module MusicLoom
   class Gesture
     
-    attr_accessor :events, :start_time
+    attr_accessor :events, :player, :start_time
     
     # 
     # 
-    def initialize(start_time, &block)
+    def initialize(now, player)
       @events = []
-      @start_time = start_time
-      yield self if block_given?
+      @start_time = Motif::next_beat(now)
+      @player = player
+      
+      generate
     end
     
-    # create a new event
+    # default gesture
     # 
-    def make(event_type, event_data = {})
+    def generate
+      event = make_event :note, :at => 0
+      make_event :done, :at => event.end_at
+    end
+    
+    # build a new event
+    # 
+    def make_event(event_type, event_data = {})
       event_class = Event.const_get(event_type.to_s.camelize)
-      event = event_class.new(event_data)
-      @events << event
-      return event
+      @events << event_class.new(event_data)
+      return @events.last
     end
     
     # spit out time-adjusted event list
