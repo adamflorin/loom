@@ -15,40 +15,48 @@ module MusicLoom
       # 
       # 
       def self.included(base)
-        base.alias_method_chain :make_event, :pattern
+        Gesture.send :include, GestureMethods
       end
       
-      # multiple events (per # steps)
-      # 
-      # only returns LAST event for make_gesture
-      # 
-      def make_event_with_pattern(gesture, event_time)
-        event = nil
-        rate = generate_rate
-        num_steps = @steps.generate.to_i.constrain(0..16)
+      module GestureMethods
         
-        # iterator to make events (# steps)
-        num_steps.times do |i|
-          # make individual event, set duration
-          event = make_event_without_pattern(gesture, event_time)
-          event.data[:duration] = rate
+        def self.included(base)
+          base.alias_method_chain :generate, :pattern
+        end
+        
+        private
+        
+          # multiple events (per # steps)
+          # 
+          # FIXME: don't just totally overwrite what was there...!
+          # 
+          def generate_with_pattern
+            event_time = 0
+            event = nil
+            rate = generate_rate
+            num_steps = @player.steps.generate.to_i.constrain(0..16)
+
+            # iterator to make events (# steps)
+            num_steps.times do |i|
+              # make individual event, set duration
+              event = make_event :note, :at => event_time, :data => {
+                :duration => rate
+              }
+              event_time += rate
+            end
+
+            make_event :done, :at => event.end_at
+          end
+
+          # 
+          # 
+          def generate_rate
+            timescale_index = @player.timescale.generate.round
+            rate = TIMESCALE_VALUES[timescale_index.constrain(0..TIMESCALE_VALUES.size-1)]
+          end
           
-          event_time += rate
-        end
-        
-        return event
       end
       
-      
-      private
-        
-        # 
-        # 
-        def generate_rate
-          timescale_index = @timescale.generate.round
-          rate = TIMESCALE_VALUES[timescale_index.constrain(0..TIMESCALE_VALUES.size-1)]
-        end
-        
     end
   end
 end

@@ -1,5 +1,6 @@
 # 
-#  gesture.rb: group of events with an offset time
+#  gesture.rb: methods for producing gestures (which end up being
+#  sequences of events) based on player "morphological" params.
 #  
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
@@ -8,7 +9,7 @@ module MusicLoom
     
     attr_accessor :events, :player, :start_time
     
-    # 
+    # init & generate
     # 
     def initialize(now, player)
       @events = []
@@ -16,21 +17,6 @@ module MusicLoom
       @player = player
       
       generate
-    end
-    
-    # default gesture
-    # 
-    def generate
-      event = make_event :note, :at => 0
-      make_event :done, :at => event.end_at
-    end
-    
-    # build a new event
-    # 
-    def make_event(event_type, event_data = {})
-      event_class = Event.const_get(event_type.to_s.camelize)
-      @events << event_class.new(event_data)
-      return @events.last
     end
     
     # spit out time-adjusted event list
@@ -43,12 +29,30 @@ module MusicLoom
       end
     end
     
-    # must sanitize 'now' in case scheduler has slipped?
-    # "may be earlier or later"?
-    # 
-    def new_now(now)
-      Motif::nearest_beat(now, @events.first.at).ceil
-    end
     
+    private
+      
+      # default gesture
+      # 
+      def generate
+        event = make_event :note, :at => 0
+        make_event :done, :at => event.end_at
+      end
+
+      # build a new event
+      # 
+      def make_event(event_type, event_data = {})
+        event_class = Event.const_get(event_type.to_s.camelize)
+        @events << event_class.new(event_data)
+        return @events.last
+      end
+      
+      # must sanitize 'now' in case scheduler has slipped?
+      # "may be earlier or later"?
+      # 
+      def new_now(now)
+        Motif::nearest_beat(now, @events.first.at).ceil
+      end
+      
   end
 end
