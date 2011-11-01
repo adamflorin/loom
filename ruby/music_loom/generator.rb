@@ -20,6 +20,10 @@ module MusicLoom
     # as above, map parameter keys to instance vars.
     # 
     def set_parameter(key, parameter)
+      
+      # parameter may be a splat or a single value
+      parameter = parameter.first if parameter.is_a?(Array) and parameter.size == 1
+      
       case key.to_s
       when /_deviation$/
         @deviation = parameter / 100.0

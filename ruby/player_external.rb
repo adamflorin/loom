@@ -58,7 +58,7 @@ end
 
 # 
 # 
-def set_behavior_parameter(key, parameter)
+def set_behavior_parameter(key, *parameter)
   # puts "Setting #{key} -> #{parameter}"
   $player.set_generator_parameter(key, parameter)
 end
