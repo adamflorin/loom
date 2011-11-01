@@ -12,9 +12,7 @@ module MusicLoom
       # init
       # 
       def self.included(base)
-        @pitches = []
         base.alias_method_chain :set_generator_parameter, :chromatic
-        
         Gesture.send :include, GestureMethods
       end
       
@@ -42,15 +40,23 @@ module MusicLoom
           base.alias_method_chain :make_event, :chromatic
         end
         
-        # while pitch_pos moves in undifferentiated pitch space,
-        # we fit it to the given (chromatic) scale in a given range.
-        # 
-        def make_event_with_chromatic(event_type, event_data = {})
-          event_data[:data] ||= {}
+        private
           
-          if event_type == :note and !@player.pitches.empty?
-            all_pitches = []
-            
+          # set note pitch
+          # 
+          def make_event_with_chromatic(event_type, event_data = {})
+            if event_type == :note and !@player.pitches.empty?
+              event_data[:data] ||= {}
+              event_data[:data][:pitch] = generate_pitch
+            end
+
+            make_event_without_chromatic(event_type, event_data)
+          end
+          
+          # while pitch_pos moves in undifferentiated pitch space,
+          # we fit it to the given (chromatic) scale in a given range.
+          # 
+          def generate_pitch
             # range
             bounds = [@player.min_pitch.generate, @player.max_pitch.generate]
             
@@ -66,12 +72,9 @@ module MusicLoom
             end.first
             
             # add 8ve offset back in
-            event_data[:data][:pitch] = nearest_normal + octave_offset * 12
+            return nearest_normal + octave_offset * 12
           end
           
-          make_event_without_chromatic(event_type, event_data)
-        end
-        
       end
       
     end
