@@ -3,7 +3,7 @@
 #  
 #  Copyright November 2010, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   class Environment
     
     include Tonality
@@ -50,7 +50,7 @@ module MusicLoom
       #     # 0. - 1. position on the circle
       #     radial_pos = (i * spacing) + (spacing / 2)
       #     
-      #     player.focal_point = MusicLoom::radial_to_coords(radial_pos)
+      #     player.focal_point = Loom::radial_to_coords(radial_pos)
       #   end
       # end
       

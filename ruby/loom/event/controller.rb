@@ -3,7 +3,7 @@
 #  
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   module Event
     
     class Controller < Event

@@ -6,13 +6,13 @@
 
 
 require "tools/monkeypatch"
-require "music_loom/music_loom"
+require "loom/loom"
 
 
 # INIT
 # 
 # build environment
-$environment = MusicLoom::Environment.new(:phrygian_ish)
+$environment = Loom::Environment.new(:phrygian_ish)
 
 # set_global so that other JRuby for Max instances can get it
 set_global(:environment, $environment)
@@ -20,5 +20,5 @@ set_global(:environment, $environment)
 
 # Ready. Log & notify.
 #
-puts "Loaded MusicLoom::Environment."
+puts "Loaded Loom::Environment."
 outlet 0, "ready"

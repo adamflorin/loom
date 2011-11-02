@@ -4,7 +4,7 @@
 #  
 #  Copyright November 2010, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   class Prosody < Motif
     
     # metric feet ("stress patterns")

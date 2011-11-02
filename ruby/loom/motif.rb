@@ -3,7 +3,7 @@
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   class Motif
     
     attr_accessor :device_id, :weight, :parameters

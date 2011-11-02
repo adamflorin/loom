@@ -4,7 +4,7 @@
 #  Copyright October 2011, Adam Florin. All rights reserved.
 # 
 
-module MusicLoom
+module Loom
   class Generator
     
     attr_accessor :input, :last_output, :deviation, :inertia
@@ -55,7 +55,7 @@ module MusicLoom
       def deviate(range)
       
         # random but near(-ish) the value
-        near_value = MusicLoom::gaussian_rand(@input, @deviation)
+        near_value = Loom::gaussian_rand(@input, @deviation)
         
         near_value = near_value.constrain(range) if range
         

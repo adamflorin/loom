@@ -5,7 +5,7 @@
 # 
 require "yaml"
 
-module MusicLoom
+module Loom
   module Tonality
     
     CONFIG_DIR = File.join(File.dirname(__FILE__), '..', '..', 'config')

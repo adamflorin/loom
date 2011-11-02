@@ -3,7 +3,7 @@
 #  
 #  Copyright October 2011, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   class Pulse < Motif
     
     # because enum'd live.dials only output the INDEX of the dial! silly!

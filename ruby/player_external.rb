@@ -1,12 +1,12 @@
 # 
-#  music_loom_external.rb: Max external for JRuby to access MusicLoom
+#  loom_external.rb: Max external for JRuby to access Loom
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
 
 
 require "tools/monkeypatch"
-require "music_loom/music_loom"
+require "loom/loom"
 
 # help messages
 # 
@@ -31,15 +31,15 @@ end
 # 
 # 
 def load_behavior(behavior_class_name)
-  behavior_class = MusicLoom::Behaviors.const_get(behavior_class_name.to_s.camelize)
+  behavior_class = Loom::Behaviors.const_get(behavior_class_name.to_s.camelize)
   
-  if MusicLoom::Player.ancestors.include? behavior_class
+  if Loom::Player.ancestors.include? behavior_class
     outlet 1, 'error'
     raise "Cannot include same behavior twice!"
   end
   
   # mix in
-  MusicLoom::Player.send(:include, behavior_class)
+  Loom::Player.send(:include, behavior_class)
   
   puts "Loaded behavior #{behavior_class_name.to_s.camelize}."
 end
@@ -60,9 +60,9 @@ end
 # INIT
 # 
 
-$player = MusicLoom::Player.new
+$player = Loom::Player.new
 
 # Ready. Log & notify.
 #
 notify_loaded
-puts "Loaded MusicLoom::Player."
+puts "Loaded Loom::Player."

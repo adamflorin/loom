@@ -4,7 +4,7 @@
 #  
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   module Behaviors
     module Space
       
@@ -21,7 +21,7 @@ module MusicLoom
         # factor in player spotlight focus (0. - 1.)
         # 
         def deviance_with_space
-          deviance_without_space * MusicLoom::spotlight_focus(@focal_point)
+          deviance_without_space * Loom::spotlight_focus(@focal_point)
         end
         
         def generate_motif_options_with_space

@@ -4,7 +4,7 @@
 #  
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
-module MusicLoom
+module Loom
   class Gesture
     
     attr_accessor :events, :player, :start_time
