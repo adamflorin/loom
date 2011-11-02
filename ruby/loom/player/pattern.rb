@@ -26,30 +26,33 @@ module Loom
           base.alias_method_chain :generate, :pattern
         end
         
-        private
-        
-          # multiple events (per # steps)
-          # 
-          # FIXME: don't just totally overwrite what was there...!
-          # 
-          def generate_with_pattern
-            event_time = 0
-            event = nil
-            rate = generate_rate
-            num_steps = @player.steps.generate.to_i.constrain(1..16)
+        # multiple events (per # steps)
+        # 
+        # FIXME: don't just totally overwrite what was there...!
+        # 
+        def generate_with_pattern
+          event_time = 0
+          event = nil
+          rate = generate_rate
+          num_steps = @player.steps.generate.to_i.constrain(1..16)
 
-            # iterator to make events (# steps)
-            num_steps.times do |i|
-              # make individual event, set duration
-              event = make_event :note, :at => event_time, :data => {
-                :duration => rate
-              }
-              event_time += rate
-            end
-
-            make_event :done, :at => event.end_at
+          # iterator to make events (# steps)
+          num_steps.times do |i|
+            # make individual event, set duration
+            event = make_event :note, :at => event_time, :data => {
+              :duration => rate
+            }
+            event_time += rate
           end
 
+          make_event :done, :at => event.end_at
+          
+          return self
+        end
+        
+        
+        private
+        
           # 
           # 
           def generate_rate

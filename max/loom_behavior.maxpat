@@ -7,9 +7,9 @@
 			"revision" : 9
 		}
 ,
-		"rect" : [ 921.0, 89.0, 518.0, 457.0 ],
+		"rect" : [ 857.0, 96.0, 518.0, 457.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 921.0, 89.0, 518.0, 457.0 ],
+		"defrect" : [ 857.0, 96.0, 518.0, 457.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -26,7 +26,7 @@
 		"devicewidth" : 0.0,
 		"boxes" : [ 			{
 				"box" : 				{
-					"activebgcolor" : [ 0.0, 1.0, 0.0, 1.0 ],
+					"activebgcolor" : [ 1.0, 1.0, 0.0, 1.0 ],
 					"id" : "obj-41",
 					"maxclass" : "live.button",
 					"numinlets" : 1,
@@ -38,6 +38,15 @@
 					"presentation_rect" : [ 2.0, 2.0, 15.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_type" : 2,
+							"parameter_initial_enable" : 0,
+							"parameter_shortname" : "live.button",
+							"parameter_modmax" : 127.0,
+							"parameter_longname" : "live.button",
+							"parameter_modmin" : 0.0,
+							"parameter_linknames" : 0,
+							"parameter_modmode" : 0,
+							"parameter_info" : "",
 							"parameter_units" : "",
 							"parameter_order" : 0,
 							"parameter_defer" : 0,
@@ -49,16 +58,7 @@
 							"parameter_annotation_name" : "",
 							"parameter_unitstyle" : 10,
 							"parameter_mmax" : 1.0,
-							"parameter_mmin" : 0.0,
-							"parameter_type" : 2,
-							"parameter_initial_enable" : 0,
-							"parameter_shortname" : "live.button",
-							"parameter_modmax" : 127.0,
-							"parameter_longname" : "live.button",
-							"parameter_modmin" : 0.0,
-							"parameter_linknames" : 0,
-							"parameter_modmode" : 0,
-							"parameter_info" : ""
+							"parameter_mmin" : 0.0
 						}
 
 					}
@@ -83,7 +83,7 @@
 			}
 , 			{
 				"box" : 				{
-					"fontname" : "Arial",
+					"fontname" : "Arial Bold",
 					"fontsize" : 12.0,
 					"id" : "obj-39",
 					"maxclass" : "newobj",
@@ -284,12 +284,12 @@
  ]
 					}
 ,
-					"patching_rect" : [ 135.0, 345.0, 81.0, 20.0 ],
+					"patching_rect" : [ 135.0, 345.0, 90.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontname" : "Arial",
-						"default_fontsize" : 12.0,
 						"fontname" : "Arial",
 						"globalpatchername" : "",
+						"default_fontsize" : 12.0,
 						"fontface" : 0,
 						"fontsize" : 12.0,
 						"default_fontface" : 0
@@ -409,9 +409,9 @@
 							"revision" : 9
 						}
 ,
-						"rect" : [ 431.0, 210.0, 796.0, 504.0 ],
+						"rect" : [ 431.0, 210.0, 834.0, 495.0 ],
 						"bglocked" : 0,
-						"defrect" : [ 431.0, 210.0, 796.0, 504.0 ],
+						"defrect" : [ 431.0, 210.0, 834.0, 495.0 ],
 						"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -701,9 +701,9 @@
 									"patching_rect" : [ 210.0, 240.0, 103.0, 20.0 ],
 									"saved_object_attributes" : 									{
 										"default_fontname" : "Arial",
-										"default_fontsize" : 12.0,
 										"fontname" : "Arial",
 										"globalpatchername" : "",
+										"default_fontsize" : 12.0,
 										"fontface" : 0,
 										"fontsize" : 12.0,
 										"default_fontface" : 0
@@ -926,9 +926,9 @@
 									"patching_rect" : [ 255.0, 135.0, 100.0, 20.0 ],
 									"saved_object_attributes" : 									{
 										"default_fontname" : "Arial",
-										"default_fontsize" : 12.0,
 										"fontname" : "Arial",
 										"globalpatchername" : "",
+										"default_fontsize" : 12.0,
 										"fontface" : 0,
 										"fontsize" : 12.0,
 										"default_fontface" : 0
@@ -1309,9 +1309,9 @@
 					"patching_rect" : [ 60.0, 105.0, 229.0, 23.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontname" : "Arial",
-						"default_fontsize" : 12.0,
 						"fontname" : "Arial",
 						"globalpatchername" : "",
+						"default_fontsize" : 12.0,
 						"fontface" : 0,
 						"fontsize" : 12.0,
 						"default_fontface" : 0

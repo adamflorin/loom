@@ -7,18 +7,16 @@
 module Loom
   class Gesture
     
-    include Loom::Tools::Timing
+    extend Loom::Tools::Timing
     
     attr_accessor :events, :player, :start_time
     
     # init & generate
     # 
-    def initialize(now, player)
+    def initialize(now, player = nil)
       @events = []
-      @start_time = next_beat(now)
+      @start_time = self.class.next_beat(now)
       @player = player
-      
-      generate
       
       yield self if block_given?
     end
@@ -41,24 +39,25 @@ module Loom
       end
     end
     
+    # default gesture
+    # 
+    def generate
+      event = make_event :note, :at => 0
+      make_event :done, :at => event.end_at
+      return self
+    end
+
+    # build a new event
+    # 
+    def make_event(event_type, event_data = {})
+      event_class = Event.const_get(event_type.to_s.camelize)
+      @events << event_class.new(event_data)
+      return @events.last
+    end
+    
     
     private
-      
-      # default gesture
-      # 
-      def generate
-        event = make_event :note, :at => 0
-        make_event :done, :at => event.end_at
-      end
-
-      # build a new event
-      # 
-      def make_event(event_type, event_data = {})
-        event_class = Event.const_get(event_type.to_s.camelize)
-        @events << event_class.new(event_data)
-        return @events.last
-      end
-      
+    
       # must sanitize 'now' in case scheduler has slipped?
       # "may be earlier or later"?
       # 

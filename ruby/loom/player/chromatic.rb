@@ -40,18 +40,19 @@ module Loom
           base.alias_method_chain :make_event, :chromatic
         end
         
-        private
-          
-          # set note pitch
-          # 
-          def make_event_with_chromatic(event_type, event_data = {})
-            if event_type == :note and !@player.pitches.empty?
-              event_data[:data] ||= {}
-              event_data[:data][:pitch] = generate_pitch
-            end
-
-            make_event_without_chromatic(event_type, event_data)
+        # set note pitch
+        # 
+        def make_event_with_chromatic(event_type, event_data = {})
+          if event_type == :note and !@player.pitches.empty?
+            event_data[:data] ||= {}
+            event_data[:data][:pitch] = generate_pitch
           end
+
+          make_event_without_chromatic(event_type, event_data)
+        end
+        
+        
+        private
           
           # while pitch_pos moves in undifferentiated pitch space,
           # we fit it to the given (chromatic) scale in a given range.

@@ -25,14 +25,20 @@ module Loom
         # no events in the queue generate new gesture
         if @event_queue.empty?
 
-          gesture = Gesture.new(now, self)
+          gesture = generate_gesture(now)
 
           @event_queue = gesture.output_events
         end
 
         return build_event(next_event(now))
       end
-
+      
+      # 
+      # 
+      def generate_gesture(now)
+        Gesture.new(now, self).generate
+      end
+      
       # on init & stop
       # 
       def clear_events
@@ -40,8 +46,6 @@ module Loom
       end
 
       # setter
-      # 
-      # TODO: what if player does not have attribute for generator?
       # 
       def set_generator_parameter(key, parameter)
         base_key = Generator.base_key(key)
@@ -70,7 +74,7 @@ module Loom
         # 
         def next_event(now)
           out_event = @event_queue.shift unless @event_queue.empty?
-
+          
           # check if the event we're sending out is in the past or is close to it (!)
           if !out_event.nil? and (out_event.at < now)
             error "TIMER FAIL! Event's scheduled at #{out_event.at} but it's already #{now}!"

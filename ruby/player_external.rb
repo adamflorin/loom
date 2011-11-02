@@ -10,7 +10,7 @@ require "loom"
 # help messages
 # 
 inlet_assist('check in (bang)')
-outlet_assist('event out (list)', 'reloaded (bang)')
+outlet_assist('event out (list)', 'status (loaded, error)')
 
 # check in: output an event from the queue, generate events, or
 # do nothing but schedule a future check-in

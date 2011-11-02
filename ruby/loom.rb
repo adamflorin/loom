@@ -19,5 +19,4 @@ Dir.glob(File.dirname(__FILE__) + '/loom/player/*', &method(:require))
 # 
 # 
 module Loom
-  # extend Tools
 end
