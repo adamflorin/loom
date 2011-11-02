@@ -34,7 +34,7 @@ module MusicLoom
             event_time = 0
             event = nil
             rate = generate_rate
-            num_steps = @player.steps.generate.to_i.constrain(0..16)
+            num_steps = @player.steps.generate.to_i.constrain(1..16)
 
             # iterator to make events (# steps)
             num_steps.times do |i|
