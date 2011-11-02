@@ -7,6 +7,8 @@
 module Loom
   class Generator
     
+    include Loom::Tools::Randomness
+    
     attr_accessor :input, :last_output, :deviation, :inertia
     
     # All of a generator's inputs currently come in separately from Max
@@ -49,13 +51,16 @@ module Loom
     
       # GENERATE a new output value based on (user-input) parameters
       # 
+      # This initial version is based on Gaussian random number generattion,
+      # but other generator types could be created in the future.
+      # 
       # - @deviation: std. dev. for gaussian_rand
       # - @inertia: how quickly (or not) to jump to new rand value
       # 
       def deviate(range)
       
         # random but near(-ish) the value
-        near_value = Loom::gaussian_rand(@input, @deviation)
+        near_value = gaussian_rand(@input, @deviation)
         
         near_value = near_value.constrain(range) if range
         

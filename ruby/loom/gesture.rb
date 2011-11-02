@@ -7,16 +7,20 @@
 module Loom
   class Gesture
     
+    include Loom::Tools::Timing
+    
     attr_accessor :events, :player, :start_time
     
     # init & generate
     # 
     def initialize(now, player)
       @events = []
-      @start_time = Motif::next_beat(now)
+      @start_time = next_beat(now)
       @player = player
       
       generate
+      
+      yield self if block_given?
     end
     
     # spit out time-adjusted event list
@@ -26,6 +30,14 @@ module Loom
         adjusted_event = event.clone
         adjusted_event.at += @start_time
         adjusted_event
+      end
+    end
+    
+    # generate a rest, i.e. a silent gesture
+    # 
+    def self.rest(now)
+      return self.new(next_beat(now)) do |gesture|
+        gesture.make_event :done, :at => 0
       end
     end
     
@@ -51,7 +63,7 @@ module Loom
       # "may be earlier or later"?
       # 
       def new_now(now)
-        Motif::nearest_beat(now, @events.first.at).ceil
+        nearest_beat(now, @events.first.at).ceil
       end
       
   end

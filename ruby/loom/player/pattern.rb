@@ -4,13 +4,15 @@
 #  Copyright October 2011, Adam Florin. All rights reserved.
 # 
 module Loom
-  module Behaviors
+  module Player
     module Pattern
+      
+      include Loom::Tools::Timing
       
       attr_accessor :steps, :timescale
       
       # because enum'd live.dials only output the INDEX of the dial! silly!
-      TIMESCALE_VALUES = [Motif::TICKS_64N, Motif::TICKS_32N, Motif::TICKS_16N, Motif::TICKS_8N, Motif::TICKS_4N, Motif::TICKS_2N, Motif::TICKS_1N]    
+      TIMESCALE_VALUES = [TICKS_64N, TICKS_32N, TICKS_16N, TICKS_8N, TICKS_4N, TICKS_2N, TICKS_1N]    
       
       # 
       # 

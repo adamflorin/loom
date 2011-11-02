@@ -1,5 +1,5 @@
 # 
-#  monkeypatch.rb: useful additions to basic Ruby objects
+#  core_ext.rb: useful additions to basic Ruby objects
 #  
 #  Copyright October 2010, Adam Florin. All rights reserved.
 # 
@@ -22,9 +22,12 @@ class Symbol
   end
 end
 
-# Constrainable so we can constrain all numbers (Fixnum & Float)
+# Numeric extensions
 #
-module Constrainable
+class Numeric
+  
+  # constrain number within a given range
+  # 
   def constrain(range)
     if self > range.end
       return range.end
@@ -34,12 +37,13 @@ module Constrainable
       return self
     end
   end
-end
-class Fixnum
-  include Constrainable
-end
-class Float
-  include Constrainable
+  
+  # to manage things like timescale shifts which for now 
+  # must be divisible by 2
+  # 
+  def round_to_power(power = 2)
+    power ** (Math.log(self) / Math.log(power)).round
+  end
 end
 
 # To convert :symbol_names to ClassNames and back.

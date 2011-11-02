@@ -4,7 +4,7 @@
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module Loom
-  module Behaviors
+  module Player
     module Decay
       
       DECAY_RATE = 0.5
@@ -44,7 +44,7 @@ module Loom
         # 
         def generate_gesture_with_decay(now)
           if @motif_options[:decay] <= 0
-            return Gesture.new(Motif::next_beat(now)) do |gesture|
+            return Gesture.new(Timing::next_beat(now)) do |gesture|
               gesture.make_event :done, :at => 0
             end
           end

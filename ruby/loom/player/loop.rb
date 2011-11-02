@@ -4,7 +4,7 @@
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module Loom
-  module Behaviors
+  module Player
     module Loop
       
       MAX_LOOP_LENGTH = 16

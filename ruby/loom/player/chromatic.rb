@@ -4,7 +4,7 @@
 #  Copyright October 2011, Adam Florin. All rights reserved.
 # 
 module Loom
-  module Behaviors
+  module Player
     module Chromatic
       
       attr_accessor :pitches, :min_pitch, :max_pitch, :pitch_pos

@@ -5,7 +5,7 @@
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module Loom
-  module Behaviors
+  module Player
     module Space
       
       attr_accessor :focal_point

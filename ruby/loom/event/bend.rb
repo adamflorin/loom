@@ -19,7 +19,7 @@ module Loom
         
         def default_data
           { :pitch_bend => 0,
-            :duration => Motif::TICKS_4N}
+            :duration => TICKS_4N}
         end
         
     end

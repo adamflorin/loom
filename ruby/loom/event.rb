@@ -9,7 +9,10 @@ module Loom
   module Event
     
     class Event
-
+      
+      include Loom::Tools::Timing
+      include Loom::Tools::Tonality
+      
       attr_accessor :at, :data
       
       # init from args

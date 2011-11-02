@@ -5,14 +5,13 @@
 # 
 
 
-require "tools/monkeypatch"
-require "loom/loom"
+require "loom"
 
 
 # INIT
 # 
 # build environment
-$environment = Loom::Environment.new(:phrygian_ish)
+$environment = Loom::Environment.new
 
 # set_global so that other JRuby for Max instances can get it
 set_global(:environment, $environment)

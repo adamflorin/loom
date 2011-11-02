@@ -18,9 +18,9 @@ module Loom
       private
         
         def default_data
-          { :pitch => Tonality::BASE_PITCH,
+          { :pitch => BASE_PITCH,
             :velocity => 100,
-            :duration => Motif::TICKS_4N}
+            :duration => TICKS_4N}
         end
         
     end

@@ -7,7 +7,7 @@
 #  Copyright August 2011, Adam Florin. All rights reserved.
 # 
 module Loom
-  module Behaviors
+  module Player
     module Density
       
       DENSITY_COEFF = 10
@@ -32,7 +32,7 @@ module Loom
         else
           
           # just put a rest on the queue
-          Motif.rest(now)
+          Gesture.rest(now)
         end
       end
       
