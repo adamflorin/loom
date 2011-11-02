@@ -11,7 +11,7 @@ module MusicLoom
     CONFIG_DIR = File.join(File.dirname(__FILE__), '..', '..', 'config')
     
     # tune the world to C
-    BASE_PITCH = 64
+    BASE_PITCH = 60
     
     attr :scales, :scale_id
     
