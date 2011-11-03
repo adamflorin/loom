@@ -51,6 +51,7 @@ module Loom
     # 
     def make_event(event_type, event_data = {})
       event_class = Event.const_get(event_type.to_s.camelize)
+      event_data.delete(:options)
       @events << event_class.new(event_data)
       return @events.last
     end
