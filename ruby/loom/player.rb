@@ -21,8 +21,14 @@ module Loom
       # if necessary.
       # 
       def check_in(now)
+        
+        # because float precision triggers TIMER FAILs
+        now = now.ceil
 
-        # no events in the queue generate new gesture
+        # from the top
+        clear_events if (now <= 0)
+        
+        # generate new gesture if we don't have one to output
         if @event_queue.empty?
 
           gesture = generate_gesture(now)
@@ -44,7 +50,18 @@ module Loom
       def clear_events
         @event_queue = []
       end
+      
+      def load_module(module_name)
+        module_to_load = Loom::Player.const_get(module_name.to_s.camelize)
 
+        if self.class.ancestors.include? module_to_load
+          raise "Cannot include same behavior twice!"
+        end
+
+        # mix in
+        self.class.send(:include, module_to_load)
+      end
+      
       # setter
       # 
       def set_generator_parameter(key, parameter)

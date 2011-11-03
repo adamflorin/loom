@@ -16,37 +16,22 @@ outlet_assist('event out (list)', 'status (loaded, error)')
 # do nothing but schedule a future check-in
 # 
 def check_in(now)
-  
-  # because float precision triggers TIMER FAILs
-  now = now.ceil
-  
-  # takin it from the top
-  $player.clear_events if (now <= 0)
-  
-  # check in, returning _some_ kind of an event
   outlet 0, $player.check_in(now)
 end
 
 # 
 # 
-def load_behavior(behavior_class_name)
-  behavior_class = Loom::Player.const_get(behavior_class_name.to_s.camelize)
-  
-  if Loom::Player::Player.ancestors.include? behavior_class
-    outlet 1, 'error'
-    error "Cannot include same behavior twice!"
-    return
-  end
-  
-  # mix in
-  Loom::Player::Player.send(:include, behavior_class)
-  
-  puts "Loaded behavior #{behavior_class_name.to_s.camelize}."
+def load_module(module_name)
+  $player.load_module(module_name)
+  puts "Loaded module #{module_name.to_s.camelize}."
+rescue Exception => e
+  outlet 1, 'error'
+  error e.message
 end
 
+# it's typically a generator, but not always!
 # 
-# 
-def set_behavior_parameter(key, *parameter)
+def set_parameter(key, *parameter)
   # puts "Setting #{key} -> #{parameter}"
   $player.set_generator_parameter(key, parameter)
 end
