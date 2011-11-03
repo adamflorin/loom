@@ -56,15 +56,12 @@ module Loom
       return @events.last
     end
     
-    
-    private
-    
-      # must sanitize 'now' in case scheduler has slipped?
-      # "may be earlier or later"?
-      # 
-      def new_now(now)
-        nearest_beat(now, @events.first.at).ceil
-      end
+    # must sanitize 'now' in case scheduler has slipped?
+    # "may be earlier or later"?
+    # 
+    def new_now(now)
+      self.class.nearest_beat(now, @events.first.at).ceil
+    end
       
   end
 end

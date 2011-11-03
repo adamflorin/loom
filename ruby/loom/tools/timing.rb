@@ -20,10 +20,14 @@ module Loom
       # 
       def next_beat(now, divis = TICKS_4N)
         nb = (now.to_f / divis).ceil * divis
-
+        
+        # try skipping the below safety code, so that basic
+        # gestures can start on a dime!
+        return nb
+        
         # if time is really tight (i.e., generate_gesture event came in _right on_ a beat)
         # then just skip to next beat rather than letting it fail.
-        return (nb - now < 10) ? (nb + divis) : (nb)
+        # return (nb - now < 10) ? (nb + divis) : (nb)
       end
 
       # find the nearest beat--earlier if we can do it, otherwise leave a gap

@@ -9,22 +9,25 @@ module Loom
       
       MAX_LOOP_LENGTH = 16
       
+      attr_accessor :loop_on, :loop_len
       attr_accessor :gesture_history, :gesture_history_index
       
       # init
       # 
       def self.included(base)
-        base.alias_method_chain :generate_gesture, :loop
+        base.alias_method_chain :set_generator_parameter, :loop
         base.alias_method_chain :clear_events, :loop
-        base.alias_method_chain :default_options, :loop
+        base.alias_method_chain :generate_gesture, :loop
       end
       
+      # intercept "loop_on" param
       # 
-      # 
-      def default_options_with_loop
-        default_options_without_loop.merge({
-          :loop_on => 0, # false
-          :loop_length => 4})
+      def set_generator_parameter_with_loop(key, parameter)
+        if key != :loop_on
+          set_generator_parameter_without_loop(key, parameter)
+        else
+          @loop_on = (parameter.first == 1.0)
+        end
       end
       
       # 
@@ -39,17 +42,19 @@ module Loom
       # returns event array--might be new events or rescheduled (looped) old ones
       # 
       def generate_gesture_with_loop(now)
+        loop_len = @loop_len.generate
+        
         # if we're in loop mode and have a sufficient backlog
-        if !@options[:loop_on].zero? and @gesture_history.size >= @options[:loop_length]
+        if @loop_on and @gesture_history.size >= loop_len
 
-          # wrap index (loop_length may have changed earlier)
-          @gesture_history_index = 0 if @gesture_history_index >= @options[:loop_length]
+          # wrap index (loop_len may have changed earlier)
+          @gesture_history_index = 0 if @gesture_history_index >= loop_len
 
           # trim down history to just what we need (so it regenerates later) (?)
-          @gesture_history.slice! 0, @gesture_history.size - @options[:loop_length]
+          @gesture_history.slice! 0, @gesture_history.size - loop_len
 
           # find our place in the loop (index)
-          play_index = @gesture_history_index + (@gesture_history.size - @options[:loop_length])
+          play_index = @gesture_history_index + (@gesture_history.size - loop_len)
 
           # increment index
           @gesture_history_index += 1
@@ -64,7 +69,7 @@ module Loom
         else
           
           gesture = generate_gesture_without_loop(now)
-
+          
           # push gesture events onto sequence.
           # ALWAYS track whatever we just did, in case we decide to do it again.
           @gesture_history << gesture
