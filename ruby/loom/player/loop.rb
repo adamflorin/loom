@@ -42,7 +42,7 @@ module Loom
       # returns event array--might be new events or rescheduled (looped) old ones
       # 
       def generate_gesture_with_loop(now)
-        loop_len = @loop_len.generate
+        loop_len = @loop_len.generate.to_i.constrain(1..16)
         
         # if we're in loop mode and have a sufficient backlog
         if @loop_on and @gesture_history.size >= loop_len
