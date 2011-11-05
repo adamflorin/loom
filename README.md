@@ -30,7 +30,7 @@ Loom bridges these two technologies across a rather tall stack, leveraging the i
 
 ### Installing
 
-Please see [INSTALLATION](INSTALLATION.md).
+Please see [INSTALLATION](loom/INSTALLATION.md).
 
 ### Creating and editing players
 
