@@ -42,11 +42,13 @@ To create a player in Live:
 * Drag any `player` module into the rack.
 * Hit play. You're already generating music!
 
-As you add more player modules to the rack, they will each add their own dimension of depth to the generated output. Note: you can only add each module once!
+As you add more player modules to the rack, they will each add their own dimension of depth to the generated output. *Note*: you can only add each module once!
 
 So long as they're all in the same rack, they'll be treated as a single player. (You can actually put multiple racks on a same track to have multiple players--as in the left and right hands of a piano, for example.)
 
 ### Setting up the environment
+
+*Note*: the environment is not currently necessary unless you are modifying Ruby source and need to globally reload the system. The environment will contain more powerful features in future versions.
 
 Drop the `environment` m4l device in the Master track. (It doesn't generate any MIDI or affect the audio. This is just a good global place to put it.)
 
