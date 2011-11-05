@@ -19,6 +19,6 @@ To install on Mac OS:
 * In Max, create a search path for the `loom` directory in *Options > File Preferences...*
 * In Live, point a file browser to the `loom/m4l` directory.
 * Quit & restart Max and Live.
-* See the [README](/loom) for usage instructions!
+* See the [README](/adamflorin/loom) for usage instructions!
 
 NOTE: On Mac OS, Max and Ruby will both log to Console.app, so check there first to troubleshoot.
