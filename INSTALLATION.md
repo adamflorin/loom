@@ -13,7 +13,9 @@ Requirements:
 To install on Mac OS:
 
 * Download the source from GitHub at the command line:
-    git clone git://github.com/adamflorin/loom.git
+
+    `git clone git://github.com/adamflorin/loom.git`
+    
 * In Max, create a search path for the `loom` directory in *Options > File Preferences...*
 * In Live, point a file browser to the `loom/m4l` directory.
 * Quit & restart Max and Live.
