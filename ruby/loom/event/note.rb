@@ -20,7 +20,7 @@ module Loom
         def default_data
           { :pitch => BASE_PITCH,
             :velocity => 100,
-            :duration => TICKS_4N}
+            :duration => TICKS_2N}
         end
         
     end
