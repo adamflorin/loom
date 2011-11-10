@@ -36,7 +36,7 @@ module Loom
           event = nil
           rate = generate_rate
           num_steps = @player.steps.generate.to_i.constrain(1..16)
-          accent_on = (@player.accent_on.generate * num_steps).to_i
+          accent_on = (@player.accent_on.generate * (num_steps-1)).to_i
           
           # iterator to make events (# steps)
           num_steps.times do |i|
