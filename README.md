@@ -6,6 +6,8 @@ Loom is a modular, Ruby-based generative music platform for Ableton Live.
 
 While it has been used for performances and installations since late 2010, it is still in an early alpha stage of development. Caveat emptor!
 
+http://adamflorin.com/loom
+
 ### Core Concepts
 
 A *player* generates and plays back *gestures* (sequences of MIDI *events*) for the track it belongs to.
@@ -27,6 +29,8 @@ Loom is built on...
 Loom bridges these two technologies across a rather tall stack, leveraging the interface-building (and parameter storage) capabilities of Max For Live, the native MIDI & message-handling of Max, and the performance and stability of Java & JRuby along the way.
 
 ## Usage
+
+See the [screencast](http://vimeo.com/31945050).
 
 ### Installing
 
