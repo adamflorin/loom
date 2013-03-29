@@ -4,8 +4,8 @@ Loom has only been tested on Mac OS (10.6+).
 
 Requirements:
 
-* [Ableton Live 8.1+](http://www.ableton.com/live-8)
-* [MaxMSP 5.1+](http://cycling74.com/products/max/)
+* [Ableton Live 9](http://www.ableton.com/live-8)
+* [MaxMSP 6.1](http://cycling74.com/products/max/)
 * [Max for Live](http://www.ableton.com/maxforlive)
 * [JRuby for Max](https://github.com/adamjmurray/jruby_for_max)
 * Java (should be preloaded on Mac OS--?)
