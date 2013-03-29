@@ -34,7 +34,7 @@ See the [screencast](http://vimeo.com/31945050).
 
 ### Installing
 
-Please see [INSTALLATION](loom/blob/master/INSTALLATION.md).
+Please see [INSTALLATION](INSTALLATION.md).
 
 ### Creating and editing players
 
