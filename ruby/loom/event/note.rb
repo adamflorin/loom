@@ -10,7 +10,7 @@ module Loom
       
       # serialize note event into format Max makenote wants
       # 
-      def output(data = nil)
+      def event(data = nil)
         super([@data[:pitch], @data[:velocity], @data[:duration]])
       end
       

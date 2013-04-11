@@ -31,21 +31,34 @@ module Loom
       def data=(data)
         @data.merge! data if data.is_a? Hash
       end
-      
-      # convert event into array form for output into Max world.
+
+      # for schedule-event patcher
+      # 
+      def to_patcherargs
+        [:at, :event].map do |attr|
+          ["@#{attr}", self.send(attr)]
+        end.flatten
+      end
+
+      # convert event data into array form for output into Max world.
+      # 
       # allow subclasses to specify data.
       # 
-      def output(data = nil)
-        event_type = self.class.name.gsub(/[^:]+$/).first.underscorize
-        [@at, event_type] + (data || [])
+      def event(data = nil)
+        [type] + (data || [])
       end
-      
+
       # 
       # 
       def end_at
         @at + @data[:duration]
       end
       
+      # introspection. returns string for [route].
+      # 
+      def type
+        self.class.name.gsub(/[^:]+$/).first.underscorize
+      end
       
       private
         

@@ -36,7 +36,15 @@ module Loom
           @event_queue = gesture.output_events
         end
 
-        return build_event(next_event(now))
+        # dispatch all events
+        # 
+        @event_queue.each do |event|
+          if event.at > now
+            Loom::Max::dispatch(event)
+          else
+            Loom::logger.warn "Dropping event scheduled at #{event.at}. (It is now #{now}.)"
+          end
+        end.clear
       end
       
       # 
@@ -66,12 +74,17 @@ module Loom
       # 
       def set_generator_parameter(key, parameter)
         base_key = Generator.base_key(key)
+        set_method = "#{base_key}="
 
-        if (generator = generator(base_key)).nil?
-          generator = self.send("#{base_key}=", Generator.new)
+        if self.respond_to? set_method
+          if (generator = generator(base_key)).nil? 
+            generator = self.send(set_method, Generator.new)
+          end
+
+          generator.set_parameter(key, parameter)
+        else
+          Loom::logger.warn "Behavior does not have parameter #{base_key}."
         end
-
-        generator.set_parameter(key, parameter)
       end
 
       # getter
@@ -81,33 +94,6 @@ module Loom
       rescue NoMethodError
         # let nil be returned
       end
-
-
-      private
-
-        # get next event off the queue,
-        # do a sanity check to make sure we're not behind schedule--
-        # if we are, just fake like we're not (but output an error).
-        # 
-        def next_event(now)
-          out_event = @event_queue.shift unless @event_queue.empty?
-          
-          # check if the event we're sending out is in the past or is close to it (!)
-          if !out_event.nil? and (out_event.at < now)
-            error "TIMER FAIL! Event's scheduled at #{out_event.at} but it's already #{now}!"
-
-            # try to get back on track. This seems to work...?
-            out_event.at = now.ceil + 1 # enough?
-          end
-
-          return out_event
-        end
-
-        # 
-        # 
-        def build_event(event)
-          event.output.flatten
-        end
 
     end
   end
