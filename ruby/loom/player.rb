@@ -66,12 +66,17 @@ module Loom
       # 
       def set_generator_parameter(key, parameter)
         base_key = Generator.base_key(key)
+        set_method = "#{base_key}="
 
-        if (generator = generator(base_key)).nil?
-          generator = self.send("#{base_key}=", Generator.new)
+        if self.respond_to? set_method
+          if (generator = generator(base_key)).nil?
+            generator = self.send("#{base_key}=", Generator.new)
+          end
+
+          generator.set_parameter(key, parameter)
+        else
+          Loom::logger.warn "Behavior does not have parameter #{base_key}."
         end
-
-        generator.set_parameter(key, parameter)
       end
 
       # getter
@@ -94,7 +99,7 @@ module Loom
           
           # check if the event we're sending out is in the past or is close to it (!)
           if !out_event.nil? and (out_event.at < now)
-            error "TIMER FAIL! Event's scheduled at #{out_event.at} but it's already #{now}!"
+            Loom::logger.warn "Event's scheduled at #{out_event.at} but it's already #{now}."
 
             # try to get back on track. This seems to work...?
             out_event.at = now.ceil + 1 # enough?
