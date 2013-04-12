@@ -10,7 +10,7 @@ module Loom
       
       # serialize bend event for Max
       # 
-      def event(data = nil)
+      def output(data = nil)
         super([@data[:controller], @data[:value], @data[:ramp_time]])
       end
       

@@ -10,7 +10,7 @@ module Loom
       
       # serialize bend event into format Max xbendout likes
       # 
-      def event(data = nil)
+      def output(data = nil)
         super([@data[:pitch_bend], @data[:duration]])
       end
       
