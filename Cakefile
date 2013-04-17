@@ -6,7 +6,7 @@ COFFEE_ARGS = [
   'build'
   '--compile'
   '--join'
-  'player.js'
+  'loom-module.js'
 ]
 
 SOURCE_FILES = [
