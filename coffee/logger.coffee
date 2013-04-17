@@ -9,7 +9,7 @@ class Logger
   COMPILED_SOURCE_PATH = "/../build/"
   LOG_LEVELS = 
     debug: color: 37
-    info: color: 36
+    info: color: 0
     warn: color: 33
     error: color: 31
   ESCAPE_CHAR = String.fromCharCode(27)
@@ -96,6 +96,8 @@ class Logger
   # This is not a perfect solution, as it doesn't catch `try`
   # blocks or whatever else JS may put in a stack trace,
   # and it's not at all optimized, but it works for now.
+  # 
+  # OPT: just load file once from jsarguments[0]
   # 
   # File.writeline() is limited to 32K. Check if readstring is, too.
   # (http://cycling74.com/forums/topic.php?id=35547)

@@ -15,6 +15,11 @@ SOURCE_FILES = [
   "max"
   "logger"
   "player"
+  "module"
+  "modules/blank"
+  "event"
+  "events/note"
+  "gesture"
   "loom"
 ]
 
