@@ -2,7 +2,7 @@
 
 ## Overview
 
-Loom is a modular, Ruby-based generative music platform for Ableton Live.
+Loom is a modular generative music platform for Ableton Live.
 
 While it has been used for performances and installations since late 2010, it is still in an early alpha stage of development. Caveat emptor!
 
