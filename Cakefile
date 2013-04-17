@@ -11,6 +11,7 @@ COFFEE_ARGS = [
 ]
 
 SOURCE_FILES = [
+  "monkeypatch"
   "max"
   "logger"
   "player"
