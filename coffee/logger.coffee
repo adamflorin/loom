@@ -5,7 +5,7 @@
 # 
 
 class Logger
-  LOG_PATH = "/../log/wobbly.log"
+  LOG_PATH = "/../log/loom.log"
   LOG_LEVELS = 
     debug: color: 37
     info: color: 36
@@ -39,6 +39,8 @@ class Logger
     @file.close()
 
   # Log message
+  # 
+  # TODO: support splats, use JSON.stringify for non-strings.
   # 
   write: (msg, level) ->
     @file.open()
