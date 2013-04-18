@@ -54,7 +54,7 @@ class Logger
   # Format log line
   # 
   format: (object, level) ->
-    msg = switch object?.type()
+    msg = switch object?.type?()
       when "Object" then JSON.stringify(object)
       when "Error" then @stackTrace(object)
       else object
