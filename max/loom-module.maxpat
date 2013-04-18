@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 785.0, 506.0, 315.0, 230.0 ],
+		"rect" : [ 785.0, 506.0, 294.0, 198.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -29,6 +29,18 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"comment" : "",
+					"id" : "obj-3",
+					"maxclass" : "inlet",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 45.0, 45.0, 25.0, 25.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-4",
@@ -36,7 +48,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 60.0, 90.0, 63.0, 18.0 ],
+					"patching_rect" : [ 90.0, 75.0, 63.0, 18.0 ],
 					"text" : "init"
 				}
 
@@ -50,7 +62,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "bang", "int", "int" ],
-					"patching_rect" : [ 60.0, 60.0, 85.0, 20.0 ],
+					"patching_rect" : [ 90.0, 45.0, 85.0, 20.0 ],
 					"text" : "live.thisdevice"
 				}
 
@@ -64,7 +76,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 60.0, 120.0, 110.0, 20.0 ],
+					"patching_rect" : [ 90.0, 105.0, 110.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "loom-module",
 						"parameter_enable" : 0
@@ -81,6 +93,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 0 ]
 				}
 
 			}

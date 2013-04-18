@@ -12,9 +12,8 @@ logger.debug "Initialized logger."
 # Called when device is loaded (bang from [live.thisdevice])
 # 
 init = ->
-  logger.debug "Device loaded. Initializing player..."
-
   try
+    logger.debug "Device loaded. Initializing player..."
 
     # create player if not present
     # 
@@ -34,6 +33,9 @@ init = ->
 
   catch e
     logger.error e
+
+bang = ->
+  logger.debug Live::now()
 
 # 
 # 
