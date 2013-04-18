@@ -10,9 +10,7 @@ class Player
   # 
   constructor: () ->
     @modules = []
-
-    # TODO: get this player ID
-    # 
+    @id = Live::playerId()
 
   # 
   # 

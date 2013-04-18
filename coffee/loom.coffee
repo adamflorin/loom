@@ -7,29 +7,33 @@
 # init system
 # 
 logger = new Logger
+logger.debug "Initialized logger."
 
-# init
+# Called when device is loaded (bang from [live.thisdevice])
 # 
-try
+init = ->
+  logger.debug "Device loaded. Initializing player..."
 
-  # create player if not present
-  # 
-  # TODO: store in global
-  # 
-  player = new Player unless player?
+  try
 
-  # get module name from args
-  # 
-  moduleName = jsarguments[1]
-  player.loadModule moduleName
+    # create player if not present
+    # 
+    # TODO: store in global
+    # 
+    player = new Player unless player?
 
-  # try it out
-  # 
-  gesture = player.generateGesture()
-  logger.info "Generated!", gesture
+    # get module name from args
+    # 
+    moduleName = jsarguments[1]
+    player.loadModule moduleName
 
-catch e
-  logger.error e
+    # try it out
+    # 
+    gesture = player.generateGesture()
+    logger.info "Generated!", gesture
+
+  catch e
+    logger.error e
 
 # 
 # 

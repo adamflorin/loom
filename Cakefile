@@ -13,6 +13,7 @@ COFFEE_ARGS = [
 SOURCE_FILES = [
   "monkeypatch"
   "max"
+  "live"
   "logger"
   "player"
   "module"
