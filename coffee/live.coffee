@@ -20,9 +20,20 @@ class Live
   now: ->
     (new LiveAPI "live_set").get("current_song_time")
 
-  # Register for timing callbacks, at about 60ms intervals.
+  # Transport start/stop callback
   # 
-  bindToTime: (timeUpdate) ->
-    api = new LiveAPI ((args...) -> timeUpdate args[1]), "live_set"
-    api.property = "current_song_time"
-    
+  onStartStop: (callback) ->
+    @registerObserver "is_playing", callback
+
+  # Timing callbacks, at ~60ms intervals.
+  # 
+  onTimeUpdate: (callback) ->
+    @registerObserver "current_song_time", callback
+  
+  # Utility to register observer on Song object
+  # 
+  registerObserver: (property, callback) ->
+    api = new LiveAPI(
+      ((args) -> callback args[1] if args[0] is property),
+      "live_set")
+    api.property = property

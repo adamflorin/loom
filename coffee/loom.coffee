@@ -1,5 +1,5 @@
 # 
-# loom.coffee: Bootstrap when all other dependencies are loaded
+# loom.coffee: Bootstrap Loom framework.
 # 
 # Copyright 2013 Adam Florin
 # 
@@ -7,7 +7,9 @@
 # init system
 # 
 logger = new Logger
-logger.debug "Initialized logger."
+player = null
+Max::initTooltips()
+
 
 # Called when device is loaded (bang from [live.thisdevice])
 # 
@@ -17,8 +19,6 @@ init = ->
 
     # create player if not present
     # 
-    # TODO: store in global
-    # 
     player = new Player unless player?
 
     # get module name from args
@@ -26,16 +26,42 @@ init = ->
     moduleName = jsarguments[1]
     player.loadModule moduleName
 
-    # try it out
+    # clear all gestures when transport stops
     # 
-    gesture = player.generateGesture()
-    logger.info "Generated!", gesture
+    Live::onStartStop (transportState) ->
+      try
+        if transportState == 1
+          now = Live::now()
+
+          # Live bizarrely sends 2x transport start events:
+          # one _before_ the playhead has been reset to zero,
+          # and one just after.
+          # 
+          # Anticipate this and consider that first "start" event
+          # to be zero here.
+          # 
+          now = 0 if now > 0.1
+
+          player.generateGesture(now)
+          nextEvent()
+        else
+          player.clearGestures()
+      catch e
+        logger.error e
 
   catch e
     logger.error e
 
-bang = ->
-  logger.debug Live::now()
+# Output next event
+# 
+nextEvent = ->
+  try
+    now = Live::now()
+    event = player.nextEvent(now)
+    logger.debug "Outputting event", event
+    outlet 0, event
+  catch e
+    logger.error e
 
 # 
 # 

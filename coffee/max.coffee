@@ -4,17 +4,12 @@
 # Copyright 2013 Adam Florin
 # 
 
-# TODO: set up autowatch system
-# 
-# jsthis.autowatch = 1;
-
-logger = null
-
 class Max
   # 
   # 
   initTooltips: ->
-    # ...
+    setinletassist(0, "Loom message input")
+    setoutletassist(0, "Timed event output")
   
   # 
   # 
@@ -24,3 +19,8 @@ class Max
   # wrapper
   # 
   time: () -> max.time
+
+  # Math utility
+  # 
+  beatsToTicks: (beats) ->
+    beats * 480
