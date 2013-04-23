@@ -22,6 +22,7 @@ SOURCE_FILES = [
   "events/note"
   "gesture"
   "loom"
+  "messages"
 ]
 
 TEST_ARGS = [

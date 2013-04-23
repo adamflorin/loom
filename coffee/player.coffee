@@ -8,24 +8,30 @@ class Player
 
   # 
   # 
-  constructor: () ->
+  constructor: (@id) ->
     @modules = []
     @gestures = []
     @events = []
-    @id = Live::playerId()
+    logger.info "Created player ID #{@id}"
 
+  # Build module, append to modules array.
   # 
+  loadModule: (name, deviceId) ->
+    @modules.push module: Module::load(name), id: deviceId
+    logger.info "Loaded module #{name} at device ID #{deviceId} for player #{@id}"
+
+  # Rebuild modules array, without specified module.
   # 
-  loadModule: (name) ->
-    @modules.push Module::load name
-    logger.info "Loaded module #{name}"
+  unloadModule: (deviceId) ->
+    @modules = (module for module in @modules when module.id isnt deviceId)
+    logger.info "Removed module #{deviceId} from player #{@id}"
 
   # Generate a single gesture, let each module process it.
   # 
   generateGesture: (time) ->
     if @gesturesAfter(time).length == 0
       gesture = new Gesture(time)
-      gesture = module.processGesture(gesture) for module in @modules
+      gesture = module.module.processGesture(gesture) for module in @modules
       @gestures.push gesture
       logger.debug "Generated gesture for player #{@id}:", gesture
     else
