@@ -18,7 +18,6 @@ class Logger
   # 
   constructor: ->
     @initWriteMethods()
-    @openFile()
   
   # Metaprogramming convenience functions
   # 
@@ -31,25 +30,24 @@ class Logger
         @[level] = (objects...) ->
           @write(level, objects)
 
-  # Init File handle
+  # Open File handle and pass it to `write` callback
   # 
   # Then immediately close, as File object will NOT re-open later
   # if autowatch reloads source while a File object is open.
   # 
-  openFile: ->
+  openFile: (write) ->
     path = Max::patcherDirPath() + LOG_PATH
-    @file = new File(path, "write")
-    throw "Unable to open log file at #{path}" unless @file.isopen
-    @file.close()
+    file = new File(path, "write")
+    throw "Unable to open log file at #{path}" unless file.isopen
+    write(file)
+    file.close()
 
   # Log message
   # 
   write: (level, objects) ->
-    @file.open()
-    throw "Unable to open log file" unless @file.isopen
-    @file.position = @file.eof
-    @file.writeline(@format(object, level)) for object in objects
-    @file.close()
+    @openFile (file) =>
+      file.position = file.eof
+      file.writeline(@format(object, level)) for object in objects
 
   # Format log line
   # 
