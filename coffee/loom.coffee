@@ -26,6 +26,6 @@ class Loom
   # Rebuild players array, without specified player.
   # 
   destroyPlayer: (id) ->
-    allPlayers = @players()
-    allPlayers = (player for player in allPlayers when player.id isnt id)
+    fewerPlayers = (player for player in @players() when player.id isnt id)
+    (new Global("loom")).players = fewerPlayers
     logger.info "Destroyed player ID #{Live::playerId()}"
