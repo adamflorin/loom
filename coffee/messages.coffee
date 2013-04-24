@@ -81,7 +81,9 @@ destroy = ->
   catch e
     logger.error e
 
-# Do self-maintenance when module has been added or removed from this player.
+# Do self-maintenance when environment has changed (device has been added or
+# removed, or script reloaded). Do this liberally, as there's no harm in
+# registering this callback too many times (redundant but not very expensive).
 # 
 # Currently, that means re-registering relevant Live API callbacks.
 # 

@@ -4,18 +4,26 @@
 # Copyright 2013 Adam Florin
 # 
 
-# init
+# init logger
 # 
 logger = new Logger
-Max::initTooltips()
 
-# If Loom object exists before it's declared below, then autowatch is reloading
-# this script. All objects in memory are possibly from a previous version of
-# code. Refresh everything of relevance.
+# init
 # 
-if Loom?
-  logger.warn "Detected script reload"
-  Live::resetCache()
+try
+  Max::initTooltips()
+
+  # If Loom object exists before it's declared below, then autowatch is reloading
+  # this script. All objects in memory are possibly from a previous version of
+  # code.
+  # 
+  if Loom?
+    logger.warn "Detected script reload"
+    Live::resetCache()
+    Loom::refreshThisPlayer()
+
+catch e
+  logger.error e
 
 class Loom
   # 
