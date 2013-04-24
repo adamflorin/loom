@@ -4,18 +4,12 @@
 # Copyright Adam Florin 2013
 # 
 
-# Store IDs at this scope so that we still have a handle to them
-# once we lose access to LiveAPI on device removal.
-# 
-thisPlayerId = null
-thisDeviceId = null
-
 class Live
 
   # 
   # 
   deviceId: ->
-    thisPlayerId ?= (new LiveAPI "this_device").id
+    @thisPlayerId ?= (new LiveAPI "this_device").id
 
   # A "player" is defined as a group of modules which all
   # share the same parent. So our parent ID _is_ our player ID.
@@ -24,7 +18,7 @@ class Live
   # Otherwise it will be "Track".
   # 
   playerId: ->
-    thisDeviceId ?= (new LiveAPI "this_device canonical_parent").id
+    @thisDeviceId ?= (new LiveAPI "this_device canonical_parent").id
 
   # Count sibling devices
   # 
@@ -53,3 +47,10 @@ class Live
       ((args) -> callback args[1] if args[0] is property),
       "live_set")
     api.property = property
+
+  # After a script reload, our "cache" globals will be lost.
+  # Force populate them now in case the LiveAPI is no longer available
+  # the next time they're needed (i.e., on destroy).
+  # 
+  resetCache: ->
+    @deviceId() and @playerId()

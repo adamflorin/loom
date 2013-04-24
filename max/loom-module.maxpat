@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 883.0, 314.0, 646.0, 501.0 ],
+		"rect" : [ 395.0, 156.0, 520.0, 617.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -32,13 +32,66 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
+					"id" : "obj-7",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 61.0, 106.0, 142.0, 33.0 ],
+					"text" : "Init autowatch immediately."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-18",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 61.0, 195.0, 73.0, 18.0 ],
+					"text" : "autowatch 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-19",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 61.0, 165.0, 60.0, 20.0 ],
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
+					"id" : "obj-20",
+					"maxclass" : "panel",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 45.0, 90.0, 181.0, 135.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
 					"id" : "obj-11",
 					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 255.0, 106.0, 142.0, 33.0 ],
-					"presentation_rect" : [ 238.0, 107.0, 0.0, 0.0 ],
+					"patching_rect" : [ 76.0, 251.0, 142.0, 33.0 ],
 					"text" : "Destroy when device is removed."
 				}
 
@@ -52,7 +105,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 255.0, 195.0, 50.0, 18.0 ],
+					"patching_rect" : [ 76.0, 340.0, 50.0, 18.0 ],
 					"text" : "destroy"
 				}
 
@@ -66,7 +119,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 255.0, 165.0, 58.0, 20.0 ],
+					"patching_rect" : [ 76.0, 310.0, 58.0, 20.0 ],
 					"text" : "freebang"
 				}
 
@@ -81,7 +134,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 450.0, 106.0, 142.0, 47.0 ],
+					"patching_rect" : [ 271.0, 251.0, 142.0, 47.0 ],
 					"text" : "Request that next event to be fired.\n(Event dispatch loop)"
 				}
 
@@ -110,7 +163,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 106.0, 153.0, 47.0 ],
+					"patching_rect" : [ 256.0, 106.0, 153.0, 47.0 ],
 					"text" : "Init when device is loaded,\nas LiveAPI is not available in JS before then."
 				}
 
@@ -138,7 +191,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 450.0, 195.0, 76.0, 18.0 ],
+					"patching_rect" : [ 271.0, 340.0, 76.0, 18.0 ],
 					"text" : "next_event"
 				}
 
@@ -342,7 +395,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 60.0, 375.0, 109.0, 20.0 ],
+					"patching_rect" : [ 61.0, 525.0, 109.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -540,7 +593,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 60.0, 315.0, 113.0, 20.0 ],
+					"patching_rect" : [ 61.0, 465.0, 113.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -567,7 +620,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 60.0, 195.0, 38.0, 18.0 ],
+					"patching_rect" : [ 256.0, 195.0, 38.0, 18.0 ],
 					"text" : "init"
 				}
 
@@ -581,7 +634,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "bang", "int", "int" ],
-					"patching_rect" : [ 60.0, 165.0, 88.0, 20.0 ],
+					"patching_rect" : [ 256.0, 165.0, 88.0, 20.0 ],
 					"text" : "live.thisdevice"
 				}
 
@@ -595,7 +648,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 60.0, 255.0, 116.0, 20.0 ],
+					"patching_rect" : [ 61.0, 405.0, 116.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "loom-module",
 						"parameter_enable" : 0
@@ -612,7 +665,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 44.0, 90.0, 181.0, 135.0 ]
+					"patching_rect" : [ 240.0, 90.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -623,7 +676,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 239.0, 90.0, 181.0, 135.0 ]
+					"patching_rect" : [ 60.0, 235.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -634,7 +687,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 434.0, 90.0, 181.0, 135.0 ]
+					"patching_rect" : [ 255.0, 235.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -645,6 +698,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-18", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-19", 0 ]
 				}
 
 			}
@@ -689,7 +760,7 @@
 					"destination" : [ "obj-8", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 69.5, 353.0, 537.0, 353.0, 537.0, 184.0, 459.5, 184.0 ],
+					"midpoints" : [ 70.5, 505.0, 362.0, 505.0, 362.0, 324.0, 280.5, 324.0 ],
 					"source" : [ "obj-5", 0 ]
 				}
 
