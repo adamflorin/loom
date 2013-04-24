@@ -18,11 +18,15 @@ init = ->
     # 
     Loom::thisPlayer().loadModule jsarguments[1], Live::deviceId()
 
+    # Get updates on player module list, in case we've been moved.
+    # 
+    Live::onPlayerUpdate Loom::updatePlayer
+
     # Callback on transport start/stop
     # 
-    Live::onStartStop (transportState) ->
+    Live::onStartStop (playing) ->
       try
-        if transportState == 1
+        if playing
           now = Live::now()
 
           # Live bizarrely sends 2x transport start events:

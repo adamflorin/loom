@@ -31,6 +31,15 @@ class Loom
     onePlayer = player for player in @players() when player.id is Live::playerId()
     return onePlayer
 
+  # Update player modules in memory based on sequence of deviceIds
+  # 
+  # TODO: figure out how to make sure this is not our last update.
+  # 
+  updatePlayer: (deviceIds) ->
+    logger.debug "Player modules update from device ID #{Live::deviceId()}:", deviceIds
+    if deviceIds.length < Loom::thisPlayer().modules.length
+      logger.warn "Device was removed. Player updates will now cease."
+
   # Rebuild players array, without specified player.
   # 
   destroyPlayer: (id) ->

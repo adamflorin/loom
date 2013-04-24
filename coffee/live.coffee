@@ -33,19 +33,30 @@ class Live
   # Transport start/stop callback
   # 
   onStartStop: (callback) ->
-    @registerObserver "is_playing", callback
+    @registerObserver "live_set", "is_playing",
+      (playing) -> callback playing[0] == 1
 
   # Timing callbacks, at ~60ms intervals.
   # 
   onTimeUpdate: (callback) ->
-    @registerObserver "current_song_time", callback
+    @registerObserver "live_set", "current_song_time",
+      (time) -> callback time[0]
   
+  # When player chain is modified, pass new deviceIds sequence to callback.
+  # 
+  # Looks like this fires for new devices and moved devices,
+  # but not removed devices. (?)
+  # 
+  onPlayerUpdate: (callback) ->
+    @registerObserver "this_device canonical_parent", "devices",
+      (deviceList) -> callback(item for item in deviceList when item isnt "id")
+
   # Utility to register observer on Song object
   # 
-  registerObserver: (property, callback) ->
+  registerObserver: (path, property, callback) ->
     api = new LiveAPI(
-      ((args) -> callback args[1] if args[0] is property),
-      "live_set")
+      ((args) -> callback args[1..] if args[0] is property),
+      path)
     api.property = property
 
   # After a script reload, our "cache" globals will be lost.
