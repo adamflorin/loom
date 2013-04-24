@@ -4,6 +4,11 @@
 # Copyright 2013 Adam Florin
 # 
 
+# Max `jsthis` properties must be set globally without being declared with `var`.
+# 
+`outlets = 2`
+`autowatch = 1`
+
 class Max
   # 
   # 

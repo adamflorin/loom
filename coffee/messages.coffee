@@ -7,6 +7,9 @@
 # Called when device is loaded and LiveAPI is available
 # (bang from [live.thisdevice])
 # 
+# Create player if it doesn't already exist, and load this module either way.
+# Then notify all player devices, and sign up for some callbacks.
+# 
 init = ->
   try
     # Create player if not present
@@ -18,9 +21,9 @@ init = ->
     # 
     Loom::thisPlayer().loadModule jsarguments[1], Live::deviceId()
 
-    # Get updates on player module list, in case we've been moved.
+    # Notify all player devices
     # 
-    Live::onPlayerUpdate Loom::updatePlayer
+    Loom::refreshThisPlayer()
 
     # Callback on transport start/stop
     # 
@@ -61,15 +64,34 @@ nextEvent = ->
 
 # Called from [freebang]
 # 
-# Remove module from player. If it's the last module, destroy player.
+# By the time this is called, module may already have been removed
+# from player. So just destroy player if no modules remain.
+# Then tell all devices in this player to refresh themselves.
 # 
 # NOTE that LiveAPI is no longer available at this point.
 # 
 destroy = ->
   try
-    if Loom::thisPlayer().modules.length == 1
+    Loom::thisPlayer().unloadModule Live::deviceId()
+
+    if Loom::thisPlayer().modules.length is 0
       Loom::destroyPlayer Live::playerId()
-    else
-      Loom::thisPlayer().unloadModule Live::deviceId()
+
+    Loom::refreshThisPlayer()
+  catch e
+    logger.error e
+
+# Do self-maintenance when module has been added or removed from this player.
+# 
+# Currently, that means re-registering relevant Live API callbacks.
+# 
+refreshPlayer = (playerId) ->
+  try
+    if playerId is Live::playerId()
+      Live::onPlayerUpdate (deviceIds) ->
+        try
+          Loom::thisPlayer().sortModules(deviceIds)
+        catch e
+          logger.error e
   catch e
     logger.error e

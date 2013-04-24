@@ -9,7 +9,7 @@ class Live
   # 
   # 
   deviceId: ->
-    @thisPlayerId ?= (new LiveAPI "this_device").id
+    @thisDeviceId ?= (new LiveAPI "this_device").id
 
   # A "player" is defined as a group of modules which all
   # share the same parent. So our parent ID _is_ our player ID.
@@ -18,7 +18,7 @@ class Live
   # Otherwise it will be "Track".
   # 
   playerId: ->
-    @thisDeviceId ?= (new LiveAPI "this_device canonical_parent").id
+    @thisPlayerId ?= (new LiveAPI "this_device canonical_parent").id
 
   # Count sibling devices
   # 
@@ -44,8 +44,17 @@ class Live
   
   # When player chain is modified, pass new deviceIds sequence to callback.
   # 
-  # Looks like this fires for new devices and moved devices,
-  # but not removed devices. (?)
+  # *Note*: This observer ceases to fire after a device is added to or removed
+  # from this chain. Specifically:
+  # 
+  # - When a new device is *added* to chain, all previous devices will no longer
+  #   get this callback. (Only last added device will.)
+  # - When a device is *removed* from the chain, no devices will receive this
+  #   callback.
+  # 
+  # A workaround for this issue is to re-register the callback for all devices
+  # whenever a device is added or removed from a chain.
+  # See refreshPlayer system.
   # 
   onPlayerUpdate: (callback) ->
     @registerObserver "this_device canonical_parent", "devices",

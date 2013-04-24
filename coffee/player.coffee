@@ -26,6 +26,15 @@ class Player
     @modules = (module for module in @modules when module.id isnt deviceId)
     logger.info "Removed module #{deviceId} from player #{@id}"
 
+  # Sort module list according to order of array argument.
+  # 
+  # *Note*: This will implicitly delete modules which have been removed.
+  # 
+  sortModules: (deviceIds) ->
+    @modules = for deviceId in deviceIds
+      modules = (module for module in @modules when parseInt(module.id) is deviceId)
+      if modules.length then modules[0] else # (return nothing)
+
   # Generate a single gesture, let each module process it.
   # 
   generateGesture: (time) ->
