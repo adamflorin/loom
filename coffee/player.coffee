@@ -34,6 +34,7 @@ class Player
     @modules = for deviceId in deviceIds
       modules = (module for module in @modules when parseInt(module.id) is deviceId)
       if modules.length then modules[0] else # (return nothing)
+    logger.debug "Sorted player #{@id} modules to match #{deviceIds}"
 
   # Generate a single gesture, let each module process it.
   # 
