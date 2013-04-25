@@ -20,6 +20,22 @@ class Live
   playerId: ->
     @thisPlayerId ?= parseInt (new LiveAPI "this_device canonical_parent").id
 
+  # Check that device was inserted into effects rack.
+  # 
+  deviceInRack: ->
+    (new LiveAPI "this_device canonical_parent").type is "Chain"
+
+  # Check if device has been moved to a new player. Do this by clearing and
+  # repopulating ID cache.
+  # 
+  # If device has indeed changed players, return old player ID.
+  # 
+  detectPlayerChange: ->
+    oldPlayerId = @thisPlayerId
+    @thisPlayerId = undefined
+    newPlayerId = @playerId()
+    return oldPlayerId if oldPlayerId isnt newPlayerId
+
   # Count sibling devices
   # 
   numSiblingDevices: ->

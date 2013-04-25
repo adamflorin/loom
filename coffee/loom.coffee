@@ -11,11 +11,26 @@ class Loom
   players: ->
     (new Global("loom")).players ?= []
 
+  # Get player from ID
+  # 
+  player: (playerId) ->
+    (player for player in @players() when player.id is playerId)[0]
+
   # Get this player.
   # 
   thisPlayer: ->
-    (player for player in @players() when player.id is Live::playerId())[0]
+    @player(Live::playerId())
   
+  # Create player if necessary and own module, then reset observers for all
+  # modules of this player. (Adding a device to a chain can knock out the other
+  # devices' observers).
+  # 
+  initDevice: ->
+    logger.warn "Module created outside of rack" unless Live::deviceInRack()
+    @createThisPlayer() unless @thisPlayer()?
+    @loadThisPlayerModule()
+    @resetObservers ["transport", "modules"]
+
   # Create player if it doesn't already exist, and load this module either way.
   # 
   createThisPlayer: () ->
@@ -42,6 +57,16 @@ class Loom
     @thisPlayer().unloadModule Live::deviceId()
     @loadThisPlayerModule()
 
+  # Destroy device. Optional playerId arg defaults to current player.
+  # 
+  # If player has no more modules, destroy it, too.
+  # 
+  destroyDevice: (playerId) ->
+    playerId ?= Live::playerId()
+    @player(playerId).unloadModule Live::deviceId()
+    @destroyPlayer(playerId) if @player(playerId).modules.length is 0
+    @resetObservers ["transport", "modules"]
+
   # Rebuild players array, without specified player.
   # 
   destroyPlayer: (playerId) ->
@@ -66,7 +91,6 @@ class Loom
           now = 0 if now > 0.1
 
           @thisPlayer().generateGesture(now)
-
           @nextEvent()
         else
           @thisPlayer().clearGestures()
@@ -74,22 +98,43 @@ class Loom
         logger.error e
 
   # Observe when module is added, removed or moved in the chain.
+  # Normally, just re-sequence the modules within a given player.
+  # 
+  # If device has changed players, may have to create or destroy
+  # new or old players, respectively, and re-init.
   # 
   followModuleChange: ->
     Live::onPlayerUpdate (deviceIds) =>
       try
-        @thisPlayer().sortModules(deviceIds)
+        if oldPlayerId = Live::detectPlayerChange()
+          logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
+          @initDevice()
+          @destroyDevice(oldPlayerId)
+        else
+          @thisPlayer().sortModules(deviceIds)
       catch e
         logger.error e
 
-  # 
+  # Output next event in queue.
   # 
   nextEvent: ->
     event = @thisPlayer().nextEvent()
     logger.debug "Outputting event", event
     outlet 0, event
 
-  # Send message to all Loom devices, with player ID for routing purposes.
+  # Notify *all* Loom devices that they should re-register their observers.
+  # 
+  # Do this liberally, because observers have a tendency to go dark after
+  # any environmental change (device added/moved/removed, script reloaded),
+  # and we can't risk losing touch with a critical observer.
+  # 
+  # This means we frequently redundantly re-register observers
+  # multiple times for a given device, because there's no way to test whether
+  # an observer has gone dormant or not.
+  # 
+  # This also means that we might get tied up for 100s of milliseconds just
+  # re-registering handlers, but at least the CPU cost is minimal in the
+  # low-priority thread.
   # 
   # Use Max [send] rather than LiveAPI to access sibling patchers as LiveAPI
   # is no longer available in one of our basic use cases: freeing patcher.
@@ -97,5 +142,5 @@ class Loom
   # Note that in that [freebang] scenario as well, the patcher ensures that
   # this devices does not receive this message unnecessarily.
   # 
-  resetPlayerObservers: (observers) ->
-    outlet 1, ["resetPlayerObservers", Live::playerId()].concat(observers)
+  resetObservers: (observers) ->
+    outlet 1, ["resetObservers"].concat(observers)
