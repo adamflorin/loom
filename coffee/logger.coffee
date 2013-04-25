@@ -38,9 +38,10 @@ class Logger
   openFile: (write) ->
     path = Max::patcherDirPath() + LOG_PATH
     file = new File(path, "write")
-    throw "Unable to open log file at #{path}" unless file.isopen
-    write(file)
+    fileIsOpen = file.isopen
+    write(file) if fileIsOpen
     file.close()
+    throw "Unable to open log file at #{path}" unless fileIsOpen
 
   # Log message
   # 
@@ -104,9 +105,10 @@ class Logger
     # load source from file
     path = Max::patcherDirPath() + COMPILED_SOURCE_PATH + file + ".js"
     sourceFile = new File(path, "read")
-    throw "Unable to open source file at #{path}" unless sourceFile.isopen
-    source = sourceFile.readstring(sourceFile.eof)
+    sourceFileIsOpen = sourceFile.isopen
+    source = sourceFile.readstring(sourceFile.eof) if sourceFileIsOpen
     sourceFile.close()
+    throw "Unable to open source file at #{path}" unless sourceFileIsOpen
 
     # scan lines
     sourceLines = source.split("\n")
