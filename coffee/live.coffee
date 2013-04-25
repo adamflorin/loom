@@ -9,7 +9,7 @@ class Live
   # 
   # 
   deviceId: ->
-    @thisDeviceId ?= (new LiveAPI "this_device").id
+    @thisDeviceId ?= parseInt (new LiveAPI "this_device").id
 
   # A "player" is defined as a group of modules which all
   # share the same parent. So our parent ID _is_ our player ID.
@@ -18,7 +18,7 @@ class Live
   # Otherwise it will be "Track".
   # 
   playerId: ->
-    @thisPlayerId ?= (new LiveAPI "this_device canonical_parent").id
+    @thisPlayerId ?= parseInt (new LiveAPI "this_device canonical_parent").id
 
   # Count sibling devices
   # 

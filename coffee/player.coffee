@@ -17,7 +17,7 @@ class Player
   # Build module, append to modules array.
   # 
   loadModule: (name, deviceId) ->
-    @modules.push module: Module::load(name), id: deviceId
+    @modules.push module: Module::load(name), id: deviceId, mute: off
     logger.info "Loaded module #{name} at device ID #{deviceId} for player #{@id}"
 
   # Rebuild modules array, without specified module.
@@ -32,16 +32,21 @@ class Player
   # 
   sortModules: (deviceIds) ->
     @modules = for deviceId in deviceIds
-      modules = (module for module in @modules when parseInt(module.id) is deviceId)
+      modules = (module for module in @modules when module.id is deviceId)
       if modules.length then modules[0] else # (return nothing)
     logger.debug "Sorted player #{@id} modules to match #{deviceIds}"
+
+  # Mute module, if present.
+  # 
+  muteModule: (deviceId, mute) ->
+    module.mute = mute for module in @modules when module.id is deviceId
 
   # Generate a single gesture, let each module process it.
   # 
   generateGesture: (time) ->
     if @gesturesAfter(time).length == 0
       gesture = new Gesture(time)
-      gesture = module.module.processGesture(gesture) for module in @modules
+      gesture = module.module.processGesture(gesture) for module in @modules when module.mute is off
       @gestures.push gesture
       logger.debug "Generated gesture for player #{@id}:", gesture
     else

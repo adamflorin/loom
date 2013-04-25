@@ -46,6 +46,13 @@ try
 catch e
   logger.error e
 
+# Is deviced enabled or "muted"?
+# 
+# This fires before 'init', so make sure module is loaded.
+# 
+enabled = (isEnabled) ->
+  Loom::thisPlayer()?.muteModule Live::deviceId(), !isEnabled
+
 # Output next event
 # 
 nextEvent = ->
