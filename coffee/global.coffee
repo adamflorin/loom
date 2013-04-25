@@ -15,6 +15,22 @@
 # 
 logger = new Logger
 
+# Called when device is loaded and LiveAPI is available
+# (bang from [live.thisdevice])
+# 
+# Load player and own module, then reset observers for all modules of this
+# player. (Adding a device to a chain can knock out the other devices' observers).
+# 
+init = ->
+  try
+    Loom::createThisPlayer() unless Loom::thisPlayer()?
+    Loom::loadThisPlayerModule()
+    Loom::resetPlayerObservers ["transport", "modules"]
+  catch e
+    logger.error e
+
+# Reload
+# 
 # If loaded flag is already set, then autowatch is reloading this script.
 # 
 # Clear memory and re-init everything. No need to wait for 'init' message this
@@ -25,28 +41,10 @@ try
     logger.warn "Detected script reload"
     Live::resetCache()
     Loom::reloadThisPlayerModule()
-    Max::messageAtLowPriority("initObservers")
+    Max::messageSelf(["resetPlayerObservers", Live::playerId(), "transport", "modules"])
   loaded = true
 catch e
   logger.error e
-
-# Called when device is loaded and LiveAPI is available
-# (bang from [live.thisdevice])
-# 
-init = ->
-  try
-    Loom::createThisPlayer() unless Loom::thisPlayer()?
-    Loom::loadThisPlayerModule()
-    Max::messageAtLowPriority("initObservers")
-  catch e
-    logger.error e
-
-# Init observers in a separate call, in order to run through [deferlow],
-# which can make a difference between an observer working or not.
-# 
-initObservers = ->
-  Loom::followTransport()
-  Loom::followModuleChange()
 
 # Output next event
 # 
@@ -71,7 +69,7 @@ destroy = ->
     if Loom::thisPlayer().modules.length is 0
       Loom::destroyPlayer Live::playerId()
 
-    Loom::resetPlayerObservers()
+    Loom::resetPlayerObservers ["transport", "modules"]
   catch e
     logger.error e
 
@@ -81,8 +79,12 @@ destroy = ->
 # Do this liberally, as there's no harm in registering this callback too many
 # times (redundant but not very expensive).
 # 
-resetPlayerObservers = (playerId) ->
+resetPlayerObservers = (playerId, observers...) ->
   try
-    Loom::followModuleChange() if playerId is Live::playerId()
+    if playerId is Live::playerId()
+      if observers.indexOf("modules") >= 0
+        Loom::followModuleChange()
+      if observers.indexOf("transport") >= 0
+        Loom::followTransport()
   catch e
     logger.error e

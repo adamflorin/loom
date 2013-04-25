@@ -24,7 +24,7 @@ class Max
   # Run message into [js] input via a [deferlow], which can be critical
   # for certain LiveAPI calls to work at all.
   # 
-  messageAtLowPriority: (msg) ->
+  messageSelf: (msg) ->
     patcher.getnamed("loom-low-priority").message(msg)
 
   # Math utility

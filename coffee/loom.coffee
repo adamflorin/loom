@@ -85,15 +85,17 @@ class Loom
   # 
   # 
   nextEvent: ->
-    event = [0, "note", 60, 100, 777] #@thisPlayer().nextEvent()
+    event = @thisPlayer().nextEvent()
     logger.debug "Outputting event", event
     outlet 0, event
 
-  # Send message to this player's devices. Max will make sure it doesn't
-  # feed back into this device (whic is being destroyed).
+  # Send message to all Loom devices, with player ID for routing purposes.
   # 
-  # Must use [send] in this case as LiveAPI is no longer available
-  # (which we could use to send to each device individually here).
+  # Use Max [send] rather than LiveAPI to access sibling patchers as LiveAPI
+  # is no longer available in one of our basic use cases: freeing patcher.
   # 
-  resetPlayerObservers: ->
-    outlet 1, ["resetPlayerObservers", Live::playerId()]
+  # Note that in that [freebang] scenario as well, the patcher ensures that
+  # this devices does not receive this message unnecessarily.
+  # 
+  resetPlayerObservers: (observers) ->
+    outlet 1, ["resetPlayerObservers", Live::playerId()].concat(observers)

@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 220.0, 156.0, 511.0, 620.0 ],
+		"rect" : [ 220.0, 156.0, 513.0, 636.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -34,7 +34,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 225.0, 555.0, 25.0, 25.0 ]
+					"patching_rect" : [ 30.0, 570.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -47,7 +47,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 165.0, 405.0, 300.0, 20.0 ],
+					"patching_rect" : [ 180.0, 420.0, 300.0, 20.0 ],
 					"text" : "certain calls which use LiveAPI must be bumped down"
 				}
 
@@ -61,7 +61,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 96.0, 405.0, 56.0, 20.0 ],
+					"patching_rect" : [ 111.0, 420.0, 56.0, 20.0 ],
 					"text" : "deferlow",
 					"varname" : "loom-low-priority"
 				}
@@ -77,7 +77,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 270.0, 256.0, 153.0, 47.0 ],
+					"patching_rect" : [ 285.0, 271.0, 153.0, 47.0 ],
 					"text" : "Receive message for all players (unless this device is being destroyed)."
 				}
 
@@ -91,7 +91,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 310.0, 32.5, 18.0 ],
+					"patching_rect" : [ 285.0, 325.0, 32.5, 18.0 ],
 					"text" : "0"
 				}
 
@@ -105,7 +105,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 345.0, 54.0, 20.0 ],
+					"patching_rect" : [ 285.0, 360.0, 54.0, 20.0 ],
 					"text" : "gate 1 1"
 				}
 
@@ -119,7 +119,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 305.0, 310.0, 87.0, 20.0 ],
+					"patching_rect" : [ 320.0, 325.0, 87.0, 20.0 ],
 					"text" : "r loom-players"
 				}
 
@@ -132,7 +132,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 209.0, 480.0, 89.0, 20.0 ],
+					"patching_rect" : [ 224.0, 495.0, 89.0, 20.0 ],
 					"text" : "s loom-players"
 				}
 
@@ -147,7 +147,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 256.0, 106.0, 142.0, 33.0 ],
+					"patching_rect" : [ 271.0, 121.0, 142.0, 33.0 ],
 					"text" : "Destroy when device is removed."
 				}
 
@@ -161,7 +161,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 256.0, 195.0, 50.0, 18.0 ],
+					"patching_rect" : [ 271.0, 210.0, 50.0, 18.0 ],
 					"text" : "destroy"
 				}
 
@@ -175,7 +175,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 256.0, 165.0, 58.0, 20.0 ],
+					"patching_rect" : [ 271.0, 180.0, 58.0, 20.0 ],
 					"text" : "freebang"
 				}
 
@@ -190,7 +190,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 76.0, 256.0, 142.0, 47.0 ],
+					"patching_rect" : [ 91.0, 271.0, 142.0, 47.0 ],
 					"text" : "Request that next event to be fired.\n(Event dispatch loop)"
 				}
 
@@ -204,7 +204,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 44.0, 45.0, 215.0, 20.0 ],
+					"patching_rect" : [ 59.0, 60.0, 215.0, 20.0 ],
 					"text" : "Integrate JS core into Max ecosystem."
 				}
 
@@ -219,7 +219,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 106.0, 153.0, 47.0 ],
+					"patching_rect" : [ 75.0, 121.0, 153.0, 47.0 ],
 					"text" : "Init when device is loaded,\nas LiveAPI is not available in JS before then."
 				}
 
@@ -233,7 +233,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 44.0, 23.0, 148.0, 22.0 ],
+					"patching_rect" : [ 59.0, 38.0, 148.0, 22.0 ],
 					"text" : "Loom Module"
 				}
 
@@ -247,8 +247,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 76.0, 345.0, 76.0, 18.0 ],
-					"text" : "next_event"
+					"patching_rect" : [ 91.0, 360.0, 76.0, 18.0 ],
+					"text" : "nextEvent"
 				}
 
 			}
@@ -451,7 +451,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 60.0, 555.0, 109.0, 20.0 ],
+					"patching_rect" : [ 75.0, 570.0, 109.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -649,7 +649,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 60.0, 495.0, 113.0, 20.0 ],
+					"patching_rect" : [ 75.0, 510.0, 113.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -676,7 +676,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 60.0, 195.0, 38.0, 18.0 ],
+					"patching_rect" : [ 75.0, 210.0, 38.0, 18.0 ],
 					"text" : "init"
 				}
 
@@ -690,7 +690,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "bang", "int", "int" ],
-					"patching_rect" : [ 60.0, 165.0, 88.0, 20.0 ],
+					"patching_rect" : [ 75.0, 180.0, 88.0, 20.0 ],
 					"text" : "live.thisdevice"
 				}
 
@@ -704,7 +704,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 60.0, 435.0, 168.0, 20.0 ],
+					"patching_rect" : [ 75.0, 450.0, 168.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "loom-module",
 						"parameter_enable" : 0
@@ -721,7 +721,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 44.0, 90.0, 181.0, 135.0 ]
+					"patching_rect" : [ 59.0, 105.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -732,7 +732,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 240.0, 90.0, 181.0, 135.0 ]
+					"patching_rect" : [ 255.0, 105.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -743,7 +743,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 240.0, 181.0, 135.0 ]
+					"patching_rect" : [ 75.0, 255.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -754,7 +754,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 256.0, 240.0, 181.0, 135.0 ]
+					"patching_rect" : [ 271.0, 255.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -863,7 +863,7 @@
 					"destination" : [ "obj-8", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 69.5, 534.0, 190.0, 534.0, 190.0, 322.0, 85.5, 322.0 ],
+					"midpoints" : [ 84.5, 549.0, 205.0, 549.0, 205.0, 337.0, 100.5, 337.0 ],
 					"source" : [ "obj-5", 0 ]
 				}
 
