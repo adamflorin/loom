@@ -47,3 +47,9 @@ task "test", "Run tests", ->
     (err, stdout, stderr) ->
       throw err if err
       console.log stdout + stderr
+
+task "linecount", "Count lines of CoffeeScript", ->
+  exec "find coffee/. -name '*.coffee' | xargs wc -l",
+    (err, stdout, stderr) ->
+      throw err if err
+      console.log stdout + stderr
