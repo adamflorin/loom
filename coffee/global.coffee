@@ -11,10 +11,6 @@
 # Copyright 2013 Adam Florin
 # 
 
-# init logger
-# 
-logger = new Logger
-
 # Called when device is loaded and LiveAPI is available
 # (bang from [live.thisdevice])
 # 
@@ -48,11 +44,20 @@ catch e
 enabled = (isEnabled) ->
   Loom::thisPlayer()?.muteModule Live::deviceId(), !isEnabled
 
+# 
+# 
+generateGesture = ->
+  try
+    Loom::thisPlayer().generateGesture()
+    Loom::thisPlayer().nextEvent()
+  catch e
+    logger.error e
+  
 # Output next event
 # 
 nextEvent = ->
   try
-    Loom::nextEvent()
+    Loom::thisPlayer().nextEvent()
   catch e
     logger.error e
 

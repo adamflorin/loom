@@ -15,13 +15,15 @@ SOURCE_FILES = [
   "max"
   "live"
   "logger"
+  "loom"
   "player"
   "module"
   "modules/blank"
+  "modules/continue"
+  "modules/impulse"
   "event"
   "events/note"
   "gesture"
-  "loom"
   "global"
 ]
 

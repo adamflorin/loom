@@ -117,3 +117,7 @@ class Logger
         return functionDefinition[1]
 
     return "<unknown>"
+
+# init logger
+# 
+logger = new Logger

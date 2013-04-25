@@ -17,7 +17,10 @@ class Player
   # Build module, append to modules array.
   # 
   loadModule: (name, deviceId) ->
-    @modules.push module: Module::load(name), id: deviceId, mute: off
+    @modules.push(
+      module: new Loom::modules[name](@)
+      id: deviceId
+      mute: off)
     logger.info "Loaded module #{name} at device ID #{deviceId} for player #{@id}"
 
   # Rebuild modules array, without specified module.
@@ -41,12 +44,18 @@ class Player
   muteModule: (deviceId, mute) ->
     module.mute = mute for module in @modules when module.id is deviceId
 
+  # Transport has started
+  # 
+  transportStart: (time) ->
+    @applyModules "transportStart", time
+
   # Generate a single gesture, let each module process it.
   # 
   generateGesture: (time) ->
-    if @gesturesAfter(time).length == 0
-      gesture = new Gesture(time)
-      gesture = module.module.processGesture(gesture) for module in @modules when module.mute is off
+    time ?= Live::now()
+
+    if @gesturesAfter(time).length <= 1
+      [gesture] = @applyModules "processGesture", new Gesture(time)
       @gestures.push gesture
       logger.debug "Generated gesture for player #{@id}:", gesture
     else
@@ -64,10 +73,24 @@ class Player
   # 
   nextEvent: (time) ->
     time ?= Live::now()
+
     if @events.length == 0
       for gesture in @gesturesAfter(time)
         @events.push event for event in gesture.events
-    @events.shift().serialize()
+
+    event = @events.shift()
+    Loom::outputEvent event.serialize() if event
+
+    if @events.length == 0
+      @applyModules "noMoreEvents"
+
+  # Go through modules list in order and fire callback on each where applicable.
+  # 
+  applyModules: (method, methodArgs...) ->
+    for module in @modules when module.mute is off
+      if module.module[method]?
+        methodArgs = module.module[method](methodArgs)
+    return methodArgs
 
   # Return gestures which end after a given time.
   # 

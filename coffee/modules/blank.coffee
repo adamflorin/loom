@@ -4,8 +4,4 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Module.Blank
-  Module::register @
-  
-  processGesture: (gesture) ->
-    gesture
+class Loom::modules.Blank extends Module

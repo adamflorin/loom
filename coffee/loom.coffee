@@ -6,6 +6,20 @@
 # 
 
 class Loom
+
+  # Modules define themselves here so they can be looked up by name.
+  # 
+  @::modules = {}
+
+  # Live "transport start" event fires an indeterminte duration of time
+  # after transport has actually started. (See followTransport() below.)
+  # 
+  # This value appears to typically be within 60ms.
+  # 
+  # This "allowable delay" is in beats, and assumes 120bpm (for now).
+  # 
+  @::ALLOWABLE_TRANSPORT_START_DELAY = 0.12
+
   # 
   # 
   players: ->
@@ -88,10 +102,8 @@ class Loom
       try
         if playing
           now = Live::now()
-          now = 0 if now > 0.1
-
-          @thisPlayer().generateGesture(now)
-          @nextEvent()
+          now = 0 if now > @ALLOWABLE_TRANSPORT_START_DELAY
+          @thisPlayer().transportStart(now)
         else
           @thisPlayer().clearGestures()
       catch e
@@ -115,10 +127,9 @@ class Loom
       catch e
         logger.error e
 
-  # Output next event in queue.
+  # Send event to Max to be scheduled.
   # 
-  nextEvent: ->
-    event = @thisPlayer().nextEvent()
+  outputEvent: (event) ->
     logger.debug "Outputting event", event
     outlet 0, event
 
@@ -130,7 +141,7 @@ class Loom
   # 
   # This means we frequently redundantly re-register observers
   # multiple times for a given device, because there's no way to test whether
-  # an observer has gone dormant or not.
+  # an observer has gone dark or not.
   # 
   # This also means that we might get tied up for 100s of milliseconds just
   # re-registering handlers, but at least the CPU cost is minimal in the
