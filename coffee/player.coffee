@@ -58,6 +58,7 @@ class Player
   # If event queue is empty, populate it from upcoming gestures.
   # 
   nextEvent: (time) ->
+    time ?= Live::now()
     if @events.length == 0
       for gesture in @gesturesAfter(time)
         @events.push event for event in gesture.events
@@ -65,7 +66,7 @@ class Player
 
   # Return gestures which end after a given time.
   # 
-  # OPT: start counting at end of list and break when done
+  # OPT: start counting at end of list and break when done.
   # 
   gesturesAfter: (time) ->
     gesture for gesture in @gestures when gesture.endAt() > time

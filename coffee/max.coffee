@@ -9,21 +9,23 @@
 `outlets = 2`
 `autowatch = 1`
 
+# Tooltips
+# 
+setinletassist(0, "Loom message input")
+setoutletassist(0, "Timed event output")
+setoutletassist(1, "Messages for other devices")
+
 class Max
-  # 
-  # 
-  initTooltips: ->
-    setinletassist(0, "Loom message input")
-    setoutletassist(0, "Timed event output")
-  
   # 
   # 
   patcherDirPath: ->
     patcher.filepath.match(/^(.+\/)([^/]+)$/)[1]
 
-  # wrapper
+  # Run message into [js] input via a [deferlow], which can be critical
+  # for certain LiveAPI calls to work at all.
   # 
-  time: () -> max.time
+  messageAtLowPriority: (msg) ->
+    patcher.getnamed("loom-low-priority").message(msg)
 
   # Math utility
   # 

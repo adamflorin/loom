@@ -22,7 +22,7 @@ SOURCE_FILES = [
   "events/note"
   "gesture"
   "loom"
-  "messages"
+  "global"
 ]
 
 TEST_ARGS = [
