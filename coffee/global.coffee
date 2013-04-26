@@ -11,12 +11,14 @@
 # Copyright 2013 Adam Florin
 # 
 
-# Called when device is loaded and LiveAPI is available
-# (bang from [live.thisdevice])
+# Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 
-init = ->
+anything = ->
   try
-    Loom::initDevice()
+    if Loom::[messagename]
+      Loom::[messagename] arrayfromargs(arguments)...
+    else
+      logger.error "Message \"#{messagename}\" not supported"
   catch e
     logger.error e
 
@@ -36,52 +38,3 @@ try
   loaded = true
 catch e
   logger.error e
-
-# Is deviced enabled or "muted"?
-# 
-# This fires before 'init', so make sure module is loaded.
-# 
-enabled = (isEnabled) ->
-  Loom::thisPlayer()?.muteModule Live::deviceId(), !isEnabled
-
-# 
-# 
-generateGesture = ->
-  try
-    Loom::thisPlayer().generateGesture()
-    Loom::thisPlayer().nextEvent()
-  catch e
-    logger.error e
-  
-# Output next event
-# 
-nextEvent = ->
-  try
-    Loom::thisPlayer().nextEvent()
-  catch e
-    logger.error e
-
-# Called from [freebang]
-# 
-# By the time this is called, module may already have been removed
-# from player. So just destroy player if no modules remain.
-# Then tell all devices in this player to refresh themselves.
-# 
-# NOTE that LiveAPI is no longer available at this point.
-# 
-destroy = ->
-  try
-    Loom::destroyDevice()
-  catch e
-    logger.error e
-
-# Reset observers as requested by Loom::resetObservers()
-# 
-resetObservers = (observers...) ->
-  try
-    if observers.indexOf("modules") >= 0
-      Loom::followModuleChange()
-    if observers.indexOf("transport") >= 0
-      Loom::followTransport()
-  catch e
-    logger.error e

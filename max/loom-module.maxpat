@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 220.0, 156.0, 536.0, 643.0 ],
+		"rect" : [ 220.0, 156.0, 791.0, 670.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -29,6 +29,44 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"comment" : "",
+					"id" : "obj-33",
+					"maxclass" : "inlet",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 76.0, 443.0, 25.0, 25.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-27",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 76.0, 361.0, 153.0, 33.0 ],
+					"text" : "Messages from device patcher."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
+					"id" : "obj-32",
+					"maxclass" : "panel",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 60.0, 345.0, 181.0, 135.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-19",
@@ -36,7 +74,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "bang", "bang" ],
-					"patching_rect" : [ 256.0, 120.0, 124.0, 20.0 ],
+					"patching_rect" : [ 466.0, 121.0, 124.0, 20.0 ],
 					"text" : "t b b"
 				}
 
@@ -51,7 +89,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 254.0, 360.0, 151.0, 47.0 ],
+					"patching_rect" : [ 464.0, 361.0, 151.0, 47.0 ],
 					"text" : "Certain calls which use LiveAPI must be bumped down in priority."
 				}
 
@@ -471,7 +509,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 270.0, 298.0, 110.0, 20.0 ],
+					"patching_rect" : [ 480.0, 299.0, 110.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -498,7 +536,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 124.5, 299.0, 77.0, 18.0 ],
+					"patching_rect" : [ 352.0, 300.0, 77.0, 18.0 ],
 					"text" : "enabled $1"
 				}
 
@@ -510,7 +548,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 299.0, 570.0, 25.0, 25.0 ]
+					"patching_rect" : [ 509.0, 571.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -523,7 +561,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 254.0, 447.0, 59.0, 20.0 ],
+					"patching_rect" : [ 464.0, 448.0, 59.0, 20.0 ],
 					"text" : "deferlow"
 				}
 
@@ -538,7 +576,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 270.0, 211.0, 153.0, 33.0 ],
+					"patching_rect" : [ 480.0, 212.0, 153.0, 33.0 ],
 					"text" : "Receive messages for this device."
 				}
 
@@ -553,7 +591,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 270.0, 90.0, 20.0 ],
+					"patching_rect" : [ 480.0, 271.0, 90.0, 20.0 ],
 					"text" : "r loom-players"
 				}
 
@@ -567,7 +605,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 375.0, 525.0, 92.0, 20.0 ],
+					"patching_rect" : [ 585.0, 526.0, 92.0, 20.0 ],
 					"text" : "s loom-players"
 				}
 
@@ -582,22 +620,22 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 256.0, 54.0, 129.0, 33.0 ],
+					"patching_rect" : [ 466.0, 55.0, 129.0, 33.0 ],
 					"text" : "Destroy when device is removed."
 				}
 
 			}
 , 			{
 				"box" : 				{
-					"fontname" : "Arial",
+					"fontname" : "Arial Bold",
 					"fontsize" : 12.0,
 					"id" : "obj-9",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 256.0, 150.0, 53.0, 18.0 ],
-					"text" : "destroy"
+					"patching_rect" : [ 466.0, 150.0, 94.0, 18.0 ],
+					"text" : "destroyDevice"
 				}
 
 			}
@@ -610,7 +648,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 256.0, 89.0, 61.0, 20.0 ],
+					"patching_rect" : [ 466.0, 90.0, 61.0, 20.0 ],
 					"text" : "freebang"
 				}
 
@@ -625,7 +663,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 61.0, 360.0, 141.0, 47.0 ],
+					"patching_rect" : [ 271.0, 361.0, 141.0, 47.0 ],
 					"text" : "Request that next event to be fired.\n(Event dispatch loop)"
 				}
 
@@ -636,11 +674,10 @@
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
 					"id" : "obj-13",
-					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 45.0, 76.0, 126.0, 33.0 ],
+					"patching_rect" : [ 60.0, 77.0, 215.0, 20.0 ],
 					"text" : "Integrate JS core into Max ecosystem."
 				}
 
@@ -655,7 +692,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 77.0, 210.0, 153.0, 47.0 ],
+					"patching_rect" : [ 287.0, 211.0, 153.0, 47.0 ],
 					"text" : "Init when device is loaded,\nas LiveAPI is not available in JS before then."
 				}
 
@@ -669,7 +706,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 45.0, 54.0, 101.0, 22.0 ],
+					"patching_rect" : [ 60.0, 55.0, 101.0, 22.0 ],
 					"text" : "Loom Module"
 				}
 
@@ -683,7 +720,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 61.0, 449.0, 80.0, 18.0 ],
+					"patching_rect" : [ 271.0, 450.0, 80.0, 18.0 ],
 					"text" : "nextEvent"
 				}
 
@@ -888,7 +925,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 335.0, 555.0, 113.0, 20.0 ],
+					"patching_rect" : [ 545.0, 556.0, 113.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -1178,7 +1215,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 237.0, 525.0, 117.0, 20.0 ],
+					"patching_rect" : [ 447.0, 526.0, 117.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -1205,8 +1242,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 77.0, 299.0, 43.0, 18.0 ],
-					"text" : "init"
+					"patching_rect" : [ 287.0, 300.0, 78.0, 18.0 ],
+					"text" : "initDevice"
 				}
 
 			}
@@ -1219,7 +1256,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "bang", "int", "int" ],
-					"patching_rect" : [ 77.0, 269.0, 114.0, 20.0 ],
+					"patching_rect" : [ 287.0, 270.0, 149.0, 20.0 ],
 					"text" : "live.thisdevice"
 				}
 
@@ -1234,7 +1271,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 237.0, 495.0, 157.0, 20.0 ],
+					"patching_rect" : [ 447.0, 496.0, 157.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "loom-module",
 						"parameter_enable" : 0
@@ -1252,7 +1289,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 61.0, 194.0, 181.0, 135.0 ]
+					"patching_rect" : [ 271.0, 195.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1263,7 +1300,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 240.0, 45.0, 181.0, 135.0 ]
+					"patching_rect" : [ 450.0, 46.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1274,7 +1311,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 45.0, 344.0, 181.0, 135.0 ]
+					"patching_rect" : [ 255.0, 345.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1285,7 +1322,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 256.0, 194.0, 181.0, 135.0 ]
+					"patching_rect" : [ 466.0, 195.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1296,7 +1333,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 240.0, 344.0, 181.0, 135.0 ]
+					"patching_rect" : [ 450.0, 345.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1396,6 +1433,16 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"midpoints" : [ 85.5, 487.0, 456.5, 487.0 ],
+					"source" : [ "obj-33", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
 					"source" : [ "obj-4", 0 ]
 				}
 
@@ -1423,7 +1470,7 @@
 					"destination" : [ "obj-8", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 246.5, 546.0, 50.0, 546.0, 50.0, 435.0, 70.5, 435.0 ],
+					"midpoints" : [ 456.5, 559.0, 260.0, 559.0, 260.0, 436.0, 280.5, 436.0 ],
 					"source" : [ "obj-5", 0 ]
 				}
 
@@ -1442,7 +1489,7 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 70.5, 486.0, 246.5, 486.0 ],
+					"midpoints" : [ 280.5, 487.0, 456.5, 487.0 ],
 					"source" : [ "obj-8", 0 ]
 				}
 

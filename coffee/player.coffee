@@ -18,7 +18,7 @@ class Player
   # 
   loadModule: (name, deviceId) ->
     @modules.push(
-      module: new Loom::modules[name](@)
+      module: new Loom::modules[name]
       id: deviceId
       mute: off)
     logger.info "Loaded module #{name} at device ID #{deviceId} for player #{@id}"
@@ -44,7 +44,8 @@ class Player
   muteModule: (deviceId, mute) ->
     module.mute = mute for module in @modules when module.id is deviceId
 
-  # Return the ID of our "output module". By convention, make this the last module.
+  # Return the ID of our designated "output module".
+  # By convention, make this the last module.
   # 
   # See Loom::messagePlayerOutputModule().
   # 
@@ -72,7 +73,6 @@ class Player
   # 
   clearGestures: ->
     @gestures = []
-    logger.debug "Cleared gestures for player #{@id}"
 
   # Select the earliest future event from the earliest future gesture.
   # 

@@ -21,6 +21,7 @@ SOURCE_FILES = [
   "modules/blank"
   "modules/continue"
   "modules/impulse"
+  "modules/start"
   "event"
   "events/note"
   "gesture"

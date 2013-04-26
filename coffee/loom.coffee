@@ -43,7 +43,7 @@ class Loom
     logger.warn "Module created outside of rack" unless Live::deviceInRack()
     @createThisPlayer() unless @thisPlayer()?
     @loadThisPlayerModule()
-    @resetObservers ["transport", "modules"]
+    @messageResetObservers ["transport", "modules"]
 
   # Create player if it doesn't already exist, and load this module either way.
   # 
@@ -73,13 +73,18 @@ class Loom
 
   # Destroy device. Optional playerId arg defaults to current player.
   # 
-  # If player has no more modules, destroy it, too.
+  # By the time this is called, module may already have been removed
+  # from player. So just destroy player if no modules remain.
+  # Then tell all devices in this player to refresh themselves.
+  # 
+  # Note that if this is being called from [freebang], LiveAPI is no longer
+  # avalable.
   # 
   destroyDevice: (playerId) ->
     playerId ?= Live::playerId()
     @player(playerId).unloadModule Live::deviceId()
     @destroyPlayer(playerId) if @player(playerId).modules.length is 0
-    @resetObservers ["transport", "modules"]
+    @messageResetObservers ["transport", "modules"]
 
   # Rebuild players array, without specified player.
   # 
@@ -87,6 +92,13 @@ class Loom
     fewerPlayers = (player for player in @players() when player.id isnt playerId)
     (new Global("loom")).players = fewerPlayers
     logger.info "Destroyed player ID #{playerId}"
+
+  # Is deviced enabled or "muted"?
+  # 
+  # This fires before 'initDevice', so make sure module is loaded.
+  # 
+  enabled: (isEnabled) ->
+    @thisPlayer()?.muteModule(Live::deviceId(), !isEnabled)
 
   # Listen for transport start/stop
   # 
@@ -127,11 +139,46 @@ class Loom
       catch e
         logger.error e
 
+  # "Play" means: generate a gesture and start outputting.
+  # 
+  play: ->
+    unless @routeInputMessage("play")
+      @thisPlayer().generateGesture()
+      @thisPlayer().nextEvent()
+
+  # Get next event off the queue. Re-route in case output module was
+  # moved while an event was out for dispatch.
+  # 
+  nextEvent: ->
+    unless @routeInputMessage("nextEvent")
+      @thisPlayer().nextEvent()
+
   # Send event to Max to be scheduled.
   # 
   outputEvent: (event) ->
     logger.debug "Outputting event", event
     outlet 0, event
+
+  # Input messages may only go to the designated "output" device.
+  # If this isn't it, pass the message along to it, and return true.
+  # 
+  # Because each module has the capacity to output MIDI events, we must
+  # assign output responsibility to just one of them, so that events are
+  # not output redundantly.
+  # 
+  routeInputMessage: (message) ->
+    unless Live::deviceId() is @thisPlayer().outputModuleId()
+      @messagePlayerOutputDevice message
+      return true
+
+  # Reset observers as requested by Loom::messageResetObservers()
+  # 
+  resetObservers: (observers) ->
+    logger.debug "observers", observers
+    if observers.indexOf("modules") >= 0
+      Loom::followModuleChange()
+    if observers.indexOf("transport") >= 0
+      Loom::followTransport()
 
   # Notify all Loom devices that they should re-register their observers.
   # (Or just one device if deviceId is specified.)
@@ -148,29 +195,25 @@ class Loom
   # re-registering handlers, but at least the CPU cost is minimal in the
   # low-priority thread.
   # 
-  resetObservers: (observers, deviceId) ->
-    msg = ["resetObservers"].concat(observers)
+  messageResetObservers: (observers, deviceId) ->
+    message = ["resetObservers"].concat(observers)
     if deviceId
-      @messageDevice msg, deviceId
+      @messageDevice message, deviceId
     else
-      @messageAll msg
+      @messageAll message
 
   # Dispatch a message to a player's "output" module. Default to this player.
   # 
-  # Because each module has the capacity to output MIDI events, we must
-  # assign output responsibility to just one of them, so that events are
-  # not output redundantly.
-  # 
-  messagePlayerOutputDevice: (msg, playerId) ->
+  messagePlayerOutputDevice: (message, playerId) ->
     player = @player(playerId || Live::playerId())
     if player
       deviceId = player.outputModuleId()
-      @messageDevice msg, deviceId
+      @messageDevice message, deviceId
 
-  messageDevice: (msg, deviceId) ->
-    @messageAll ["forDevice", deviceId].concat(msg)
+  messageDevice: (message, deviceId) ->
+    @messageAll ["forDevice", deviceId].concat(message)
 
   # Output to a [send] which goes to all Loom devices.
   # 
-  messageAll: (msg) ->
-    outlet 1, msg
+  messageAll: (message) ->
+    outlet 1, message
