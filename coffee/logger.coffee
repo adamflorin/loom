@@ -114,7 +114,7 @@ class Logger
     sourceLines = source.split("\n")
     for line in [(number-1)..0]
       if functionDefinition = sourceLines[line].match(/(\S+?)[\s=(]+function.*/)
-        return functionDefinition[1]
+        return "  in #{functionDefinition[1]}"
 
     return "<unknown>"
 

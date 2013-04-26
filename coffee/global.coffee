@@ -18,7 +18,7 @@ anything = ->
     if Loom::[messagename]
       Loom::[messagename] arrayfromargs(arguments)...
     else
-      logger.error "Message \"#{messagename}\" not supported"
+      throw new Error "Message \"#{messagename}\" not supported"
   catch e
     logger.error e
 
