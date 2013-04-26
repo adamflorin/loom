@@ -47,12 +47,12 @@
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
 					"id" : "obj-24",
-					"linecount" : 5,
+					"linecount" : 3,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 254.0, 360.0, 151.0, 74.0 ],
-					"text" : "Certain calls which use LiveAPI must be bumped down in priority.\nJS also sends directly to this box via scripting."
+					"patching_rect" : [ 254.0, 360.0, 151.0, 47.0 ],
+					"text" : "Certain calls which use LiveAPI must be bumped down in priority."
 				}
 
 			}
@@ -524,8 +524,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 254.0, 447.0, 59.0, 20.0 ],
-					"text" : "deferlow",
-					"varname" : "loom-low-priority"
+					"text" : "deferlow"
 				}
 
 			}
@@ -641,7 +640,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 45.0, 76.0, 124.5, 33.0 ],
+					"patching_rect" : [ 45.0, 76.0, 126.0, 33.0 ],
 					"text" : "Integrate JS core into Max ecosystem."
 				}
 

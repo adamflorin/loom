@@ -133,7 +133,8 @@ class Loom
     logger.debug "Outputting event", event
     outlet 0, event
 
-  # Notify *all* Loom devices that they should re-register their observers.
+  # Notify all Loom devices that they should re-register their observers.
+  # (Or just one device if deviceId is specified.)
   # 
   # Do this liberally, because observers have a tendency to go dark after
   # any environmental change (device added/moved/removed, script reloaded),
@@ -147,8 +148,12 @@ class Loom
   # re-registering handlers, but at least the CPU cost is minimal in the
   # low-priority thread.
   # 
-  resetObservers: (observers) ->
-    @messageAll ["resetObservers"].concat(observers)
+  resetObservers: (observers, deviceId) ->
+    msg = ["resetObservers"].concat(observers)
+    if deviceId
+      @messageDevice msg, deviceId
+    else
+      @messageAll msg
 
   # Dispatch a message to a player's "output" module. Default to this player.
   # 
@@ -156,12 +161,14 @@ class Loom
   # assign output responsibility to just one of them, so that events are
   # not output redundantly.
   # 
-  messagePlayerOutputModule: (msg, playerId) ->
+  messagePlayerOutputDevice: (msg, playerId) ->
     player = @player(playerId || Live::playerId())
     if player
       deviceId = player.outputModuleId()
-      logger.debug "Sending message to device ID #{deviceId}:", msg
-      @messageAll ["forDevice", deviceId].concat(msg)
+      @messageDevice msg, deviceId
+
+  messageDevice: (msg, deviceId) ->
+    @messageAll ["forDevice", deviceId].concat(msg)
 
   # Output to a [send] which goes to all Loom devices.
   # 
