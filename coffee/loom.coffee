@@ -147,11 +147,23 @@ class Loom
   # re-registering handlers, but at least the CPU cost is minimal in the
   # low-priority thread.
   # 
-  # Use Max [send] rather than LiveAPI to access sibling patchers as LiveAPI
-  # is no longer available in one of our basic use cases: freeing patcher.
-  # 
-  # Note that in that [freebang] scenario as well, the patcher ensures that
-  # this devices does not receive this message unnecessarily.
-  # 
   resetObservers: (observers) ->
-    outlet 1, ["resetObservers"].concat(observers)
+    @messageAll ["resetObservers"].concat(observers)
+
+  # Dispatch a message to a player's "output" module. Default to this player.
+  # 
+  # Because each module has the capacity to output MIDI events, we must
+  # assign output responsibility to just one of them, so that events are
+  # not output redundantly.
+  # 
+  messagePlayerOutputModule: (msg, playerId) ->
+    player = @player(playerId || Live::playerId())
+    if player
+      deviceId = player.outputModuleId()
+      logger.debug "Sending message to device ID #{deviceId}:", msg
+      @messageAll ["forDevice", deviceId].concat(msg)
+
+  # Output to a [send] which goes to all Loom devices.
+  # 
+  messageAll: (msg) ->
+    outlet 1, msg

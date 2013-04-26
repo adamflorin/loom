@@ -32,7 +32,7 @@ try
     logger.warn "Detected script reload"
     Live::resetCache()
     Loom::reloadThisPlayerModule()
-    Max::messageSelf(["resetObservers", Live::playerId(), "transport", "modules"])
+    Max::messageSelf ["resetObservers", "transport", "modules"]
   loaded = true
 catch e
   logger.error e

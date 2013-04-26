@@ -44,6 +44,13 @@ class Player
   muteModule: (deviceId, mute) ->
     module.mute = mute for module in @modules when module.id is deviceId
 
+  # Return the ID of our "output module". By convention, make this the last module.
+  # 
+  # See Loom::messagePlayerOutputModule().
+  # 
+  outputModuleId: ->
+    @modules[-1..][0].id
+
   # Transport has started
   # 
   transportStart: (time) ->
