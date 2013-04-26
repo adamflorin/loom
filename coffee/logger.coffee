@@ -112,11 +112,13 @@ class Logger
 
     # scan lines
     sourceLines = source.split("\n")
-    for line in [(number-1)..0]
-      if functionDefinition = sourceLines[line].match(/(\S+?)[\s=(]+function.*/)
-        return "  in #{functionDefinition[1]}"
-
-    return "<unknown>"
+    functionName = do ->
+      for line in [(number-1)..0]
+        if functionDefinition = sourceLines[line].match(/(\S+?)[\s=(]+function.*/)
+          return functionDefinition[1]
+    functionName ?= "<unknown>"
+    
+    return "  at #{functionName} (#{file}.js:#{number})"
 
 # init logger
 # 
