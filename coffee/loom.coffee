@@ -173,8 +173,7 @@ class Loom
 
   # Reset observers as requested by Loom::messageResetObservers()
   # 
-  resetObservers: (observers) ->
-    logger.debug "observers", observers
+  resetObservers: (observers...) ->
     if observers.indexOf("modules") >= 0
       Loom::followModuleChange()
     if observers.indexOf("transport") >= 0
