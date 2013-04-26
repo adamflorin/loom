@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 220.0, 156.0, 791.0, 670.0 ],
+		"rect" : [ 220.0, 156.0, 791.0, 666.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -29,13 +29,65 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-35",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 166.0, 315.0, 49.0, 20.0 ],
+					"text" : "midiout"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-34",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 166.0, 285.0, 42.0, 20.0 ],
+					"text" : "midiin"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-30",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 166.0, 226.0, 153.0, 20.0 ],
+					"text" : "Always pass MIDI thru."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
+					"id" : "obj-31",
+					"maxclass" : "panel",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 150.0, 210.0, 181.0, 135.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"comment" : "",
 					"id" : "obj-33",
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 76.0, 443.0, 25.0, 25.0 ]
+					"patching_rect" : [ 76.0, 458.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -49,7 +101,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 76.0, 361.0, 153.0, 33.0 ],
+					"patching_rect" : [ 76.0, 376.0, 153.0, 33.0 ],
 					"text" : "Messages from device patcher."
 				}
 
@@ -61,7 +113,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 345.0, 181.0, 135.0 ]
+					"patching_rect" : [ 60.0, 360.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -73,9 +125,9 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 2,
-					"outlettype" : [ "bang", "bang" ],
-					"patching_rect" : [ 466.0, 121.0, 124.0, 20.0 ],
-					"text" : "t b b"
+					"outlettype" : [ "bang", "int" ],
+					"patching_rect" : [ 466.0, 136.0, 129.0, 20.0 ],
+					"text" : "t b 0"
 				}
 
 			}
@@ -89,7 +141,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 464.0, 361.0, 151.0, 47.0 ],
+					"patching_rect" : [ 464.0, 376.0, 151.0, 47.0 ],
 					"text" : "Certain calls which use LiveAPI must be bumped down in priority."
 				}
 
@@ -133,26 +185,12 @@
 						"tags" : "",
 						"boxes" : [ 							{
 								"box" : 								{
-									"fontname" : "Arial",
-									"fontsize" : 12.0,
-									"id" : "obj-15",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 145.0, 92.0, 32.5, 18.0 ],
-									"text" : "0"
-								}
-
-							}
-, 							{
-								"box" : 								{
 									"comment" : "Block all messages",
 									"id" : "obj-6",
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "bang" ],
+									"outlettype" : [ "int" ],
 									"patching_rect" : [ 145.0, 62.0, 25.0, 25.0 ]
 								}
 
@@ -191,12 +229,12 @@
 									"fontsize" : 12.0,
 									"frgb" : 0.0,
 									"id" : "obj-25",
-									"linecount" : 14,
+									"linecount" : 13,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 255.0, 62.0, 165.0, 194.0 ],
-									"text" : "If input is of the format:\n\nforDevice <deviceId> <msg>\n\nOnly pass msg through if deviceId matches this Live device's ID.\n\nOtherwise, pass entire message through.\n\nIf bang is received in right input, block all subsequent messages."
+									"patching_rect" : [ 255.0, 62.0, 165.0, 181.0 ],
+									"text" : "If input is of the format:\n\nforDevice <deviceId> <msg>\n\nOnly pass msg through if deviceId matches this Live device's ID.\n\nOtherwise, pass entire message through.\n\nAlso, gate messages according to right input."
 								}
 
 							}
@@ -415,15 +453,6 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-1", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-15", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-18", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -471,7 +500,7 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-15", 0 ],
+									"destination" : [ "obj-1", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-6", 0 ]
@@ -509,7 +538,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 480.0, 299.0, 110.0, 20.0 ],
+					"patching_rect" : [ 555.0, 314.0, 110.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -536,7 +565,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 352.0, 300.0, 77.0, 18.0 ],
+					"patching_rect" : [ 427.0, 315.0, 77.0, 18.0 ],
 					"text" : "enabled $1"
 				}
 
@@ -548,7 +577,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 509.0, 571.0, 25.0, 25.0 ]
+					"patching_rect" : [ 509.0, 586.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -561,7 +590,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 464.0, 448.0, 59.0, 20.0 ],
+					"patching_rect" : [ 464.0, 463.0, 59.0, 20.0 ],
 					"text" : "deferlow"
 				}
 
@@ -576,7 +605,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 480.0, 212.0, 153.0, 33.0 ],
+					"patching_rect" : [ 555.0, 227.0, 153.0, 33.0 ],
 					"text" : "Receive messages for this device."
 				}
 
@@ -591,7 +620,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 480.0, 271.0, 90.0, 20.0 ],
+					"patching_rect" : [ 555.0, 286.0, 90.0, 20.0 ],
 					"text" : "r loom-players"
 				}
 
@@ -605,7 +634,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 585.0, 526.0, 92.0, 20.0 ],
+					"patching_rect" : [ 585.0, 541.0, 92.0, 20.0 ],
 					"text" : "s loom-players"
 				}
 
@@ -620,7 +649,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 466.0, 55.0, 129.0, 33.0 ],
+					"patching_rect" : [ 466.0, 70.0, 129.0, 33.0 ],
 					"text" : "Destroy when device is removed."
 				}
 
@@ -634,7 +663,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 466.0, 150.0, 94.0, 18.0 ],
+					"patching_rect" : [ 466.0, 165.0, 94.0, 18.0 ],
 					"text" : "destroyDevice"
 				}
 
@@ -648,7 +677,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 466.0, 90.0, 61.0, 20.0 ],
+					"patching_rect" : [ 466.0, 105.0, 61.0, 20.0 ],
 					"text" : "freebang"
 				}
 
@@ -663,7 +692,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 271.0, 361.0, 141.0, 47.0 ],
+					"patching_rect" : [ 271.0, 376.0, 141.0, 47.0 ],
 					"text" : "Request that next event to be fired.\n(Event dispatch loop)"
 				}
 
@@ -677,7 +706,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 77.0, 215.0, 20.0 ],
+					"patching_rect" : [ 60.0, 92.0, 215.0, 20.0 ],
 					"text" : "Integrate JS core into Max ecosystem."
 				}
 
@@ -692,7 +721,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 287.0, 211.0, 153.0, 47.0 ],
+					"patching_rect" : [ 362.0, 226.0, 153.0, 47.0 ],
 					"text" : "Init when device is loaded,\nas LiveAPI is not available in JS before then."
 				}
 
@@ -706,7 +735,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 55.0, 101.0, 22.0 ],
+					"patching_rect" : [ 60.0, 70.0, 101.0, 22.0 ],
 					"text" : "Loom Module"
 				}
 
@@ -720,7 +749,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 271.0, 450.0, 80.0, 18.0 ],
+					"patching_rect" : [ 271.0, 465.0, 80.0, 18.0 ],
 					"text" : "nextEvent"
 				}
 
@@ -925,7 +954,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 545.0, 556.0, 113.0, 20.0 ],
+					"patching_rect" : [ 545.0, 571.0, 113.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -1215,7 +1244,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 447.0, 526.0, 117.0, 20.0 ],
+					"patching_rect" : [ 447.0, 541.0, 117.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -1242,7 +1271,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 287.0, 300.0, 78.0, 18.0 ],
+					"patching_rect" : [ 362.0, 315.0, 67.0, 18.0 ],
 					"text" : "initDevice"
 				}
 
@@ -1256,7 +1285,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "bang", "int", "int" ],
-					"patching_rect" : [ 287.0, 270.0, 149.0, 20.0 ],
+					"patching_rect" : [ 362.0, 285.0, 149.0, 20.0 ],
 					"text" : "live.thisdevice"
 				}
 
@@ -1271,7 +1300,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 447.0, 496.0, 157.0, 20.0 ],
+					"patching_rect" : [ 447.0, 511.0, 157.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "loom-module",
 						"parameter_enable" : 0
@@ -1289,7 +1318,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 271.0, 195.0, 181.0, 135.0 ]
+					"patching_rect" : [ 346.0, 210.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1300,7 +1329,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 450.0, 46.0, 181.0, 135.0 ]
+					"patching_rect" : [ 450.0, 61.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1311,7 +1340,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 255.0, 345.0, 181.0, 135.0 ]
+					"patching_rect" : [ 255.0, 360.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1322,7 +1351,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 466.0, 195.0, 181.0, 135.0 ]
+					"patching_rect" : [ 541.0, 210.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1333,7 +1362,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 450.0, 345.0, 181.0, 135.0 ]
+					"patching_rect" : [ 450.0, 360.0, 181.0, 135.0 ]
 				}
 
 			}
@@ -1433,8 +1462,17 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 85.5, 487.0, 456.5, 487.0 ],
+					"midpoints" : [ 85.5, 502.0, 456.5, 502.0 ],
 					"source" : [ "obj-33", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-35", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-34", 0 ]
 				}
 
 			}
@@ -1470,7 +1508,7 @@
 					"destination" : [ "obj-8", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 456.5, 559.0, 260.0, 559.0, 260.0, 436.0, 280.5, 436.0 ],
+					"midpoints" : [ 456.5, 574.0, 260.0, 574.0, 260.0, 451.0, 280.5, 451.0 ],
 					"source" : [ "obj-5", 0 ]
 				}
 
@@ -1489,7 +1527,7 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 280.5, 487.0, 456.5, 487.0 ],
+					"midpoints" : [ 280.5, 502.0, 456.5, 502.0 ],
 					"source" : [ "obj-8", 0 ]
 				}
 
