@@ -34,7 +34,7 @@ try
     logger.warn "Detected script reload"
     Live::resetCache()
     Loom::reloadThisPlayerModule()
-    Loom::resetObservers ["transport", "modules"], Live::deviceId()
+    Loom::messageResetObservers ["transport", "modules"], Live::deviceId()
   loaded = true
 catch e
   logger.error e
