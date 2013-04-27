@@ -8,5 +8,6 @@ class Loom::modules.Start extends Module
   
   # Play on start.
   # 
-  transportStart: ->
-    Loom::play()
+  transportStart: (time) ->
+    Loom::play(time)
+    return time

@@ -12,7 +12,8 @@ class Player
     @modules = []
     @gestures = []
     @events = []
-    logger.info "Created player ID #{@id}"
+    @currentEvent = null
+    logger.info "Player #{@id}: Created"
 
   # Build module, append to modules array.
   # 
@@ -21,13 +22,13 @@ class Player
       module: new Loom::modules[name]
       id: deviceId
       mute: off)
-    logger.info "Loaded module #{name} at device ID #{deviceId} for player #{@id}"
+    logger.info "Player #{@id}: Loaded module #{name} at #{deviceId}"
 
   # Rebuild modules array, without specified module.
   # 
   unloadModule: (deviceId) ->
     @modules = (module for module in @modules when module.id isnt deviceId)
-    logger.info "Removed module #{deviceId} from player #{@id}"
+    logger.info "Player #{@id}: Removed module at #{deviceId}"
 
   # Sort module list according to order of array argument.
   # 
@@ -37,7 +38,7 @@ class Player
     @modules = for deviceId in deviceIds
       modules = (module for module in @modules when module.id is deviceId)
       if modules.length then modules[0] else # (return nothing)
-    logger.debug "Sorted player #{@id} modules to match #{deviceIds}"
+    logger.info "Player #{@id}: Sorted modules to [#{deviceIds}]"
 
   # Mute module, if present.
   # 
@@ -47,7 +48,7 @@ class Player
   # Return the ID of our designated "output module".
   # By convention, make this the last module.
   # 
-  # See Loom::messagePlayerOutputModule().
+  # See Loom::messagePlayerOutputDevice().
   # 
   outputModuleId: ->
     @modules[-1..][0].id
@@ -57,6 +58,13 @@ class Player
   transportStart: (time) ->
     @applyModules "transportStart", time
 
+  # TODO
+  # 
+  play: (time) ->
+    time ?= Live::now()
+    # @generateGesture()
+    # @nextEvent()
+
   # Generate a single gesture, let each module process it.
   # 
   generateGesture: (time) ->
@@ -65,9 +73,9 @@ class Player
     if @gesturesAfter(time).length <= 1
       [gesture] = @applyModules "processGesture", new Gesture(time)
       @gestures.push gesture
-      logger.debug "Generated gesture for player #{@id}:", gesture
+      # logger.debug "Generated gesture for player #{@id}:", gesture
     else
-      logger.debug "Not generating a gesture"
+      # logger.debug "Not generating a gesture"
 
   # Wipe out gesture history.
   # 
@@ -81,17 +89,23 @@ class Player
   nextEvent: (time) ->
     time ?= Live::now()
 
+    # FIXME: need a record of which gestures have been flattened into events
+    # 
     if @events.length == 0
       for gesture in @gesturesAfter(time)
-        @events.push event for event in gesture.events
+        @events.push gesture.toEvents()...
 
-    event = @events.shift()
-    Loom::outputEvent event.serialize() if event
+    # select a current event
+    # 
+    @currentEvent = @events.shift()
+    Loom::outputEvent @currentEvent.serialize() if @currentEvent
 
     if @events.length == 0
       @applyModules "noMoreEvents"
 
   # Go through modules list in order and fire callback on each where applicable.
+  # 
+  # TODO: pass splat to module method
   # 
   applyModules: (method, methodArgs...) ->
     for module in @modules when module.mute is off

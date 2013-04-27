@@ -20,6 +20,11 @@ class Gesture
   endAt: ->
     Math.max (event.endAt() for event in @events)...
   
+  # 
+  # 
+  toEvents: ->
+    @events
+
   # Find next downbeat (relative to internal meter).
   # 
   nextDownbeat: (time) ->
