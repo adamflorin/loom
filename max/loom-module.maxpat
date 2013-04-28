@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 94.0, 44.0, 749.0, 709.0 ],
+		"rect" : [ 109.0, 58.0, 749.0, 709.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -172,7 +172,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 128.0, 112.0, 575.0, 546.0 ],
+						"rect" : [ 134.0, 108.0, 575.0, 546.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -193,7 +193,7 @@
 						"tags" : "",
 						"boxes" : [ 							{
 								"box" : 								{
-									"comment" : "",
+									"comment" : "This device ID",
 									"id" : "obj-3",
 									"maxclass" : "outlet",
 									"numinlets" : 1,
@@ -241,7 +241,7 @@
 										"tags" : "",
 										"boxes" : [ 											{
 												"box" : 												{
-													"comment" : "",
+													"comment" : "This device ID",
 													"id" : "obj-2",
 													"maxclass" : "outlet",
 													"numinlets" : 1,
@@ -294,7 +294,7 @@
 											}
 , 											{
 												"box" : 												{
-													"comment" : "",
+													"comment" : "Init on bang",
 													"id" : "obj-1",
 													"maxclass" : "inlet",
 													"numinlets" : 0,
@@ -1279,7 +1279,7 @@
 							}
 , 							{
 								"box" : 								{
-									"comment" : "",
+									"comment" : "Observe messages for Loom",
 									"id" : "obj-2",
 									"maxclass" : "outlet",
 									"numinlets" : 1,
@@ -1601,7 +1601,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 127.0, 120.0, 439.0, 418.0 ],
+						"rect" : [ 893.0, 365.0, 439.0, 418.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -1622,7 +1622,7 @@
 						"tags" : "",
 						"boxes" : [ 							{
 								"box" : 								{
-									"comment" : "Block all messages",
+									"comment" : "This device ID",
 									"id" : "obj-2",
 									"maxclass" : "inlet",
 									"numinlets" : 0,
