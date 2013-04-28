@@ -115,7 +115,7 @@ class Logger
   # 
   guessFunctionName: (file, number) ->
     @loadSourceFile() unless @source?
-    if @source? and file is @sourceFilename
+    if @source? and file.replace(/\.js$/, "") is @sourceFilename
       sourceLines = @source.split "\n"
       functionName = do ->
         for line in [(number-1)..0]
