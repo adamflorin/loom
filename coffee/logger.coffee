@@ -17,6 +17,7 @@ class Logger
   # 
   # 
   constructor: ->
+    @loadSourceFile(jsarguments[0])
     @initWriteMethods()
   
   # Metaprogramming convenience functions
@@ -35,20 +36,28 @@ class Logger
   # Then immediately close, as File object will NOT re-open later
   # if autowatch reloads source while a File object is open.
   # 
+  # Return true on success.
+  # 
   openFile: (write) ->
     path = Max::patcherDirPath() + LOG_PATH
     file = new File(path, "write")
     fileIsOpen = file.isopen
     write(file) if fileIsOpen
     file.close()
-    throw "Unable to open log file at #{path}" unless fileIsOpen
+    return fileIsOpen
 
-  # Log message
+  # Log message.
+  # 
+  # If we failed to write, it's probably because another process has locked up
+  # the file handle. In that case, re-schedule the write task for a later time.
+  # This means that log messages may appear out of order, and that there's
+  # a possibility for infinite recursion.
   # 
   write: (level, objects) ->
-    @openFile (file) =>
+    wrote = @openFile (file) =>
       file.position = file.eof
       file.writeline(@format(object, level)) for object in objects
+    (new Task @write, @, level, objects).schedule() unless wrote
 
   # Format log line
   # 
@@ -96,30 +105,31 @@ class Logger
   # blocks or whatever else JS may put in a stack trace,
   # and it's not at all optimized, but it works for now.
   # 
-  # OPT: just load file once from jsarguments[0]
-  # 
   # File.writeline() is limited to 32K. Check if readstring is, too.
   # (http://cycling74.com/forums/topic.php?id=35547)
   # 
+  # Note: it's possible source file didn't load at init, as only one process
+  # can open a file handle at once, and there appears to be a race condition.
+  # In that case, try to load it again now. Fail gracefully either way
+  # (simply logging all functions as <unknown>).
+  # 
   guessFunctionName: (file, number) ->
-    # load source from file
-    path = Max::patcherDirPath() + COMPILED_SOURCE_PATH + file + ".js"
-    sourceFile = new File(path, "read")
-    sourceFileIsOpen = sourceFile.isopen
-    source = sourceFile.readstring(sourceFile.eof) if sourceFileIsOpen
-    sourceFile.close()
-    throw "Unable to open source file at #{path}" unless sourceFileIsOpen
-
-    # scan lines
-    sourceLines = source.split("\n")
-    functionName = do ->
-      for line in [(number-1)..0]
-        if functionDefinition = sourceLines[line].match(/(\S+?)[\s=(]+function.*/)
-          return functionDefinition[1]
+    @loadSourceFile() unless @source?
+    if @source? and file is @sourceFilename
+      sourceLines = @source.split "\n"
+      functionName = do ->
+        for line in [(number-1)..0]
+          if functionDefinition = sourceLines[line].match /(\S+?)[\s=(]+function.*/
+            return functionDefinition[1]
     functionName ?= "<unknown>"
-    
     return "  at #{functionName} (#{file}.js:#{number})"
 
-# init logger
-# 
-logger = new Logger
+  # Load source file once, and cache it.
+  # Initial call will set source filename, too.
+  # 
+  loadSourceFile: (filename) ->
+    @sourceFilename ?= filename
+    path = Max::patcherDirPath() + COMPILED_SOURCE_PATH + @sourceFilename + ".js"
+    sourceFile = new File(path, "read")
+    @source = sourceFile.readstring(sourceFile.eof) if sourceFile.isopen
+    sourceFile.close()

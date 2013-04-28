@@ -11,6 +11,10 @@
 # Copyright 2013 Adam Florin
 # 
 
+# init logger
+# 
+logger = new Logger
+
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 
 anything = ->
@@ -20,10 +24,7 @@ anything = ->
     else
       throw new Error "Message \"#{messagename}\" not recognized"
   catch e
-    try
-      logger.error e
-    catch loggerError
-      cpost "Failed to log exception #{e.message} #{e.stack}"
+    logger.error e
 
 # Reload
 # 
