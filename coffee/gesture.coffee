@@ -23,7 +23,7 @@ class Gesture
   # 
   # 
   toEvents: ->
-    @events
+    event.serialize() for event in @events
 
   # Find next downbeat (relative to internal meter).
   # 

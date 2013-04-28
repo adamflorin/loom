@@ -115,6 +115,18 @@ class Loom
     # 
     ALLOWABLE_TRANSPORT_START_DELAY: 0.12
 
+    # Hybrid setter/getter for a global setting available to all players
+    # in order to debounce the double transport "on" event.
+    # 
+    # If arg is present, set. Otherwise, get.
+    # 
+    transportPlaying: (playing) ->
+      loom = (new Global("loom"))
+      if playing?
+        loom.transportPlaying = playing
+      else
+        loom.transportPlaying
+
     # Listen for transport start/stop
     # 
     # Live bizarrely sends 2x transport start events:
@@ -125,11 +137,14 @@ class Loom
     # to be zero here.
     # 
     observeTransport: (playing) ->
-      if playing == 1
-        now = Live::now()
-        now = 0 if now > @ALLOWABLE_TRANSPORT_START_DELAY
-        @thisPlayer().transportStart(now)
+      if playing is 1
+        if not @transportPlaying()
+          @transportPlaying(yes)
+          now = Live::now()
+          now = 0 if now > @ALLOWABLE_TRANSPORT_START_DELAY
+          @thisPlayer().transportStart(now)
       else
+        @transportPlaying(no)
         @thisPlayer().clearGestures()
 
     # Observe when module is added, removed or moved in the chain.
@@ -139,7 +154,6 @@ class Loom
     # new or old players, respectively, and re-init.
     # 
     observeDevices: (deviceIds...) ->
-      logger.debug "observeDevices in #{Live::deviceId()}"
       if oldPlayerId = Live::detectPlayerChange()
         logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
         @initDevice()
@@ -160,13 +174,14 @@ class Loom
     # "Play" means: generate a gesture and start outputting.
     # 
     play: (time) ->
-      @thisPlayer().play(time) unless @routeInputMessage("play")
+      if @transportPlaying()
+        @thisPlayer().play(time) unless @routeInputMessage(["play", time?.toString()])
 
     # Get next event off the queue. Re-route in case output module was
     # moved while an event was out for dispatch.
     # 
-    nextEvent: ->
-      @thisPlayer().nextEvent() unless @routeInputMessage("nextEvent")
+    eventTriggered: ->
+      @thisPlayer().eventTriggered() unless @routeInputMessage("eventTriggered")
 
     # Send event to Max to be scheduled.
     # 

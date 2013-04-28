@@ -8,5 +8,5 @@ class Loom::modules.Continue extends Module
   
   # When there are no more events in the future, generate another.
   # 
-  noMoreEvents: ->
+  gestureOutputComplete: ->
     Loom::play()

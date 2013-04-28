@@ -10,9 +10,7 @@ class Player
   # 
   constructor: (@id) ->
     @modules = []
-    @gestures = []
-    @events = []
-    @currentEvent = null
+    @clearGestures()
     logger.info "Player #{@id}: Created"
 
   # Build module, append to modules array.
@@ -58,50 +56,58 @@ class Player
   transportStart: (time) ->
     @applyModules "transportStart", time
 
-  # TODO
+  # Start playing: generate a gesture and output its events.
   # 
   play: (time) ->
     time ?= Live::now()
-    # @generateGesture()
-    # @nextEvent()
+    unless @nextGesture?
+      lastScheduledGesture = @pastGestures[-1..][0]
+      gestureStartTime = lastScheduledGesture?.endAt() || time
+      @nextGesture = @generateGesture(gestureStartTime)
+    @outputNextEvent()
 
-  # Generate a single gesture, let each module process it.
+  # Generate a gesture and store it in nextGesture.
+  # 
+  # Who is responsible for pushing next gesture onto queue?
   # 
   generateGesture: (time) ->
-    time ?= Live::now()
+    [gesture] = @applyModules "processGesture", new Gesture(time)
+    return gesture
 
-    if @gesturesAfter(time).length <= 1
-      [gesture] = @applyModules "processGesture", new Gesture(time)
-      @gestures.push gesture
-      # logger.debug "Generated gesture for player #{@id}:", gesture
-    else
-      # logger.debug "Not generating a gesture"
-
-  # Wipe out gesture history.
+  # Reset all gesture and event information, history and upcoming,
+  # and notify patcher event scheduler to do the same.
   # 
   clearGestures: ->
-    @gestures = []
+    @pastGestures = []
+    @nextGesture = null
+    @events = []
+    @currentEvent = null
+    Loom::outputEvent "clear"
 
-  # Select the earliest future event from the earliest future gesture.
+  # Input from patcher confirming that last event was successfully dispatched.
   # 
-  # If event queue is empty, populate it from upcoming gestures.
+  eventTriggered: ->
+    @currentEvent = null
+    @outputNextEvent()
+
+  # Output next event in gesture.
   # 
-  nextEvent: (time) ->
-    time ?= Live::now()
+  # After outputting, provide hook for modules.
+  # 
+  outputNextEvent: ->
+    unless @currentEvent?
+      @scheduleNextGesture() if @nextGesture?
+      @currentEvent = @events.shift()
+      Loom::outputEvent @currentEvent if @currentEvent
+      @applyModules "gestureOutputComplete" if @events.length == 0
 
-    # FIXME: need a record of which gestures have been flattened into events
-    # 
-    if @events.length == 0
-      for gesture in @gesturesAfter(time)
-        @events.push gesture.toEvents()...
-
-    # select a current event
-    # 
-    @currentEvent = @events.shift()
-    Loom::outputEvent @currentEvent.serialize() if @currentEvent
-
-    if @events.length == 0
-      @applyModules "noMoreEvents"
+  # Take nextGesture, put its events on the event queue, and put it into
+  # pastGestures.
+  # 
+  scheduleNextGesture: ->
+    @events.push @nextGesture.toEvents()...
+    @pastGestures.push @nextGesture
+    @nextGesture = null
 
   # Go through modules list in order and fire callback on each where applicable.
   # 
@@ -112,10 +118,3 @@ class Player
       if module.module[method]?
         methodArgs = module.module[method](methodArgs)
     return methodArgs
-
-  # Return gestures which end after a given time.
-  # 
-  # OPT: start counting at end of list and break when done.
-  # 
-  gesturesAfter: (time) ->
-    gesture for gesture in @gestures when gesture.endAt() > time
