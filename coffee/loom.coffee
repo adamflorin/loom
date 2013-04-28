@@ -175,7 +175,8 @@ class Loom
     # 
     play: (time) ->
       if @transportPlaying()
-        @thisPlayer().play(time) unless @routeInputMessage(["play", time?.toString()])
+        unless @routeInputMessage(m for m in ["play", time] when m?)
+          @thisPlayer().play(time)
 
     # Get next event off the queue. Re-route in case output module was
     # moved while an event was out for dispatch.
