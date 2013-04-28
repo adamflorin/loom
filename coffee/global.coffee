@@ -20,7 +20,10 @@ anything = ->
     else
       throw new Error "Message \"#{messagename}\" not recognized"
   catch e
-    logger.error e
+    try
+      logger.error e
+    catch loggerError
+      cpost "Failed to log exception #{e.message} #{e.stack}"
 
 # Reload
 # 
