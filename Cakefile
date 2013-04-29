@@ -24,6 +24,7 @@ SOURCE_FILES = [
   "modules/meter"
   "modules/start"
   "event"
+  "events/clear"
   "events/note"
   "gesture"
   "global"

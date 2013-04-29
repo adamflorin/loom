@@ -11,9 +11,10 @@
 # Copyright 2013 Adam Florin
 # 
 
-# init logger
+# init globals
 # 
 logger = new Logger
+loom = (new Global("loom"))
 
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 

@@ -172,7 +172,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 134.0, 108.0, 575.0, 546.0 ],
+						"rect" : [ 134.0, 108.0, 575.0, 501.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -198,7 +198,7 @@
 									"maxclass" : "outlet",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 300.0, 480.0, 25.0, 25.0 ]
+									"patching_rect" : [ 300.0, 435.0, 25.0, 25.0 ]
 								}
 
 							}
@@ -344,7 +344,7 @@
  ]
 									}
 ,
-									"patching_rect" : [ 256.5, 315.0, 100.0, 20.0 ],
+									"patching_rect" : [ 256.5, 270.0, 100.0, 20.0 ],
 									"saved_object_attributes" : 									{
 										"default_fontface" : 0,
 										"default_fontname" : "Arial",
@@ -371,7 +371,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 3,
 									"outlettype" : [ "bang", "bang", "bang" ],
-									"patching_rect" : [ 60.0, 270.0, 215.5, 20.0 ],
+									"patching_rect" : [ 60.0, 225.0, 215.5, 20.0 ],
 									"text" : "t b b b"
 								}
 
@@ -384,7 +384,7 @@
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
-									"patching_rect" : [ 60.0, 210.0, 25.0, 25.0 ]
+									"patching_rect" : [ 60.0, 165.0, 25.0, 25.0 ]
 								}
 
 							}
@@ -668,7 +668,7 @@
  ]
 									}
 ,
-									"patching_rect" : [ 225.0, 360.0, 199.0, 20.0 ],
+									"patching_rect" : [ 225.0, 315.0, 199.0, 20.0 ],
 									"saved_object_attributes" : 									{
 										"default_fontface" : 0,
 										"default_fontname" : "Arial",
@@ -695,7 +695,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 390.0, 405.0, 34.0, 20.0 ],
+									"patching_rect" : [ 390.0, 360.0, 34.0, 20.0 ],
 									"text" : "gate"
 								}
 
@@ -709,7 +709,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 225.0, 405.0, 34.0, 20.0 ],
+									"patching_rect" : [ 225.0, 360.0, 34.0, 20.0 ],
 									"text" : "gate"
 								}
 
@@ -1029,7 +1029,7 @@
  ]
 									}
 ,
-									"patching_rect" : [ 60.0, 330.0, 116.0, 20.0 ],
+									"patching_rect" : [ 60.0, 285.0, 116.0, 20.0 ],
 									"saved_object_attributes" : 									{
 										"default_fontface" : 0,
 										"default_fontname" : "Arial",
@@ -1065,7 +1065,7 @@
 											"architecture" : "x86"
 										}
 ,
-										"rect" : [ 726.0, 126.0, 322.0, 315.0 ],
+										"rect" : [ 726.0, 126.0, 322.0, 281.0 ],
 										"bglocked" : 0,
 										"openinpresentation" : 0,
 										"default_fontsize" : 12.0,
@@ -1092,7 +1092,7 @@
 													"numinlets" : 0,
 													"numoutlets" : 1,
 													"outlettype" : [ "" ],
-													"patching_rect" : [ 135.0, 120.0, 25.0, 25.0 ]
+													"patching_rect" : [ 135.0, 75.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -1102,12 +1102,11 @@
 													"fontsize" : 12.0,
 													"frgb" : 0.0,
 													"id" : "obj-6",
-													"linecount" : 4,
 													"maxclass" : "comment",
 													"numinlets" : 1,
 													"numoutlets" : 0,
-													"patching_rect" : [ 45.0, 30.0, 255.0, 60.0 ],
-													"text" : "Check if this device is the designated \"output\" device (last device in rack, by convention).\n\nSee Loom::messagePlayerOutputDevice()."
+													"patching_rect" : [ 45.0, 30.0, 213.0, 20.0 ],
+													"text" : "Open gate if this device is first in rack."
 												}
 
 											}
@@ -1118,7 +1117,7 @@
 													"maxclass" : "outlet",
 													"numinlets" : 1,
 													"numoutlets" : 0,
-													"patching_rect" : [ 60.0, 255.0, 25.0, 25.0 ]
+													"patching_rect" : [ 60.0, 210.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -1130,7 +1129,7 @@
 													"numinlets" : 0,
 													"numoutlets" : 1,
 													"outlettype" : [ "" ],
-													"patching_rect" : [ 60.0, 120.0, 25.0, 25.0 ]
+													"patching_rect" : [ 60.0, 75.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -1143,7 +1142,7 @@
 													"numinlets" : 2,
 													"numoutlets" : 1,
 													"outlettype" : [ "int" ],
-													"patching_rect" : [ 60.0, 195.0, 94.0, 20.0 ],
+													"patching_rect" : [ 60.0, 150.0, 94.0, 20.0 ],
 													"text" : "=="
 												}
 
@@ -1157,8 +1156,8 @@
 													"numinlets" : 2,
 													"numoutlets" : 2,
 													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 60.0, 165.0, 57.0, 20.0 ],
-													"text" : "zl ecils 1"
+													"patching_rect" : [ 60.0, 120.0, 57.0, 20.0 ],
+													"text" : "zl slice 1"
 												}
 
 											}
@@ -1177,7 +1176,7 @@
 													"destination" : [ "obj-29", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
-													"source" : [ "obj-21", 1 ]
+													"source" : [ "obj-21", 0 ]
 												}
 
 											}
@@ -1202,7 +1201,7 @@
  ]
 									}
 ,
-									"patching_rect" : [ 75.0, 360.0, 115.0, 20.0 ],
+									"patching_rect" : [ 75.0, 315.0, 115.0, 20.0 ],
 									"saved_object_attributes" : 									{
 										"default_fontface" : 0,
 										"default_fontname" : "Arial",
@@ -1216,7 +1215,7 @@
 										"tags" : ""
 									}
 ,
-									"text" : "p is-output-device"
+									"text" : "p is-first-device"
 								}
 
 							}
@@ -1229,7 +1228,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 60.0, 435.0, 153.0, 20.0 ],
+									"patching_rect" : [ 60.0, 390.0, 153.0, 20.0 ],
 									"text" : "prepend observeDevices"
 								}
 
@@ -1244,8 +1243,8 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 45.0, 60.0, 466.0, 127.0 ],
-									"text" : "Observe important Live properties.\n\nUse Max API as it's much more reliable than its JS counterpart, which has a tendency to become unavailable after changes to devices or script reload.\n\nOnly begin observing properties once device is loaded.\n\nCheck if this device is the designated \"output\" device; if not, suppress all transport messages (as they tend to trigger output)."
+									"patching_rect" : [ 114.5, 63.0, 420.0, 127.0 ],
+									"text" : "Observe important Live properties.\n\nUse Max API as it's much more reliable than its JS counterpart, which has a tendency to become unavailable after changes to devices or script reload.\n\nOnly begin observing properties once device is loaded.\n\nOnly send transport messages to one device in player, to avoid redundancy. By convention, just use the first device."
 								}
 
 							}
@@ -1258,7 +1257,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 45.0, 40.0, 373.0, 20.0 ],
+									"patching_rect" : [ 114.5, 43.0, 373.0, 20.0 ],
 									"text" : "live-observers"
 								}
 
@@ -1272,7 +1271,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 390.0, 435.0, 135.0, 20.0 ],
+									"patching_rect" : [ 390.0, 390.0, 135.0, 20.0 ],
 									"text" : "prepend observeTime"
 								}
 
@@ -1284,7 +1283,7 @@
 									"maxclass" : "outlet",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 225.0, 480.0, 25.0, 25.0 ]
+									"patching_rect" : [ 225.0, 435.0, 25.0, 25.0 ]
 								}
 
 							}
@@ -1297,7 +1296,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 225.0, 435.0, 163.0, 20.0 ],
+									"patching_rect" : [ 225.0, 390.0, 163.0, 20.0 ],
 									"text" : "prepend observeTransport"
 								}
 
@@ -2332,7 +2331,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 515.0, 171.0, 523.0, 383.0 ],
+						"rect" : [ 139.0, 146.0, 498.0, 424.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -2355,12 +2354,26 @@
 								"box" : 								{
 									"fontname" : "Arial",
 									"fontsize" : 12.0,
+									"id" : "obj-13",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 2,
+									"outlettype" : [ "int", "int" ],
+									"patching_rect" : [ 45.0, 150.0, 79.0, 20.0 ],
+									"text" : "maximum 10"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Arial",
+									"fontsize" : 12.0,
 									"id" : "obj-15",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "bang", "" ],
-									"patching_rect" : [ 120.0, 210.0, 63.0, 20.0 ],
+									"patching_rect" : [ 120.0, 255.0, 63.0, 20.0 ],
 									"text" : "sel ignore"
 								}
 
@@ -2374,7 +2387,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 60.0, 75.0, 67.0, 20.0 ],
+									"patching_rect" : [ 45.0, 75.0, 67.0, 20.0 ],
 									"text" : "route clear"
 								}
 
@@ -2388,7 +2401,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 145.0, 150.0, 44.0, 18.0 ],
+									"patching_rect" : [ 145.0, 195.0, 44.0, 18.0 ],
 									"text" : "ignore"
 								}
 
@@ -2400,7 +2413,7 @@
 									"maxclass" : "outlet",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 120.0, 315.0, 25.0, 25.0 ]
+									"patching_rect" : [ 120.0, 360.0, 25.0, 25.0 ]
 								}
 
 							}
@@ -2413,7 +2426,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 3,
 									"outlettype" : [ "bang", "", "bang" ],
-									"patching_rect" : [ 120.0, 240.0, 103.0, 20.0 ],
+									"patching_rect" : [ 120.0, 285.0, 103.0, 20.0 ],
 									"text" : "t b l b"
 								}
 
@@ -2427,7 +2440,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 270.0, 53.0, 148.0, 22.0 ],
+									"patching_rect" : [ 255.0, 53.0, 148.0, 22.0 ],
 									"text" : "schedule-event"
 								}
 
@@ -2438,12 +2451,12 @@
 									"fontsize" : 12.0,
 									"frgb" : 0.0,
 									"id" : "obj-7",
-									"linecount" : 11,
+									"linecount" : 16,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 270.0, 75.0, 180.0, 154.0 ],
-									"text" : "Store message now to be fired at specified time.\n\nFirst list item is time (in ticks), the rest is the event message.\n\nThere is one special meta-event message: \"clear\". When this is set, clear any event present with dummy \"ignore\" event (and ignore it)."
+									"patching_rect" : [ 255.0, 75.0, 215.0, 221.0 ],
+									"text" : "Store message now to be fired at specified time.\n\nFirst list item is time (in ticks), the rest is the event message.\n\nThere is one special meta-event message: \"clear\". When this is set, clear any event present with dummy \"ignore\" event (and ignore it).\n\nNote the [minimum]: Max For Live has a high probability of failing to dispatch events at 0 ticks. This probability of failure drops off somewhat at higher values."
 								}
 
 							}
@@ -2456,7 +2469,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 120.0, 180.0, 109.0, 20.0 ],
+									"patching_rect" : [ 120.0, 225.0, 109.0, 20.0 ],
 									"text" : "pv event-message"
 								}
 
@@ -2470,7 +2483,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
-									"patching_rect" : [ 60.0, 150.0, 59.0, 20.0 ],
+									"patching_rect" : [ 45.0, 180.0, 59.0, 20.0 ],
 									"text" : "timepoint"
 								}
 
@@ -2484,7 +2497,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 60.0, 120.0, 79.0, 20.0 ],
+									"patching_rect" : [ 45.0, 120.0, 94.0, 20.0 ],
 									"text" : "zl slice 1"
 								}
 
@@ -2496,7 +2509,7 @@
 									"maxclass" : "outlet",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 162.0, 315.0, 25.0, 25.0 ]
+									"patching_rect" : [ 162.0, 360.0, 25.0, 25.0 ]
 								}
 
 							}
@@ -2508,7 +2521,7 @@
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 60.0, 30.0, 25.0, 25.0 ]
+									"patching_rect" : [ 45.0, 30.0, 25.0, 25.0 ]
 								}
 
 							}
@@ -2524,6 +2537,15 @@
 							}
 , 							{
 								"patchline" : 								{
+									"destination" : [ "obj-4", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"source" : [ "obj-13", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-6", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -2533,7 +2555,7 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-4", 0 ],
+									"destination" : [ "obj-13", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-3", 0 ]
@@ -2590,7 +2612,7 @@
 									"destination" : [ "obj-9", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 213.5, 271.0, 243.0, 271.0, 243.0, 133.0, 154.5, 133.0 ],
+									"midpoints" : [ 213.5, 316.0, 243.0, 316.0, 243.0, 178.0, 154.5, 178.0 ],
 									"source" : [ "obj-6", 2 ]
 								}
 

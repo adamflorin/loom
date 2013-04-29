@@ -36,11 +36,14 @@ class Live
     newPlayerId = @playerId()
     return oldPlayerId if oldPlayerId isnt newPlayerId
 
-  # Get current time.
+  # Get current time from Live, unless an override is specified.
   # 
   now: ->
-    (new LiveAPI "live_set").get("current_song_time")
-  
+    if loom.overrideNow?
+      loom.overrideNow
+    else
+      (new LiveAPI "live_set").get("current_song_time")
+
   # After a script reload, our "cache" globals will be lost.
   # Force populate them now in case the LiveAPI is no longer available
   # the next time they're needed (i.e., on destroy).

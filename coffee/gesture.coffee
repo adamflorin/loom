@@ -6,8 +6,7 @@
 
 class Gesture
 
-  # half note
-  DEFAULT_METER = 2
+  DEFAULT_METER = 1
 
   # Ur-gesture
   # 
@@ -23,7 +22,7 @@ class Gesture
   # 
   # 
   toEvents: ->
-    event.serialize() for event in @events
+    @events
 
   # Find next downbeat (relative to internal meter).
   # 

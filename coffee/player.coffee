@@ -43,18 +43,10 @@ class Player
   muteModule: (deviceId, mute) ->
     module.mute = mute for module in @modules when module.id is deviceId
 
-  # Return the ID of our designated "output module".
-  # By convention, make this the last module.
-  # 
-  # See Loom::messagePlayerOutputDevice().
-  # 
-  outputModuleId: ->
-    @modules[-1..][0].id
-
   # Transport has started
   # 
-  transportStart: (time) ->
-    @applyModules "transportStart", time
+  transportStart: () ->
+    @applyModules "transportStart"
 
   # Start playing: generate a gesture and output its events.
   # 
@@ -64,7 +56,7 @@ class Player
       lastScheduledGesture = @pastGestures[-1..][0]
       gestureStartTime = lastScheduledGesture?.endAt() || time
       @nextGesture = @generateGesture(gestureStartTime)
-    @outputNextEvent()
+    @outputNextEvent(time)
 
   # Generate a gesture and store it in nextGesture.
   # 
@@ -82,24 +74,38 @@ class Player
     @nextGesture = null
     @events = []
     @currentEvent = null
-    Loom::outputEvent "clear"
+    Loom::outputEvent new Clear
 
-  # Input from patcher confirming that last event was successfully dispatched.
+  # Confirmation from patcher that last event was either successfully
+  # dispatched, or that it's definitely too late to dispatch it now anyway.
   # 
-  eventTriggered: ->
+  eventComplete: ->
     @currentEvent = null
     @outputNextEvent()
 
-  # Output next event in gesture.
+  # Output next event in queue that is still in the future.
   # 
   # After outputting, provide hook for modules.
   # 
-  outputNextEvent: ->
+  outputNextEvent: (time) ->
+    time ?= Live::now()
     unless @currentEvent?
       @scheduleNextGesture() if @nextGesture?
-      @currentEvent = @events.shift()
-      Loom::outputEvent @currentEvent if @currentEvent
+      while @currentEvent = @events.shift()
+        if @currentEvent.at < time
+        else
+          Loom::outputEvent @currentEvent
+          break
       @applyModules "gestureOutputComplete" if @events.length == 0
+
+  # If scheduled event hasn't fired yet from [timepoint], it's not going to.
+  # 
+  # Log the warning and proceed as usual.
+  # 
+  clearOverdueEvents: (time) ->
+    if time > @currentEvent?.at
+      logger.warn "Event failed to dispatch before time #{time}:", @currentEvent
+      @eventComplete()
 
   # Take nextGesture, put its events on the event queue, and put it into
   # pastGestures.

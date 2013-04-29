@@ -1,7 +1,7 @@
 # 
+# note.coffee: One MIDI note
 # 
-# 
-# 
+# Copyright 2013 Adam Florin
 # 
 
 class Note extends Event

@@ -21,7 +21,7 @@ class Loom
     # 
     # 
     players: ->
-      (new Global("loom")).players ?= []
+      loom.players ?= []
 
     # Get player from ID
     # 
@@ -95,7 +95,7 @@ class Loom
     # 
     destroyPlayer: (playerId) ->
       fewerPlayers = (player for player in @players() when player.id isnt playerId)
-      (new Global("loom")).players = fewerPlayers
+      loom.players = fewerPlayers
       logger.info "Player #{playerId}: Destroyed"
 
   # Observers
@@ -113,38 +113,27 @@ class Loom
     # 
     # This "allowable delay" is in beats, and assumes 120bpm (for now).
     # 
-    ALLOWABLE_TRANSPORT_START_DELAY: 0.12
-
-    # Hybrid setter/getter for a global setting available to all players
-    # in order to debounce the double transport "on" event.
-    # 
-    # If arg is present, set. Otherwise, get.
-    # 
-    transportPlaying: (playing) ->
-      loom = (new Global("loom"))
-      if playing?
-        loom.transportPlaying = playing
-      else
-        loom.transportPlaying
+    TIME_DELAY_THRESHOLD: 0.12
 
     # Listen for transport start/stop
     # 
-    # Live bizarrely sends 2x transport start events:
-    # one _before_ the playhead has been reset to zero,
-    # and one just after.
+    # Note that if the transport is at a time other than zero when it starts,
+    # Live will send 2x transport start events--one before the transport starts
+    # (when the current song time is whatever it was the last time the
+    # transport stopped) and another after the transport has started. But if
+    # the transport was already at zero, it'll only fire one.
     # 
-    # Anticipate this and consider that first "start" event
-    # to be zero here.
+    # To determine whether we're receiving the "true" transport start,
+    # check the time and compare it to the threshold above.
     # 
     observeTransport: (playing) ->
       if playing is 1
-        if not @transportPlaying()
-          @transportPlaying(yes)
-          now = Live::now()
-          now = 0 if now > @ALLOWABLE_TRANSPORT_START_DELAY
-          @thisPlayer().transportStart(now)
+        loom.overrideNow = if Live::now() > @TIME_DELAY_THRESHOLD then 0 else null
+        unless loom.transportPlaying
+          loom.transportPlaying = yes
+          @thisPlayer().transportStart()
       else
-        @transportPlaying(no)
+        loom.transportPlaying = no
         @thisPlayer().clearGestures()
 
     # Observe when module is added, removed or moved in the chain.
@@ -164,6 +153,7 @@ class Loom
     # Receive coarse time updates just to make sure we haven't slipped behind.
     # 
     observeTime: (time) ->
+      @thisPlayer().clearOverdueEvents(time)
 
   # Messages
   # 
@@ -173,33 +163,27 @@ class Loom
 
     # "Play" means: generate a gesture and start outputting.
     # 
+    # But don't play if transport is stopped, or there will be dangling events.
+    # 
     play: (time) ->
-      if @transportPlaying()
-        unless @routeInputMessage(m for m in ["play", time] when m?)
-          @thisPlayer().play(time)
+      @thisPlayer().play(time) if loom.transportPlaying
 
     # Get next event off the queue. Re-route in case output module was
     # moved while an event was out for dispatch.
     # 
     eventTriggered: ->
-      @thisPlayer().eventTriggered() unless @routeInputMessage("eventTriggered")
+      @thisPlayer().eventComplete()
 
     # Send event to Max to be scheduled.
     # 
+    # Note: It is indeterminate which device in a player's rack will output
+    # events, depending on which device received the initial "play" message.
+    # As long as no two devices ever have events "out" in Max at the same time
+    # (a scenario Player should never allow), this indeterminacy is not a
+    # problem.
+    # 
     outputEvent: (event) ->
-      outlet 0, event
-
-    # Input messages may only go to the designated "output" device.
-    # If this isn't it, pass the message along to it, and return true.
-    # 
-    # Because each module has the capacity to output MIDI events, we must
-    # assign output responsibility to just one of them, so that events are
-    # not output redundantly.
-    # 
-    routeInputMessage: (message) ->
-      unless Live::deviceId() is @thisPlayer().outputModuleId()
-        @messagePlayerOutputDevice message
-        return true
+      outlet 0, event.serialize()
 
     # Dispatch message to a player's "output" module. Default to this player.
     # 
