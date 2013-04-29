@@ -52,12 +52,10 @@ class Loom
     loadThisPlayerModule: () ->
       @thisPlayer().loadModule(jsarguments[1], Live::deviceId())
 
-    # Is device enabled or "muted"?
+    # Set module parameter.
     # 
-    # This fires before 'initDevice', so make sure module is loaded.
-    # 
-    enabled: (isEnabled) ->
-      @thisPlayer()?.muteModule(Live::deviceId(), !isEnabled)
+    module: (name, value) ->
+      @thisPlayer()?.setModuleParameter Live::deviceId(), name, value
 
     # Destroy and re-init this player, preserving all modules as they are,
     # except this one, which we also re-init.
@@ -185,6 +183,11 @@ class Loom
     outputEvent: (event) ->
       outlet 0, event.serialize()
 
+    # Notify UI that this module has been activated.
+    # 
+    moduleActivated: (deviceId) ->
+      @messageDevicePatcher ["moduleActivated", "bang"], deviceId
+
     # Dispatch message to a player's "output" module. Default to this player.
     # 
     messagePlayerOutputDevice: (message, playerId) ->
@@ -192,6 +195,11 @@ class Loom
       if player
         deviceId = player.outputModuleId()
         @messageDevice message, deviceId
+
+    # For patcher/UI messages for other devices
+    # 
+    messageDevicePatcher: (message, deviceId) ->
+      @messageDevice ["forPatcher"].concat(message), deviceId
 
     # Dispatch message to specified device, or self by default.
     # 

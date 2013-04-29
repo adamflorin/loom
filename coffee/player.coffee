@@ -19,7 +19,8 @@ class Player
     @modules.push(
       module: new Loom::modules[name]
       id: deviceId
-      mute: off)
+      probability: 1.0
+      mute: 0)
     logger.info "Player #{@id}: Loaded module #{name} at #{deviceId}"
 
   # Rebuild modules array, without specified module.
@@ -38,10 +39,10 @@ class Player
       if modules.length then modules[0] else # (return nothing)
     logger.info "Player #{@id}: Sorted modules to [#{deviceIds}]"
 
-  # Mute module, if present.
+  # Set paramenter for specified module.
   # 
-  muteModule: (deviceId, mute) ->
-    module.mute = mute for module in @modules when module.id is deviceId
+  setModuleParameter: (deviceId, name, value) ->
+    module[name] = value for module in @modules when module.id is deviceId
 
   # Transport has started
   # 
@@ -121,7 +122,9 @@ class Player
   # TODO: pass splat to module method
   # 
   applyModules: (method, methodArgs...) ->
-    for module in @modules when module.mute is off
+    for module in @modules when module.mute is 0
       if module.module[method]?
-        methodArgs = module.module[method](methodArgs)
+        if Probability::flip(module.probability)
+          methodArgs = module.module[method](methodArgs)
+          Loom::moduleActivated(module.id)
     return methodArgs
