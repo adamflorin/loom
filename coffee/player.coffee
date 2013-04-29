@@ -93,6 +93,7 @@ class Player
       @scheduleNextGesture() if @nextGesture?
       while @currentEvent = @events.shift()
         if @currentEvent.at < time
+          logger.warn "Skipping event before #{time}:", @currentEvent
         else
           Loom::outputEvent @currentEvent
           break
