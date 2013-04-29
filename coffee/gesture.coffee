@@ -6,7 +6,7 @@
 
 class Gesture
 
-  DEFAULT_METER = 1
+  DEFAULT_METER = 2
 
   # Ur-gesture
   # 
