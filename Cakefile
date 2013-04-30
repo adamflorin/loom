@@ -42,19 +42,28 @@ TEST_ARGS = [
 # 
 task "build", "Compile CoffeeScript to JavaScript", ->
   exec COFFEE_ARGS.concat("coffee/#{file}.coffee" for file in SOURCE_FILES).join(" "),
-    (err, stdout, stderr) ->
-      throw err if err
-      console.log stdout + stderr
+    execOutput
+
+task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
+  uiCoffeeArgs = [
+    'coffee'
+    '--bare'
+    '--output'
+    'build'
+    '--compile'
+    'coffee/parameter-ui.coffee'
+  ]
+  exec uiCoffeeArgs.join(" "), execOutput
 
 task "test", "Run tests", ->
   invoke "build"
-  exec TEST_ARGS.join(" "),
-    (err, stdout, stderr) ->
-      throw err if err
-      console.log stdout + stderr
+  exec TEST_ARGS.join(" "), execOutput
 
 task "linecount", "Count lines of CoffeeScript", ->
-  exec "find coffee/. -name '*.coffee' | xargs wc -l",
-    (err, stdout, stderr) ->
-      throw err if err
-      console.log stdout + stderr
+  exec "find coffee/. -name '*.coffee' | xargs wc -l", execOutput
+    
+# Print results
+# 
+execOutput = (err, stdout, stderr) ->
+  throw err if err
+  console.log stdout + stderr
