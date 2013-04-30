@@ -11,7 +11,6 @@
 # Canvas context
 # 
 context = (new MaxCanvas @).getContext('max-2d')
-lineAnimation = null
 
 # Max message inputs
 # 
