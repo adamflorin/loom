@@ -82,6 +82,7 @@ class GaussianCurveCanvas
   drawCurve: ->
     midpoint = @mean * @AREA.width
     margin = @deviation * @DEVIATION_PIXEL_COEFFICIENT
+    top = 2
 
     context.lineWidth = 2
     context.strokeStyle = @control_bg
@@ -89,10 +90,10 @@ class GaussianCurveCanvas
     context.moveTo(midpoint - @AREA.width, @AREA.height)
     context.bezierCurveTo(
       midpoint - margin, @AREA.height,
-      midpoint - margin, 0,
-      midpoint, 0)
+      midpoint - margin, top,
+      midpoint, top)
     context.bezierCurveTo(
-      midpoint + margin, 0,
+      midpoint + margin, top,
       midpoint + margin, @AREA.height,
       midpoint + @AREA.width, @AREA.height)
     context.stroke()
