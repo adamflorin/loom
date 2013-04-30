@@ -55,7 +55,8 @@ class Player
     time ?= Live::now()
     unless @nextGesture?
       lastScheduledGesture = @pastGestures[-1..][0]
-      gestureStartTime = lastScheduledGesture?.endAt() || time
+      lastGestureEndsAt = lastScheduledGesture?.endAt()
+      gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
       @nextGesture = @generateGesture(gestureStartTime)
     @outputNextEvent(time)
 
