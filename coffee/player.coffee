@@ -58,7 +58,7 @@ class Player
       lastGestureEndsAt = lastScheduledGesture?.gesture.endAt()
       gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
       @nextGesture = @generateGesture(gestureStartTime)
-    @outputNextEvent(time)
+      @scheduleNextGesture()
 
   # Generate a gesture and store it in nextGesture.
   # 
@@ -68,60 +68,32 @@ class Player
     gesture = @applyModules "processGesture", new Gesture(time)
     return gesture
 
-  # Reset all gesture and event information, history and upcoming,
+  # Put nextGesture's events onto the queue, followed by relevant timed UI
+  # events. Then drop nextGesture onto pastGestures history and clear
+  # nextGesture and activatedModules.
+  # 
+  scheduleNextGesture: ->
+    events = @nextGesture.toEvents()
+    for module in @activatedModules
+      events.push new UI @nextGesture.startAt(), module.id, ["moduleActivated", "bang"]
+    Loom::scheduleEvents events
+    @pastGestures.push gesture: @nextGesture, modules: @activatedModules
+    @nextGesture = null
+    @activatedModules = []
+
+  # Reset all gesture information, history and upcoming,
   # and notify patcher event scheduler to do the same.
   # 
   clearGestures: ->
     @pastGestures = []
     @nextGesture = null
-    @events = []
-    @currentEvent = null
     @activatedModules = []
-    Loom::outputEvent new Clear
+    Loom::clearEventQueue()
 
-  # Confirmation from patcher that last event was either successfully
-  # dispatched, or that it's definitely too late to dispatch it now anyway.
+  # Notification from patcher that all scheduled events have been dispatched.
   # 
-  eventComplete: ->
-    @currentEvent = null
-    @outputNextEvent()
-
-  # Output next event in queue that is still in the future.
-  # 
-  # After outputting, provide hook for modules.
-  # 
-  outputNextEvent: (time) ->
-    time ?= Live::now()
-    unless @currentEvent?
-      @scheduleNextGesture() if @nextGesture?
-      while @currentEvent = @events.shift()
-        if @currentEvent.at < time
-          logger.warn "Skipping event before #{time}:", @currentEvent
-        else
-          Loom::outputEvent @currentEvent
-          break
-      @applyModules "gestureOutputComplete" if @events.length == 0
-
-  # If scheduled event hasn't fired yet from [timepoint], it's not going to.
-  # 
-  # Log the warning and proceed as usual.
-  # 
-  clearOverdueEvents: (time) ->
-    if time > @currentEvent?.at
-      logger.warn "Event failed to dispatch before time #{time}:", @currentEvent
-      @eventComplete()
-
-
-  # Put nextGesture's events onto the queue, followed by relevant timed UI
-  # events. Then drop nextGesture onto pastGestures history.
-  # 
-  scheduleNextGesture: ->
-    @events.push @nextGesture.toEvents()...
-    for module in @activatedModules
-      @events.push new UI @nextGesture.startAt(), module.id, ["moduleActivated", "bang"]
-    @pastGestures.push gesture: @nextGesture, modules: @activatedModules
-    @nextGesture = null
-    @activatedModules = []
+  eventQueueEmpty: ->
+    @applyModules "gestureOutputComplete"
 
   # Go through modules list in order and fire callback on each where applicable.
   # 

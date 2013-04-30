@@ -147,12 +147,7 @@ class Loom
         @destroyDevice(oldPlayerId)
       else
         @thisPlayer()?.sortModules(deviceIds)
-
-    # Receive coarse time updates just to make sure we haven't slipped behind.
-    # 
-    observeTime: (time) ->
-      @thisPlayer().clearOverdueEvents(time)
-
+    
   # Messages
   # 
   # Receive and send Max messages, from and to self or other devices.
@@ -166,13 +161,12 @@ class Loom
     play: (time) ->
       @thisPlayer().play(time) if loom.transportPlaying
 
-    # Get next event off the queue. Re-route in case output module was
-    # moved while an event was out for dispatch.
+    # Notification from patcher that all events have been dispatched.
     # 
-    eventComplete: ->
-      @thisPlayer().eventComplete()
+    eventQueueEmpty: ->
+      @thisPlayer().eventQueueEmpty()
 
-    # Send event to Max to be scheduled.
+    # Output array of events to [event-queue] and schedule next event
     # 
     # Note: It is indeterminate which device in a player's rack will output
     # events, depending on which device received the initial "play" message.
@@ -180,5 +174,12 @@ class Loom
     # same time (a scenario Player should never allow), this indeterminacy
     # is not a problem.
     # 
-    outputEvent: (event) ->
-      outlet 0, event.serialize()
+    scheduleEvents: (events) ->
+      outlet 1, event.serialize() for event in events
+      outlet 0, "schedule"
+
+    # Clear patcher event queue.
+    # 
+    clearEventQueue: ->
+      outlet 0, "clear"
+

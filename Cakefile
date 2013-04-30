@@ -25,7 +25,6 @@ SOURCE_FILES = [
   "modules/pitch"
   "modules/start"
   "event"
-  "events/clear"
   "events/note"
   "events/ui"
   "gesture"
