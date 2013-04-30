@@ -14,6 +14,11 @@ class Gesture
     @meter = DEFAULT_METER
     @events = [new Note(@nextDownbeat(now), @meter)]
 
+  # Gesture starts when its first event starts.
+  # 
+  startAt: ->
+    Math.min (event.at for event in @events)...
+
   # Gesture ends when its last event ends.
   # 
   endAt: ->
