@@ -22,6 +22,7 @@ SOURCE_FILES = [
   "modules/continue"
   "modules/impulse"
   "modules/meter"
+  "modules/pitch"
   "modules/start"
   "event"
   "events/clear"

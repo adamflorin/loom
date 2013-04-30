@@ -64,7 +64,7 @@ class Player
   # Who is responsible for pushing next gesture onto queue?
   # 
   generateGesture: (time) ->
-    [gesture] = @applyModules "processGesture", new Gesture(time)
+    gesture = @applyModules "processGesture", new Gesture(time)
     return gesture
 
   # Reset all gesture and event information, history and upcoming,
@@ -119,9 +119,10 @@ class Player
 
   # Go through modules list in order and fire callback on each where applicable.
   # 
-  # TODO: pass splat to module method
+  # methodArgs can be anything. All modules which accept an argument commit to
+  # returning an object of the same type as the argument.
   # 
-  applyModules: (method, methodArgs...) ->
+  applyModules: (method, methodArgs) ->
     for module in @modules when module.mute is 0
       if module.module[method]?
         if Probability::flip(module.probability)
