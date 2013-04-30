@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 168.0, 235.0, 366.0, 476.0 ],
+		"rect" : [ 176.0, 122.0, 339.0, 487.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,20 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-4",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 60.0, 195.0, 130.0, 20.0 ],
+					"text" : "route moduleActivated"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"comment" : "Messages for Loom",
 					"id" : "obj-2",
@@ -65,20 +79,6 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 45.0, 25.0, 162.0, 20.0 ],
 					"text" : "loom-module-ui"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-32",
-					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 60.0, 195.0, 130.0, 20.0 ],
-					"text" : "route moduleActivated"
 				}
 
 			}
@@ -1021,6 +1021,7 @@
 			}
 , 			{
 				"box" : 				{
+					"color" : [ 0.795631, 0.42763, 0.389374, 1.0 ],
 					"fontname" : "Arial Bold",
 					"fontsize" : 12.0,
 					"id" : "obj-1",
@@ -1131,7 +1132,7 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-32", 0 ],
+					"destination" : [ "obj-4", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-1", 0 ]
@@ -1171,7 +1172,7 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 131.5, 344.0, 51.0, 344.0, 51.0, 154.0, 69.5, 154.0 ],
+					"midpoints" : [ 131.5, 344.0, 48.0, 344.0, 48.0, 154.0, 69.5, 154.0 ],
 					"source" : [ "obj-3", 0 ]
 				}
 
@@ -1190,7 +1191,7 @@
 					"destination" : [ "obj-31", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-32", 0 ]
+					"source" : [ "obj-4", 0 ]
 				}
 
 			}

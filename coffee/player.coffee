@@ -55,7 +55,7 @@ class Player
     time ?= Live::now()
     unless @nextGesture?
       lastScheduledGesture = @pastGestures[-1..][0]
-      lastGestureEndsAt = lastScheduledGesture?.endAt()
+      lastGestureEndsAt = lastScheduledGesture?.gesture.endAt()
       gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
       @nextGesture = @generateGesture(gestureStartTime)
     @outputNextEvent(time)
@@ -76,6 +76,7 @@ class Player
     @nextGesture = null
     @events = []
     @currentEvent = null
+    @activatedModules = []
     Loom::outputEvent new Clear
 
   # Confirmation from patcher that last event was either successfully
@@ -110,13 +111,17 @@ class Player
       logger.warn "Event failed to dispatch before time #{time}:", @currentEvent
       @eventComplete()
 
-  # Take nextGesture, put its events on the event queue, and put it into
-  # pastGestures.
+
+  # Put nextGesture's events onto the queue, followed by relevant timed UI
+  # events. Then drop nextGesture onto pastGestures history.
   # 
   scheduleNextGesture: ->
     @events.push @nextGesture.toEvents()...
-    @pastGestures.push @nextGesture
+    for module in @activatedModules
+      @events.push new UI @nextGesture.startAt(), module.id, ["moduleActivated", "bang"]
+    @pastGestures.push gesture: @nextGesture, modules: @activatedModules
     @nextGesture = null
+    @activatedModules = []
 
   # Go through modules list in order and fire callback on each where applicable.
   # 
@@ -127,6 +132,7 @@ class Player
     for module in @modules when module.mute is 0
       if module.module[method]?
         if Probability::flip(module.probability)
+          @activatedModules.push module
           methodArgs = module.module[method](methodArgs)
-          Loom::moduleActivated(module.id)
+          
     return methodArgs

@@ -169,45 +169,16 @@ class Loom
     # Get next event off the queue. Re-route in case output module was
     # moved while an event was out for dispatch.
     # 
-    eventTriggered: ->
+    eventComplete: ->
       @thisPlayer().eventComplete()
 
     # Send event to Max to be scheduled.
     # 
     # Note: It is indeterminate which device in a player's rack will output
     # events, depending on which device received the initial "play" message.
-    # As long as no two devices ever have events "out" in Max at the same time
-    # (a scenario Player should never allow), this indeterminacy is not a
-    # problem.
+    # As long as no two devices ever have timed events "out" in Max at the
+    # same time (a scenario Player should never allow), this indeterminacy
+    # is not a problem.
     # 
     outputEvent: (event) ->
       outlet 0, event.serialize()
-
-    # Notify UI that this module has been activated.
-    # 
-    moduleActivated: (deviceId) ->
-      @messageDevicePatcher ["moduleActivated", "bang"], deviceId
-
-    # Dispatch message to a player's "output" module. Default to this player.
-    # 
-    messagePlayerOutputDevice: (message, playerId) ->
-      player = @player(playerId || Live::playerId())
-      if player
-        deviceId = player.outputModuleId()
-        @messageDevice message, deviceId
-
-    # For patcher/UI messages for other devices
-    # 
-    messageDevicePatcher: (message, deviceId) ->
-      @messageDevice ["forPatcher"].concat(message), deviceId
-
-    # Dispatch message to specified device, or self by default.
-    # 
-    messageDevice: (message, deviceId) ->
-      deviceId ?= Live::deviceId()
-      @messageAll ["forDevice", deviceId].concat(message)
-
-    # Output to a [send] which goes to all Loom devices.
-    # 
-    messageAll: (message) ->
-      outlet 1, message

@@ -10,6 +10,8 @@ class Event
   # 
   constructor: (@at) ->
 
+  # TODO: refactor with UI event
+  # 
   # Serialize self for output to event dispatch.
   # 
   # Invoked by subclasses.
@@ -20,7 +22,7 @@ class Event
   # - [subclass data]
   # 
   serialize: (data) ->
-    [Max::beatsToTicks(@at), @constructor.name.toLowerCase()].concat data
+    ["at", Max::beatsToTicks(@at), "midi", @constructor.name.toLowerCase()].concat data
 
   # When event ends
   # 

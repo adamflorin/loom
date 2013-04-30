@@ -6,14 +6,12 @@
 
 # Max `jsthis` properties must be set globally without being declared with `var`.
 # 
-`outlets = 2`
 `autowatch = 1`
 
 # Tooltips
 # 
 setinletassist(0, "Loom message input")
 setoutletassist(0, "Timed event output")
-setoutletassist(1, "Messages for other devices")
 
 class Max
   # 

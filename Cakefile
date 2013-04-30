@@ -27,6 +27,7 @@ SOURCE_FILES = [
   "event"
   "events/clear"
   "events/note"
+  "events/ui"
   "gesture"
   "global"
 ]
