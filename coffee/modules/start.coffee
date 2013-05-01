@@ -8,4 +8,4 @@ class Loom::modules.Start extends Module
   
   # Play on start.
   # 
-  transportStart: -> Loom::play()
+  transportStart: -> @player.play()

@@ -3227,12 +3227,13 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-28",
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 240.0, 150.0, 98.0, 18.0 ],
-					"text" : "module mute $1"
+					"patching_rect" : [ 240.0, 143.5, 104.5, 31.0 ],
+					"text" : "moduleMessage mute $1"
 				}
 
 			}

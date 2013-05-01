@@ -16,6 +16,7 @@ SOURCE_FILES = [
   "live"
   "logger"
   "loom"
+  "persistence"
   "probability"
   "player"
   "module"

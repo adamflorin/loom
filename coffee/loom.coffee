@@ -18,83 +18,53 @@ class Loom
     # 
     modules: {}
 
+    # Module (sub)class name is passed in as an argument to the [js] box.
+    # Look up the proper class by name in our modules array.
     # 
-    # 
-    players: ->
-      loom.players ?= []
+    moduleClass: (name) => @::modules[name || jsarguments[1]]
 
-    # Get player from ID
-    # 
-    player: (playerId) ->
-      do => return player for player in @players() when player.id is playerId
-
-    # Get this player.
-    # 
-    thisPlayer: ->
-      @player(Live::playerId())
-    
     # Create player if necessary and own module, then reset observers for all
     # modules of this player. (Adding a device to a chain can knock out the other
     # devices' observers).
     # 
     initDevice: ->
+      Live::resetCache()
+      @liveReady = yes
       logger.warn "Module created outside of rack" unless Live::deviceInRack()
-      @createThisPlayer() unless @thisPlayer()?
-      @loadThisPlayerModule()
 
-    # Create player if it doesn't already exist, and load this module either way.
-    # 
-    createThisPlayer: () ->
-      @players().push new Player Live::playerId()
+      module = @moduleClass()::load Live::deviceId()
+      module.save()
 
-    # 
-    # 
-    loadThisPlayerModule: () ->
-      @thisPlayer().loadModule(jsarguments[1], Live::deviceId())
+      player = Player::load Live::playerId()
+      player.save()
 
-    # Set module parameter.
+    # Set module parameter. If Live isn't ready yet (haven't received initDevice)
+    # then do nothing.
     # 
-    module: (name, value) ->
-      @thisPlayer()?.setModuleParameter Live::deviceId(), name, value
+    moduleMessage: (name, value) ->
+      if @liveReady
+        module = @moduleClass()::load Live::deviceId()
+        module[name] = value
+        module.save()
 
-    # Destroy and re-init this player, preserving all modules as they are,
-    # except this one, which we also re-init.
-    # 
-    # This is invoked on a script reload, which is why each device is responsible
-    # for reloading its own module. All devices redundantly reload player, as
-    # that's simpler and probably safer than maintaining some register of which
-    # devices have reloaded, in which order, etc.
-    # 
-    reloadThisPlayerModule: -> 
-      playerModules = @thisPlayer().modules
-      @destroyPlayer Live::playerId()
-      @createThisPlayer()
-      @thisPlayer().modules = playerModules
-      @thisPlayer().unloadModule Live::deviceId()
-      @loadThisPlayerModule()
-
-    # Destroy device. Optional playerId arg defaults to current player.
-    # 
-    # By the time this is called, module may already have been removed
-    # from player. So just destroy player if no modules remain.
-    # Then tell all devices in this player to refresh themselves.
+    # Destroy device.
     # 
     # Note that if this is being called from [freebang], LiveAPI is no longer
     # avalable.
     # 
     destroyDevice: (playerId) ->
-      playerId ?= Live::playerId()
-      player = @player(playerId)
-      if player
-        player.unloadModule Live::deviceId()
-        @destroyPlayer(playerId) if player.modules.length is 0
+      module = @moduleClass()::load Live::deviceId()
+      module.destroy()
+      @destroyPlayerIfEmpty(playerId)
 
-    # Rebuild players array, without specified player.
+    # If player has no more modules, destroy it.
     # 
-    destroyPlayer: (playerId) ->
-      fewerPlayers = (player for player in @players() when player.id isnt playerId)
-      loom.players = fewerPlayers
-      logger.info "Player #{playerId}: Destroyed"
+    # Optional playerId arg defaults to current player.
+    # 
+    destroyPlayerIfEmpty: (playerId) ->
+      playerId ?= Live::playerId()
+      player = (Player::load playerId)
+      player.destroy() if player.moduleIds.length is 0
 
   # Observers
   # 
@@ -126,13 +96,18 @@ class Loom
     # 
     observeTransport: (playing) ->
       if playing is 1
-        loom.overrideNow = if Live::now() > @TIME_DELAY_THRESHOLD then 0 else null
-        unless loom.transportPlaying
-          loom.transportPlaying = yes
-          @thisPlayer().transportStart()
+        Persistence::connection.overrideNow =
+          if Live::now() > @TIME_DELAY_THRESHOLD then 0 else null
+        unless Persistence::connection.transportPlaying
+          Persistence::connection.transportPlaying = yes
+          player = Player::load Live::playerId()
+          player.transportStart()
+          player.save()
       else
-        loom.transportPlaying = no
-        @thisPlayer().clearGestures()
+        Persistence::connection.transportPlaying = no
+        player = Player::load Live::playerId()
+        player.clearGestures()
+        player.save()
 
     # Observe when module is added, removed or moved in the chain.
     # Normally, just re-sequence the modules within a given player.
@@ -142,11 +117,12 @@ class Loom
     # 
     observeDevices: (deviceIds...) ->
       if oldPlayerId = Live::detectPlayerChange()
-        logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
         @initDevice()
-        @destroyDevice(oldPlayerId)
+        @destroyPlayerIfEmpty()
       else
-        @thisPlayer()?.sortModules(deviceIds)
+        player = Player::load Live::playerId()
+        player.moduleIds = deviceIds
+        player.save()
     
   # Messages
   # 
@@ -154,19 +130,32 @@ class Loom
   # 
   @mixin Messages:
 
+    # Player entrypoint.
+    # 
     # "Play" means: generate a gesture and start outputting.
     # 
     # But don't play if transport is stopped, or there will be dangling events.
     # 
+    # Save player state when finished.
+    # 
     play: (time) ->
-      @thisPlayer().play(time) if loom.transportPlaying
+      if Persistence::connection.transportPlaying
+        player = Player::load Live::playerId()
+        player.play(time)
+        player.save()
 
+    # Player entrypoint.
+    # 
     # Notification from patcher that all events have been dispatched.
     # 
     eventQueueEmpty: ->
-      @thisPlayer().eventQueueEmpty()
+      player = Player::load Live::playerId()
+      player.eventQueueEmpty()
+      player.save()
 
-    # Output array of events to [event-queue] and schedule next event
+    # Invoked by player.
+    # 
+    # Output array of events to [event-queue] and schedule next event.
     # 
     # Note: It is indeterminate which device in a player's rack will output
     # events, depending on which device received the initial "play" message.
@@ -178,8 +167,9 @@ class Loom
       outlet 1, event.serialize() for event in events
       outlet 0, "schedule"
 
+    # Invoked by player.
+    # 
     # Clear patcher event queue.
     # 
     clearEventQueue: ->
       outlet 0, "clear"
-

@@ -4,45 +4,22 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Player
+class Player extends Persistence
 
   # 
   # 
-  constructor: (@id) ->
-    @modules = []
-    @clearGestures()
-    logger.info "Player #{@id}: Created"
+  constructor: (@id, playerData) ->
+    {@moduleIds, @pastGestures, @nextGesture} = playerData
+    @moduleIds ?= []
+    @pastGestures ?= []
+    @activatedModuleIds = []
 
-  # Build module, append to modules array.
+  # Serialize object data to be passed into constructor by Persistence later.
   # 
-  loadModule: (name, deviceId) ->
-    @modules.push(
-      module: new Loom::modules[name]
-      id: deviceId
-      probability: 1.0
-      mute: 0)
-    logger.info "Player #{@id}: Loaded module #{name} at #{deviceId}"
-
-  # Rebuild modules array, without specified module.
-  # 
-  unloadModule: (deviceId) ->
-    @modules = (module for module in @modules when module.id isnt deviceId)
-    logger.info "Player #{@id}: Removed module at #{deviceId}"
-
-  # Sort module list according to order of array argument.
-  # 
-  # *Note*: This will implicitly delete modules which have been removed.
-  # 
-  sortModules: (deviceIds) ->
-    @modules = for deviceId in deviceIds
-      modules = (module for module in @modules when module.id is deviceId)
-      if modules.length then modules[0] else # (return nothing)
-    logger.info "Player #{@id}: Sorted modules to [#{deviceIds}]"
-
-  # Set paramenter for specified module.
-  # 
-  setModuleParameter: (deviceId, name, value) ->
-    module[name] = value for module in @modules when module.id is deviceId
+  serialize: ->
+    moduleIds: @moduleIds
+    pastGestures: @pastGestures
+    nextGesture: @nextGesture
 
   # Transport has started
   # 
@@ -74,12 +51,11 @@ class Player
   # 
   scheduleNextGesture: ->
     events = @nextGesture.toEvents()
-    for module in @activatedModules
-      events.push new UI @nextGesture.startAt(), module.id, ["moduleActivated", "bang"]
+    for moduleId in @activatedModuleIds
+      events.push new UI @nextGesture.startAt(), moduleId, ["moduleActivated", "bang"]
     Loom::scheduleEvents events
-    @pastGestures.push gesture: @nextGesture, modules: @activatedModules
+    @pastGestures.push gesture: @nextGesture, modules: @activatedModuleIds
     @nextGesture = null
-    @activatedModules = []
 
   # Reset all gesture information, history and upcoming,
   # and notify patcher event scheduler to do the same.
@@ -87,7 +63,6 @@ class Player
   clearGestures: ->
     @pastGestures = []
     @nextGesture = null
-    @activatedModules = []
     Loom::clearEventQueue()
 
   # Notification from patcher that all scheduled events have been dispatched.
@@ -97,14 +72,16 @@ class Player
 
   # Go through modules list in order and fire callback on each where applicable.
   # 
+  # Lazily load modules.
+  # 
   # methodArgs can be anything. All modules which accept an argument commit to
   # returning an object of the same type as the argument.
   # 
   applyModules: (method, methodArgs) ->
+    @modules ?= (Module::load moduleId, player: @ for moduleId in @moduleIds)
     for module in @modules when module.mute is 0
-      if module.module[method]?
+      if module[method]?
         if Probability::flip(module.probability)
-          @activatedModules.push module
-          methodArgs = module.module[method](methodArgs)
-          
+          @activatedModuleIds.push module.id
+          methodArgs = module[method](methodArgs)
     return methodArgs

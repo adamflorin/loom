@@ -39,8 +39,8 @@ class Live
   # Get current time from Live, unless an override is specified.
   # 
   now: ->
-    if loom.overrideNow?
-      loom.overrideNow
+    if Persistence::connection.overrideNow?
+      Persistence::connection.overrideNow
     else
       (new LiveAPI "live_set").get("current_song_time")
 
@@ -49,4 +49,6 @@ class Live
   # the next time they're needed (i.e., on destroy).
   # 
   resetCache: ->
+    @thisDeviceId = undefined
+    @thisPlayerId = undefined
     @deviceId() and @playerId()

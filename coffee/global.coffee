@@ -14,7 +14,6 @@
 # init globals
 # 
 logger = new Logger
-loom = (new Global("loom"))
 
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 
@@ -37,8 +36,7 @@ anything = ->
 try
   if loaded?
     logger.warn "Detected script reload"
-    Live::resetCache()
-    Loom::reloadThisPlayerModule()
+    Loom::initDevice()
   loaded = true
 catch e
   logger.error e
