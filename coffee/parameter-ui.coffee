@@ -48,7 +48,7 @@ class GaussianCurveCanvas
   # 
   draw: ->
     @drawBackground() if @contrast_frame? and @surface_bg?
-    @drawCurve() if @mean? and @deviation? and @control_bg?
+    @drawCurve() if @mean? and @deviation? and @selection?
     @drawPosition() if @linePosition? and @control_text_bg?
 
   # Draw background and corners.
@@ -84,7 +84,7 @@ class GaussianCurveCanvas
     top = 2
 
     context.lineWidth = 2
-    context.strokeStyle = @control_bg
+    context.strokeStyle = @selection
     context.beginPath()
     context.moveTo(midpoint - @AREA.width, @AREA.height)
     context.bezierCurveTo(
