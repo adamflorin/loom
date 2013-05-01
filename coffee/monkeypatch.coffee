@@ -4,8 +4,8 @@
 # Copyright 2013 Adam Florin
 # 
 
-# Support homebrew mixins so code for a given class may be visually divided
-# into distinct packages.
+# Support homebrew mixins so that classes can import other classes as mixins
+# or so code for a given class may be visually divided into distinct packages.
 # 
 # Example:
 # 
@@ -13,7 +13,18 @@
 #     @mixin Mixin:
 #       method: ->
 # 
+# Or:
+# 
+#   class Mixin
+#     method: ->
+#   class Class
+#     @mixin Mixin
+# 
+# mixin() will determine which syntax is used (whether argument is a Function
+# or an Object).
+# 
 Function::mixin = (mixins) ->
+  mixins = if mixins.type() is "Function" then {mixin: mixins::} else mixins
   for mixinName, mixin of mixins
     @::[name] = method for name, method of mixin
 
