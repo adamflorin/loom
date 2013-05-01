@@ -20,4 +20,4 @@ class Note extends Event
   # 
   # 
   serialize: ->
-    super [@pitch, @velocity, @duration]
+    super [@pitch, @velocity, Max::beatsToTicks @duration]
