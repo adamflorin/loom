@@ -54,20 +54,30 @@ class Player extends Persistence
   # Also, reap past gestures from earlier than our limit.
   # 
   scheduleNextGesture: ->
+    events = @nextGesture.toEvents().concat(@gestureUiEvents())
+    Loom::scheduleEvents events.sort((x, y) -> x.at - y.at)
     @nextGesture.activatedModules = (module.serialize() for module in @modules)
-    events = @nextGesture.toEvents()
-    for moduleId in @activatedModuleIds
-      events.push new UI @nextGesture.startAt(), moduleId, ["moduleActivated", "bang"]
-      thisModule = module for module in @modules when module.id is moduleId
-      for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
-        events.push new UI(
-          @nextGesture.startAt(),
-          moduleId,
-          ["parameterValue", parameterName, parameter.generatedValue])
-    Loom::scheduleEvents events.sort (x, y) -> x.at - y.at
     @pastGestures.push @nextGesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
     @nextGesture = null
+
+  # Generate UI events for module patchers.
+  # 
+  gestureUiEvents: ->
+    uiEvents = []
+    at = @nextGesture.startAt()
+    for moduleId in @activatedModuleIds
+      uiEvents.push new UI(
+        at,
+        moduleId,
+        ["moduleActivated", "bang"])
+      thisModule = module for module in @modules when module.id is moduleId
+      for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
+        uiEvents.push new UI(
+          at,
+          moduleId,
+          ["parameterValue", parameterName, parameter.generatedValue])
+    return uiEvents
 
   # Reset all gesture information, history and upcoming,
   # and notify patcher event scheduler to do the same.
