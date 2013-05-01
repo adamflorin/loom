@@ -49,7 +49,7 @@ class GaussianCurveCanvas
   draw: ->
     @drawBackground() if @contrast_frame? and @surface_bg?
     @drawCurve() if @mean? and @deviation? and @selection?
-    @drawPosition() if @linePosition? and @control_text_bg?
+    @drawPosition() if @linePosition? and @selection?
 
   # Draw background and corners.
   # 
@@ -102,7 +102,7 @@ class GaussianCurveCanvas
   drawPosition: ->
     pixelposition = @linePosition * @AREA.width * 0.96 + 2
     context.lineWidth = 0.5
-    context.strokeStyle = @control_text_bg
+    context.strokeStyle = @selection
     context.beginPath()
     context.moveTo(pixelposition, 0)
     context.lineTo(pixelposition, @AREA.height)
