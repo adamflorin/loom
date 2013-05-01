@@ -6,6 +6,10 @@
 
 class Player extends Persistence
 
+  # How many past gestures to store.
+  # 
+  @::NUM_PAST_GESTURES = 10
+
   # 
   # 
   constructor: (@id, playerData) ->
@@ -38,24 +42,31 @@ class Player extends Persistence
 
   # Generate a gesture and store it in nextGesture.
   # 
-  # Who is responsible for pushing next gesture onto queue?
+  # Provide two hooks for modules: gestureArguments (return )
   # 
   generateGesture: (time) ->
-    gesture = @applyModules "processGesture", new Gesture(time)
-    return gesture
+    gestureArguments = @applyModules "gestureArguments", {}
+    @applyModules "processGesture", new Gesture(time, gestureArguments)
 
   # Schedule next gesture for dispatch, including both MIDI and UI events,
   # and archive it, including all player modules. Then clear everything.
+  # 
+  # Also, reap past gestures from earlier than our limit.
   # 
   scheduleNextGesture: ->
     @nextGesture.activatedModules = (module.serialize() for module in @modules)
     events = @nextGesture.toEvents()
     for moduleId in @activatedModuleIds
       events.push new UI @nextGesture.startAt(), moduleId, ["moduleActivated", "bang"]
-      value = module.value for module in @modules when module.id is moduleId
-      events.push new UI @nextGesture.startAt(), moduleId, ["moduleValue", value] if value
+      thisModule = module for module in @modules when module.id is moduleId
+      for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
+        events.push new UI(
+          @nextGesture.startAt(),
+          moduleId,
+          ["parameterValue", parameterName, parameter.generatedValue])
     Loom::scheduleEvents events
     @pastGestures.push @nextGesture
+    @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
     @nextGesture = null
 
   # Reset all gesture information, history and upcoming,

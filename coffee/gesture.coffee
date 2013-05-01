@@ -10,9 +10,11 @@ class Gesture
 
   # Ur-gesture
   # 
-  constructor: (now) ->
-    @meter = DEFAULT_METER
-    @events = [new Note(@nextDownbeat(now), @meter)]
+  constructor: (now, gestureArguments) ->
+    {@meter} = gestureArguments
+    @meter ?= DEFAULT_METER
+    @afterTime = now
+    @events = [new Note(@nextDownbeat(@afterTime), @meter)]
 
   # Gesture starts when its first event starts.
   # 

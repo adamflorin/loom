@@ -13,10 +13,11 @@ class Module extends Persistence
   # 
   # 
   constructor: (@id, moduleData, args) ->
-    {@playerId, @probability, @mute, @mean, @deviation, @inertia} = moduleData
+    {@playerId, @probability, @mute, @parameters} = moduleData
     {@player} = args if args
     @probability ?= 1.0
     @mute ?= 0
+    @parameters ?= {}
 
   # Serialize object data to be passed into constructor by Persistence later.
   # 
@@ -29,9 +30,21 @@ class Module extends Persistence
     probability: @probability
     mute: @mute
     value: @value
-    mean: @mean
-    deviation: @deviation
-    inertia: @inertia
+    parameters: @parameters
+
+  # Set module value.
+  # 
+  # Anything with a name of the form patcher::object is a parameter. The rest
+  # are instance properties.
+  # 
+  set: (name, value) ->
+    [all, major, separator, minor] = name.match(/([^:]*)(::)?([^:]*)/)
+    if separator?
+      @parameters[major] ?= {}
+      @parameters[major][minor] = value
+    else
+      @[name] = value
+
 
   # Override Persistence's classKey, as Module is subclassable.
   # 
@@ -48,15 +61,26 @@ class Module extends Persistence
 
   # Generate a random value based on parameter input.
   # 
-  generateValue: ->
-    nextValue = Probability::gaussian(@mean, @deviation * @DEVIATION_REDUCE)
+  generateValue: (parameterName) ->
+    parameter = @parameters[parameterName] || @defaultParameter()
+    nextValue = Probability::gaussian(
+      parameter.mean,
+      parameter.deviation * @DEVIATION_REDUCE)
     nextValue = Probability::constrain nextValue
-    @value = Probability::applyInertia (@lastValue() || nextValue), nextValue, @inertia
+    parameter.generatedValue = Probability::applyInertia(
+      (@lastValue() || nextValue),
+      nextValue,
+      parameter.inertia)
 
   # Get last output value from player's gesture history.
   # 
-  lastValue: ->
+  lastValue: (parameterName) ->
     for gestureIndex in [Math.max(@player.pastGestures.length-1, 0)..0]
       if (gesture = @player.pastGestures[gestureIndex])?
         thisModule = module for module in gesture.activatedModules when module.id is @id
-        return thisModule.value if thisModule?
+        return thisModule.parameters[parameterName]?.generatedValue if thisModule?
+
+  # Failsafe default parameter.
+  # 
+  defaultParameter: ->
+    mean: 0.5, deviation: 0, inertia: 0
