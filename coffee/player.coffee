@@ -64,7 +64,7 @@ class Player extends Persistence
           @nextGesture.startAt(),
           moduleId,
           ["parameterValue", parameterName, parameter.generatedValue])
-    Loom::scheduleEvents events
+    Loom::scheduleEvents events.sort (x, y) -> x.at - y.at
     @pastGestures.push @nextGesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
     @nextGesture = null

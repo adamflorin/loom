@@ -21,6 +21,7 @@ SOURCE_FILES = [
   "player"
   "module"
   "modules/continue"
+  "modules/count"
   "modules/impulse"
   "modules/meter"
   "modules/pitch"
