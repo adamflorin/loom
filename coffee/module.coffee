@@ -13,7 +13,6 @@ class Module extends Persistence
     {@player} = args if args
     @probability ?= 1.0
     @mute ?= 0
-    logger.info "Module #{@id}: Loaded"
 
   # Serialize object data to be passed into constructor by Persistence later.
   # 

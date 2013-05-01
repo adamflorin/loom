@@ -39,6 +39,7 @@ class Persistence
   load: (id, classFromName, constructorArgs) ->
     data = @data(id)
     loadClass = if data?.loadClass? then classFromName(data.loadClass) else @constructor
+    logger.info "Creating #{loadClass.name} #{id}" if not data?
     new loadClass id, data || {}, constructorArgs
 
   # Invoke instantiated object's serialize method and store the result.
@@ -50,5 +51,5 @@ class Persistence
   # Destory data for this object.
   # 
   destroy: ->
-    # logger.debug "Destroying data for #{@classKey()} #{@id}"
+    logger.debug "Destroying #{@classKey()} #{@id}"
     @connection()[@classKey()][@id] = null
