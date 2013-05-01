@@ -41,7 +41,7 @@ class Loom
     # Set module parameter. If Live isn't ready yet (haven't received initDevice)
     # then do nothing.
     # 
-    moduleMessage: (name, value) ->
+    moduleMessage: (name, value...) ->
       if @liveReady
         module = @moduleClass()::load Live::deviceId()
         module.set name, value

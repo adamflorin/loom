@@ -37,13 +37,13 @@ class Module extends Persistence
   # Anything with a name of the form patcher::object is a parameter. The rest
   # are instance properties.
   # 
-  set: (name, value) ->
+  set: (name, values) ->
     [all, major, separator, minor] = name.match(/([^:]*)(::)?([^:]*)/)
     if separator?
       @parameters[major] ?= {}
-      @parameters[major][minor] = value
+      @parameters[major][minor] = if values.length == 1 then values[0] else values
     else
-      @[name] = value
+      @[name] = values[0]
 
 
   # Override Persistence's classKey, as Module is subclassable.
