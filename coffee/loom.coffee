@@ -41,7 +41,10 @@ class Loom
     # Set module parameter. If Live isn't ready yet (haven't received initDevice)
     # then do nothing.
     # 
+    # Strip patcher notation if present (patcher::arg).
+    # 
     moduleMessage: (name, value) ->
+      name = name.match(/([^:]*)$/)[0]
       if @liveReady
         module = @moduleClass()::load Live::deviceId()
         module[name] = value

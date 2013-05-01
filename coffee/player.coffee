@@ -31,8 +31,7 @@ class Player extends Persistence
   play: (time) ->
     time ?= Live::now()
     unless @nextGesture?
-      lastScheduledGesture = @pastGestures[-1..][0]
-      lastGestureEndsAt = lastScheduledGesture?.gesture.endAt()
+      lastGestureEndsAt = @lastPastGesture()?.endAt()
       gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
       @nextGesture = @generateGesture(gestureStartTime)
       @scheduleNextGesture()
@@ -45,16 +44,18 @@ class Player extends Persistence
     gesture = @applyModules "processGesture", new Gesture(time)
     return gesture
 
-  # Put nextGesture's events onto the queue, followed by relevant timed UI
-  # events. Then drop nextGesture onto pastGestures history and clear
-  # nextGesture and activatedModules.
+  # Schedule next gesture for dispatch, including both MIDI and UI events,
+  # and archive it, including all player modules. Then clear everything.
   # 
   scheduleNextGesture: ->
+    @nextGesture.activatedModules = (module.serialize() for module in @modules)
     events = @nextGesture.toEvents()
     for moduleId in @activatedModuleIds
       events.push new UI @nextGesture.startAt(), moduleId, ["moduleActivated", "bang"]
+      value = module.value for module in @modules when module.id is moduleId
+      events.push new UI @nextGesture.startAt(), moduleId, ["moduleValue", value] if value
     Loom::scheduleEvents events
-    @pastGestures.push gesture: @nextGesture, modules: @activatedModuleIds
+    @pastGestures.push @nextGesture
     @nextGesture = null
 
   # Reset all gesture information, history and upcoming,
@@ -70,18 +71,26 @@ class Player extends Persistence
   eventQueueEmpty: ->
     @applyModules "gestureOutputComplete"
 
-  # Go through modules list in order and fire callback on each where applicable.
-  # 
-  # Lazily load modules.
+  # Go through module list in order, firing callback on each where applicable.
   # 
   # methodArgs can be anything. All modules which accept an argument commit to
   # returning an object of the same type as the argument.
   # 
   applyModules: (method, methodArgs) ->
-    @modules ?= (Module::load moduleId, player: @ for moduleId in @moduleIds)
+    @loadModules()
     for module in @modules when module.mute is 0
       if module[method]?
         if Probability::flip(module.probability)
           @activatedModuleIds.push module.id
           methodArgs = module[method](methodArgs)
     return methodArgs
+
+  # Lazily load modules.
+  # 
+  loadModules: ->
+    @modules ?= (Module::load moduleId, player: @ for moduleId in @moduleIds)
+
+  # Get last gesture that was output (typically to influence nextGesture).
+  # 
+  lastPastGesture: ->
+    @pastGestures[-1..][0]
