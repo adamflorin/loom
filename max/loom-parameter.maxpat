@@ -65,13 +65,13 @@
 					"outlettype" : [ "", "", "", "" ],
 					"patching_rect" : [ 150.0, 30.0, 59.5, 20.0 ],
 					"restore" : 					{
-						"deviation" : [ 0.212598 ],
+						"deviation" : [ 0.0 ],
 						"inertia" : [ 0.0 ],
-						"mean" : [ 0.464567 ]
+						"mean" : [ 0.503937 ]
 					}
 ,
 					"text" : "autopattr",
-					"varname" : "u722007595"
+					"varname" : "u909000194"
 				}
 
 			}
@@ -130,11 +130,13 @@
 					"presentation_rect" : [ 1.5, 59.0, 45.0, 38.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.dial",
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
+							"parameter_initial" : [ 0.5 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "#1",
-							"parameter_longname" : "live.dial"
+							"parameter_initial_enable" : 1,
+							"parameter_shortname" : "#1"
 						}
 
 					}
@@ -514,7 +516,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 46.0, 88.0, 52.0, 18.0 ],
 					"text" : "Inertia",
-					"textcolor" : [ 0.921569, 0.921569, 0.921569, 1.0 ]
+					"textcolor" : [ 0.0, 0.019608, 0.078431, 1.0 ]
 				}
 
 			}
@@ -532,11 +534,13 @@
 					"presentation_rect" : [ 50.0, 103.0, 45.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.numbox[1]",
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
+							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "live.numbox",
-							"parameter_longname" : "live.numbox[1]"
+							"parameter_initial_enable" : 1,
+							"parameter_shortname" : "live.numbox"
 						}
 
 					}
@@ -558,7 +562,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 46.0, 56.0, 52.0, 18.0 ],
 					"text" : "Deviation",
-					"textcolor" : [ 0.921569, 0.921569, 0.921569, 1.0 ]
+					"textcolor" : [ 0.0, 0.019608, 0.078431, 1.0 ]
 				}
 
 			}
@@ -576,11 +580,13 @@
 					"presentation_rect" : [ 49.0, 71.0, 44.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.numbox",
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
+							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
-							"parameter_shortname" : "live.numbox",
-							"parameter_longname" : "live.numbox"
+							"parameter_initial_enable" : 1,
+							"parameter_shortname" : "live.numbox"
 						}
 
 					}
@@ -591,7 +597,7 @@
 			}
 , 			{
 				"box" : 				{
-					"bgcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ],
+					"bgcolor" : [ 0.666667, 0.698039, 0.717647, 1.0 ],
 					"id" : "obj-4",
 					"maxclass" : "panel",
 					"numinlets" : 1,
@@ -776,9 +782,9 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-22" : [ "live.numbox[1]", "live.numbox", 0 ],
 			"obj-3" : [ "live.numbox", "live.numbox", 0 ],
-			"obj-8" : [ "live.dial", "#1", 0 ]
+			"obj-8" : [ "live.dial", "#1", 0 ],
+			"obj-22" : [ "live.numbox[1]", "live.numbox", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
