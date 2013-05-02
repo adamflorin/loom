@@ -24,7 +24,7 @@
 # or an Object).
 # 
 Function::mixin = (mixins) ->
-  mixins = if mixins.type() is "Function" then {mixin: mixins::} else mixins
+  mixins = if objectType(mixins) is "Function" then {mixin: mixins::} else mixins
   for mixinName, mixin of mixins
     @::[name] = method for name, method of mixin
 
@@ -39,7 +39,7 @@ Number::toZeroPaddedString = (digits) ->
       if this < Math.pow(10, powers) then "0" else break
   zeros.join("") + this
 
-# Utility monkeypatch so we can call .type() on any JS object to get its "class".
+# No longer a monkeypatch as patching into Object leaves turds everywhere.
 # 
-Object::type = ->
-  Object::toString.call(@).match(/(\S+)]$/)[1]
+objectType = (object) ->
+  Object::toString.call(object).match(/(\S+)]$/)[1]

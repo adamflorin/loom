@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 133.0, 44.0, 612.0, 539.0 ],
+		"rect" : [ 117.0, 60.0, 612.0, 539.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,17 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"comment" : "",
+					"id" : "obj-5",
+					"maxclass" : "outlet",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 495.0, 375.0, 25.0, 25.0 ]
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"comment" : "To pattrforward",
 					"id" : "obj-16",
@@ -96,7 +107,7 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "",
+					"comment" : "For pattrstorage",
 					"id" : "obj-7",
 					"maxclass" : "outlet",
 					"numinlets" : 1,
@@ -156,7 +167,7 @@
 					"numinlets" : 4,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 90.0, 300.0, 344.0, 20.0 ],
+					"patching_rect" : [ 90.0, 300.0, 424.0, 20.0 ],
 					"text" : "route moduleActivated parameterValue requestPatcherParams"
 				}
 
@@ -1181,7 +1192,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 3.0, 29.0, 106.0, 18.0 ],
 					"text" : "LOOM",
-					"textcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ]
+					"textcolor" : [ 0.666667, 0.698039, 0.717647, 1.0 ]
 				}
 
 			}
@@ -1200,7 +1211,7 @@
 					"presentation_linecount" : 2,
 					"presentation_rect" : [ 3.0, 0.0, 57.0, 29.0 ],
 					"text" : "Module\nProbability",
-					"textcolor" : [ 0.921569, 0.921569, 0.921569, 1.0 ]
+					"textcolor" : [ 0.0, 0.019608, 0.078431, 1.0 ]
 				}
 
 			}
@@ -1219,13 +1230,13 @@
 					"presentation_rect" : [ 62.0, 3.0, 25.0, 23.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "live.dial[1]",
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 1.0 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
-							"parameter_shortname" : "Blank",
-							"parameter_longname" : "live.dial[1]"
+							"parameter_shortname" : "Blank"
 						}
 
 					}
@@ -1238,7 +1249,7 @@
 			}
 , 			{
 				"box" : 				{
-					"bgcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ],
+					"bgcolor" : [ 0.666667, 0.698039, 0.717647, 1.0 ],
 					"id" : "obj-12",
 					"maxclass" : "panel",
 					"numinlets" : 1,
@@ -1401,7 +1412,7 @@
 					"destination" : [ "obj-15", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 316.166656, 330.0, 39.5, 330.0 ],
+					"midpoints" : [ 369.5, 330.0, 39.5, 330.0 ],
 					"source" : [ "obj-4", 2 ]
 				}
 
@@ -1421,6 +1432,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-4", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-4", 3 ]
 				}
 
 			}

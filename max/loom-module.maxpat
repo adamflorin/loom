@@ -31,12 +31,82 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-57",
+					"linecount" : 4,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 270.0, 600.0, 159.0, 60.0 ],
+					"text" : "Remote scheduling: pass events from routing system into this device's event queue."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-61",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 485.25, 585.0, 71.0, 20.0 ],
+					"text" : "route direct"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-60",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 270.0, 570.0, 59.0, 18.0 ],
+					"text" : "schedule"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-56",
+					"maxclass" : "newobj",
+					"numinlets" : 3,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "" ],
+					"patching_rect" : [ 270.0, 540.0, 151.0, 20.0 ],
+					"text" : "route schedule event"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
+					"bordercolor" : [ 0.795631, 0.42763, 0.389374, 1.0 ],
+					"id" : "obj-46",
+					"maxclass" : "panel",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 255.0, 525.0, 180.0, 150.0 ],
+					"shadow" : 2
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
 					"id" : "obj-52",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 540.0, 133.0, 18.0 ],
+					"patching_rect" : [ 75.0, 540.0, 133.0, 18.0 ],
 					"text" : "requestPatcherParams"
 				}
 
@@ -78,7 +148,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 465.5, 645.0, 159.0, 20.0 ],
+					"patching_rect" : [ 462.5, 540.0, 159.0, 20.0 ],
 					"text" : "Event queue and scheduler."
 				}
 
@@ -102,7 +172,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 255.0, 275.0, 605.0, 404.0 ],
+						"rect" : [ 215.0, 211.0, 605.0, 404.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -723,7 +793,7 @@
 											"architecture" : "x86"
 										}
 ,
-										"rect" : [ 329.0, 162.0, 869.0, 554.0 ],
+										"rect" : [ 329.0, 162.0, 869.0, 566.0 ],
 										"bglocked" : 0,
 										"openinpresentation" : 0,
 										"default_fontsize" : 12.0,
@@ -751,7 +821,7 @@
 													"numinlets" : 1,
 													"numoutlets" : 2,
 													"outlettype" : [ "bang", "" ],
-													"patching_rect" : [ 135.0, 420.0, 32.5, 20.0 ],
+													"patching_rect" : [ 135.0, 450.0, 64.0, 20.0 ],
 													"text" : "t b l"
 												}
 
@@ -1182,7 +1252,7 @@
 													"maxclass" : "outlet",
 													"numinlets" : 1,
 													"numoutlets" : 0,
-													"patching_rect" : [ 135.0, 495.0, 25.0, 25.0 ]
+													"patching_rect" : [ 135.0, 510.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -1395,12 +1465,12 @@
 											}
 , 											{
 												"box" : 												{
-													"comment" : "",
+													"comment" : "Event",
 													"id" : "obj-2",
 													"maxclass" : "outlet",
 													"numinlets" : 1,
 													"numoutlets" : 0,
-													"patching_rect" : [ 180.0, 495.0, 25.0, 25.0 ]
+													"patching_rect" : [ 180.0, 510.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -1531,7 +1601,7 @@
 													"destination" : [ "obj-25", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
-													"midpoints" : [ 324.5, 465.0, 144.5, 465.0 ],
+													"midpoints" : [ 324.5, 482.0, 144.5, 482.0 ],
 													"source" : [ "obj-26", 0 ]
 												}
 
@@ -1551,7 +1621,6 @@
 													"destination" : [ "obj-2", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
-													"midpoints" : [ 158.0, 448.0, 189.5, 448.0 ],
 													"source" : [ "obj-27", 1 ]
 												}
 
@@ -1639,10 +1708,10 @@
 											}
 , 											{
 												"patchline" : 												{
-													"destination" : [ "obj-2", 0 ],
+													"destination" : [ "obj-27", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
-													"midpoints" : [ 290.5, 448.0, 189.5, 448.0 ],
+													"midpoints" : [ 290.5, 436.0, 144.5, 436.0 ],
 													"source" : [ "obj-8", 1 ]
 												}
 
@@ -1845,7 +1914,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 465.5, 540.0, 157.5, 20.0 ],
+					"patching_rect" : [ 468.0, 615.0, 157.5, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -1914,8 +1983,8 @@
 					"numinlets" : 3,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 465.5, 570.0, 76.0, 20.0 ],
-					"text" : "route midi ui"
+					"patching_rect" : [ 468.0, 645.0, 107.0, 20.0 ],
+					"text" : "route local remote"
 				}
 
 			}
@@ -1956,7 +2025,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 270.0, 645.0, 153.0, 20.0 ],
+					"patching_rect" : [ 75.0, 645.0, 153.0, 20.0 ],
 					"text" : "Output to UI patcher."
 				}
 
@@ -3433,7 +3502,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 320.0, 178.0, 442.0, 420.0 ],
+						"rect" : [ 793.0, 125.0, 442.0, 420.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -3765,7 +3834,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 270.0, 585.0, 25.0, 25.0 ]
+					"patching_rect" : [ 75.0, 600.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -3937,7 +4006,8 @@
 					"id" : "obj-6",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
 					"patcher" : 					{
 						"fileversion" : 1,
 						"appversion" : 						{
@@ -3947,7 +4017,7 @@
 							"architecture" : "x86"
 						}
 ,
-						"rect" : [ 865.0, 351.0, 415.0, 288.0 ],
+						"rect" : [ 368.0, 227.0, 415.0, 288.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -3968,6 +4038,17 @@
 						"tags" : "",
 						"boxes" : [ 							{
 								"box" : 								{
+									"comment" : "Events not processed",
+									"id" : "obj-3",
+									"maxclass" : "outlet",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 150.0, 240.0, 25.0, 25.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"fontname" : "Arial",
 									"fontsize" : 12.0,
 									"id" : "obj-2",
@@ -3975,7 +4056,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 60.0, 105.0, 65.0, 20.0 ],
+									"patching_rect" : [ 60.0, 105.0, 109.0, 20.0 ],
 									"text" : "route note"
 								}
 
@@ -4030,7 +4111,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 165.0, 53.0, 148.0, 22.0 ],
+									"patching_rect" : [ 195.0, 38.0, 148.0, 22.0 ],
 									"text" : "dispatch-midi-event"
 								}
 
@@ -4045,7 +4126,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 165.0, 75.0, 184.0, 33.0 ],
+									"patching_rect" : [ 195.0, 60.0, 184.0, 33.0 ],
 									"text" : "Turn event messages (lists) into MIDI messages."
 								}
 
@@ -4069,6 +4150,15 @@
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-1", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-3", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"source" : [ "obj-2", 1 ]
 								}
 
 							}
@@ -4251,7 +4341,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 450.0, 525.0, 180.0, 150.0 ],
+					"patching_rect" : [ 452.5, 525.0, 180.0, 150.0 ],
 					"shadow" : 2
 				}
 
@@ -4301,7 +4391,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 255.0, 525.0, 180.0, 150.0 ],
+					"patching_rect" : [ 60.0, 525.0, 180.0, 150.0 ],
 					"shadow" : 2
 				}
 
@@ -4345,7 +4435,7 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-78", 1 ],
+					"destination" : [ "obj-61", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-1", 1 ]
@@ -4617,6 +4707,33 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-20", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-56", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-60", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-56", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-61", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-56", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-21", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -4638,6 +4755,42 @@
 					"destination" : [ "obj-20", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"source" : [ "obj-6", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-78", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-60", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-53", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-61", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-78", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-61", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-56", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
 					"source" : [ "obj-7", 0 ]
 				}
 
@@ -4648,16 +4801,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-78", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"midpoints" : [ 613.5, 572.0, 641.0, 572.0, 641.0, 303.0, 472.0, 303.0 ],
-					"source" : [ "obj-78", 1 ]
 				}
 
 			}

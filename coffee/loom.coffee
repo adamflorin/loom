@@ -47,6 +47,12 @@ class Loom
         module.set name, value
         module.save()
 
+    # Give modules the chance to update their interfaces after player layout
+    # changes.
+    # 
+    populate: ->
+      player.populate?() for player in Player::loadAll()
+
     # Destroy device.
     # 
     # Note that if this is being called from [freebang], LiveAPI is no longer
@@ -65,6 +71,7 @@ class Loom
       playerId ?= Live::playerId()
       player = (Player::load playerId)
       player.destroy() if player.moduleIds.length is 0
+      @populate()
 
   # Observers
   # 
@@ -96,15 +103,15 @@ class Loom
     # 
     observeTransport: (playing) ->
       if playing is 1
-        Persistence::connection.overrideNow =
+        Persistence::connection().overrideNow =
           if Live::now() > @TIME_DELAY_THRESHOLD then 0 else null
-        unless Persistence::connection.transportPlaying
-          Persistence::connection.transportPlaying = yes
+        unless Persistence::connection().transportPlaying
+          Persistence::connection().transportPlaying = yes
           player = Player::load Live::playerId()
           player.transportStart()
           player.save()
       else
-        Persistence::connection.transportPlaying = no
+        Persistence::connection().transportPlaying = no
         player = Player::load Live::playerId()
         player.clearGestures()
         player.save()
@@ -117,12 +124,14 @@ class Loom
     # 
     observeDevices: (deviceIds...) ->
       if oldPlayerId = Live::detectPlayerChange()
+        logger.info "Device moved from player #{oldPlayerId} to #{Live::playerId()}"
         @initDevice()
-        @destroyPlayerIfEmpty()
+        @destroyPlayerIfEmpty(oldPlayerId)
       else
         player = Player::load Live::playerId()
         player.moduleIds = deviceIds
         player.save()
+      @populate()
     
   # Messages
   # 
@@ -139,7 +148,7 @@ class Loom
     # Save player state when finished.
     # 
     play: (time) ->
-      if Persistence::connection.transportPlaying
+      if Persistence::connection().transportPlaying
         player = Player::load Live::playerId()
         player.play(time)
         player.save()
@@ -149,9 +158,10 @@ class Loom
     # Notification from patcher that all events have been dispatched.
     # 
     eventQueueEmpty: ->
-      player = Player::load Live::playerId()
-      player.eventQueueEmpty()
-      player.save()
+      if Persistence::connection().transportPlaying
+        player = Player::load Live::playerId()
+        player.eventQueueEmpty()
+        player.save()
 
     # Invoked by player.
     # 
@@ -163,9 +173,18 @@ class Loom
     # same time (a scenario Player should never allow), this indeterminacy
     # is not a problem.
     # 
-    scheduleEvents: (events) ->
+    scheduleEvents: (events, forDevice) ->
+      @outputEvents(events)
+      
+      if forDevice?
+        @outputEvents [new Event(null, forDevice, ["schedule"])]
+      else
+        outlet 0, "schedule"
+
+    # For scheduled and "direct" events alike
+    # 
+    outputEvents: (events) ->
       outlet 1, event.serialize() for event in events
-      outlet 0, "schedule"
 
     # Invoked by player.
     # 

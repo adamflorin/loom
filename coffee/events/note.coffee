@@ -11,13 +11,15 @@ class Note extends Event
 
   # 
   # 
-  constructor: (at, meter) ->
+  constructor: (at, meter, forDevice) ->
     @pitch = DEFAULT_PITCH
     @velocity = DEFAULT_VELOCITY
     @duration = meter
-    super at
+    @scheduleRemotely = forDevice?
+    @dispatchRemotely = false
+    super at, forDevice
 
   # 
   # 
   serialize: ->
-    super [@pitch, @velocity, Max::beatsToTicks @duration]
+    super ["note", @pitch, @velocity, Max::beatsToTicks @duration]

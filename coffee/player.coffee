@@ -25,6 +25,11 @@ class Player extends Persistence
     pastGestures: @pastGestures
     nextGesture: @nextGesture
 
+  # Let modules populate their UI elements.
+  # 
+  populate: ->
+    @applyModules "populate"
+  
   # Transport has started
   # 
   transportStart: () ->
@@ -32,20 +37,23 @@ class Player extends Persistence
 
   # Start playing: generate a gesture and output its events.
   # 
-  play: (time) ->
+  # If forPlayer is specified, all of those events must be individually
+  # targeted to another player's device
+  # 
+  play: (time, forDevice) ->
     time ?= Live::now()
     unless @nextGesture?
       lastGestureEndsAt = @lastPastGesture()?.endAt()
       gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
-      @nextGesture = @generateGesture(gestureStartTime)
-      @scheduleNextGesture()
+      @nextGesture = @generateGesture(gestureStartTime, forDevice)
+      @scheduleNextGesture(forDevice)
 
   # Generate a gesture and store it in nextGesture.
   # 
   # Provide two hooks for modules: gestureArguments (return )
   # 
-  generateGesture: (time) ->
-    gestureArguments = @applyModules "gestureArguments", {}
+  generateGesture: (time, forDevice) ->
+    gestureArguments = @applyModules "gestureArguments", {forDevice: forDevice}
     @applyModules "processGesture", new Gesture(time, gestureArguments)
 
   # Schedule next gesture for dispatch, including both MIDI and UI events,
@@ -53,9 +61,9 @@ class Player extends Persistence
   # 
   # Also, reap past gestures from earlier than our limit.
   # 
-  scheduleNextGesture: ->
-    events = @nextGesture.toEvents().concat(@gestureUiEvents())
-    Loom::scheduleEvents events.sort((x, y) -> x.at - y.at)
+  scheduleNextGesture: (forDevice) ->
+    events = @nextGesture.toEvents().concat(@gestureUiEvents(forDevice))
+    Loom::scheduleEvents events.sort((x, y) -> x.at - y.at), forDevice
     @nextGesture.activatedModules = (module.serialize() for module in @modules)
     @pastGestures.push @nextGesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
@@ -63,20 +71,22 @@ class Player extends Persistence
 
   # Generate UI events for module patchers.
   # 
-  gestureUiEvents: ->
+  gestureUiEvents: (forDevice) ->
     uiEvents = []
     at = @nextGesture.startAt()
     for moduleId in @activatedModuleIds
       uiEvents.push new UI(
         at,
-        moduleId,
-        ["moduleActivated", "bang"])
+        forDevice || moduleId,
+        ["moduleActivated", "bang"],
+        forDevice?)
       thisModule = module for module in @modules when module.id is moduleId
       for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
         uiEvents.push new UI(
           at,
-          moduleId,
-          ["parameterValue", parameterName, parameter.generatedValue])
+          forDevice || moduleId,
+          ["parameterValue", parameterName, parameter.generatedValue],
+          forDevice?)
     return uiEvents
 
   # Reset all gesture information, history and upcoming,
@@ -91,6 +101,8 @@ class Player extends Persistence
   # 
   eventQueueEmpty: ->
     @applyModules "gestureOutputComplete"
+    lastGestureEndsAt = (@nextGesture || @lastPastGesture())?.endAt()
+    @applyModulesRemotely "remoteOutputComplete", [@id, lastGestureEndsAt]
 
   # Go through module list in order, firing callback on each where applicable.
   # 
@@ -105,6 +117,14 @@ class Player extends Persistence
           @activatedModuleIds.push module.id
           methodArgs = module[method](methodArgs)
     return methodArgs
+
+  # Tell all other players to apply a module method.
+  # 
+  applyModulesRemotely: (method, methodArgs) ->
+    for remotePlayerId in (id for id of Player::allData() when parseInt(id) isnt @id)
+      remotePlayer = @load remotePlayerId
+      remotePlayer.applyModules(method, methodArgs)
+      remotePlayer.save()
 
   # Lazily load modules.
   # 

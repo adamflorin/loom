@@ -22,6 +22,7 @@ SOURCE_FILES = [
   "module"
   "modules/continue"
   "modules/count"
+  "modules/follow"
   "modules/impulse"
   "modules/meter"
   "modules/pitch"

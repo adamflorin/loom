@@ -20,16 +20,6 @@ class Persistence
   classKey: ->
     @key ?= @constructor.name.toLowerCase()
 
-  # Static function to just get data for specified object.
-  # 
-  # (Init data store for this class if necessary.)
-  # 
-  data: (id) ->
-    @connection()[@classKey()] ?= []
-    data = @connection()[@classKey()][id]
-    # logger.debug "Loading data for #{@classKey()} #{id}", data
-    return data
-
   # Static method to create instance of self and populate it with data stored
   # for that ID.
   # 
@@ -37,19 +27,29 @@ class Persistence
   # classFromName callback to get the class to instantiate.
   # 
   load: (id, classFromName, constructorArgs) ->
-    data = @data(id)
+    data = @allData()[id]
     loadClass = if data?.loadClass? then classFromName(data.loadClass) else @constructor
-    logger.info "Creating #{loadClass.name} #{id}" if not data?
+    logger.info "Loading previously nonexistant #{loadClass.name} #{id}" if not data?
     new loadClass id, data || {}, constructorArgs
 
+  # Instantiate objects for all stored items.
+  # 
+  loadAll: ->
+    allData = @allData()
+    new @constructor id, allData[id] for id of allData
+  
   # Invoke instantiated object's serialize method and store the result.
   # 
   save: ->
-    # logger.debug "Saving data for #{@classKey()} #{@id}:", @serialize()
-    @connection()[@classKey()][@id] = @serialize()
+    @allData()[@id] = @serialize()
 
   # Destory data for this object.
   # 
   destroy: ->
-    logger.debug "Destroying #{@classKey()} #{@id}"
-    @connection()[@classKey()][@id] = null
+    logger.info "Destroying #{@classKey()} #{@id}"
+    @allData()[@id] = null
+
+  # Static method to return complete array of all elements.
+  # 
+  allData: ->
+    @connection()[@classKey()] ?= []

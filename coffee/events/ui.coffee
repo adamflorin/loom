@@ -7,10 +7,14 @@
 class UI extends Event
   # 
   # 
-  constructor: (at, @deviceId, @message) ->
-    super at
+  constructor: (at, forDevice, message, scheduleRemotely) ->
+    @scheduleRemotely = scheduleRemotely
+    @dispatchRemotely = not @scheduleRemotely
+    # logger.info "New UI event #{message}. scheduleRemotely #{@scheduleRemotely} but dispatchRemotely #{@dispatchRemotely}"
+    
+    super at, forDevice, message
 
-  # TODO: refactor with MIDI event serialize
+  # 
   # 
   serialize: ->
-    ["at", Max::beatsToTicks(@at), "ui", "forDevice", @deviceId].concat @message
+    super @message
