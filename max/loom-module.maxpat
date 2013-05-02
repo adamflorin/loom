@@ -4806,6 +4806,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 616.0, 636.0, 649.0, 636.0, 649.0, 300.0, 472.0, 300.0 ],
+					"source" : [ "obj-78", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"color" : [ 0.795631, 0.42763, 0.389374, 0.9 ],
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
