@@ -14,6 +14,7 @@
 # init globals
 # 
 logger = new Logger
+thisDeviceJs = @
 
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 

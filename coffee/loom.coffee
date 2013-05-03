@@ -30,6 +30,8 @@ class Loom
     initDevice: ->
       Live::resetCache()
       @liveReady = yes
+      Persistence::jsObject(Live::deviceId(), thisDeviceJs)
+
       logger.warn "Module created outside of rack" unless Live::deviceInRack()
 
       module = @moduleClass()::load Live::deviceId()
@@ -167,28 +169,28 @@ class Loom
     # 
     # Output array of events to [event-queue] and schedule next event.
     # 
+    # Check destination device of each event and dispatch to appropriate jsthis.
+    # 
     # Note: It is indeterminate which device in a player's rack will output
     # events, depending on which device received the initial "play" message.
     # As long as no two devices ever have timed events "out" in Max at the
     # same time (a scenario Player should never allow), this indeterminacy
     # is not a problem.
     # 
-    scheduleEvents: (events, forDevice) ->
-      @outputEvents(events)
-      
-      if forDevice?
-        @outputEvents [new Event(null, forDevice, ["schedule"])]
-      else
-        outlet 0, "schedule"
+    scheduleEvents: (events) ->
+      outputDeviceIds = []
+      for event in events.sort((x, y) -> x.at - y.at)
+        Persistence::jsObject(event.forDevice).outlet 1, event.serialize()
+        outputDeviceIds.push event.forDevice
 
-    # For scheduled and "direct" events alike
-    # 
-    outputEvents: (events) ->
-      outlet 1, event.serialize() for event in events
+      for deviceId in outputDeviceIds.unique()
+        Persistence::jsObject(deviceId).outlet 0, "schedule"
 
-    # Invoked by player.
+    # Invoked by player. Clear event queues for all device IDs (typicaly
+    # a player's modules).
     # 
     # Clear patcher event queue.
     # 
-    clearEventQueue: ->
-      outlet 0, "clear"
+    clearEventQueue: (deviceIds) ->
+      for deviceId in deviceIds
+        Persistence::jsObject(deviceId).outlet 0, "clear"

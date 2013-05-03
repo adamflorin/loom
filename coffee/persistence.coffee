@@ -53,3 +53,12 @@ class Persistence
   # 
   allData: ->
     @connection()[@classKey()] ?= []
+
+  # Hybrid getter/setter for the jsObject
+  # 
+  jsObject: (deviceId, object) ->
+    @connection()["jsObject"] ?= []
+    if object
+      @connection()["jsObject"][deviceId] = object
+    else
+      @connection()["jsObject"][deviceId]

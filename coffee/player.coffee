@@ -53,7 +53,7 @@ class Player extends Persistence
   # Provide two hooks for modules: gestureArguments (return )
   # 
   generateGesture: (time, forDevice) ->
-    gestureArguments = @applyModules "gestureArguments", {forDevice: forDevice}
+    gestureArguments = @applyModules "gestureArguments", {forDevice: forDevice || Live::deviceId()}
     @applyModules "processGesture", new Gesture(time, gestureArguments)
 
   # Schedule next gesture for dispatch, including both MIDI and UI events,
@@ -63,7 +63,7 @@ class Player extends Persistence
   # 
   scheduleNextGesture: (forDevice) ->
     events = @nextGesture.toEvents().concat(@gestureUiEvents(forDevice))
-    Loom::scheduleEvents events.sort((x, y) -> x.at - y.at), forDevice
+    Loom::scheduleEvents events
     @nextGesture.activatedModules = (module.serialize() for module in @modules)
     @pastGestures.push @nextGesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
@@ -95,7 +95,7 @@ class Player extends Persistence
   clearGestures: ->
     @pastGestures = []
     @nextGesture = null
-    Loom::clearEventQueue()
+    Loom::clearEventQueue(@moduleIds)
 
   # Notification from patcher that all scheduled events have been dispatched.
   # 

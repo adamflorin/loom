@@ -16,7 +16,6 @@ class Loom::modules.Follow extends Module
   # 
   remoteOutputComplete: (args) ->
     [remotePlayerId, time] = args
-    # logger.debug "RX remoteOutputComplete for time #{time}"
     @player.play(time, @id) if remotePlayerId is @followingPlayerId()
     [remotePlayerId, time]
 
