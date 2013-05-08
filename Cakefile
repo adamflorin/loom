@@ -48,6 +48,9 @@ task "build", "Compile CoffeeScript to JavaScript", ->
   exec COFFEE_ARGS.concat("coffee/#{file}.coffee" for file in SOURCE_FILES).join(" "),
     execOutput
 
+task "sbuild", "Build command from Sublime Text 2", ->
+  invoke "build"
+
 task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
   uiCoffeeArgs = [
     'coffee'
