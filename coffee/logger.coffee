@@ -13,6 +13,7 @@ class Logger
     warn: color: 33
     error: color: 31
   ESCAPE_CHAR = String.fromCharCode(27)
+  MAX_CHUNK_SIZE = 32768
 
   # 
   # 
@@ -105,9 +106,6 @@ class Logger
   # blocks or whatever else JS may put in a stack trace,
   # and it's not at all optimized, but it works for now.
   # 
-  # File.writeline() is limited to 32K. Check if readstring is, too.
-  # (http://cycling74.com/forums/topic.php?id=35547)
-  # 
   # Note: it's possible source file didn't load at init, as only one process
   # can open a file handle at once, and there appears to be a race condition.
   # In that case, try to load it again now. Fail gracefully either way
@@ -127,9 +125,16 @@ class Logger
   # Load source file once, and cache it.
   # Initial call will set source filename, too.
   # 
+  # Note: must read the file in 32K chunks.
+  # 
   loadSourceFile: (filename) ->
     @sourceFilename ?= filename
+    @source = ""
     path = Max::patcherDirPath() + COMPILED_SOURCE_PATH + @sourceFilename + ".js"
     sourceFile = new File(path, "read")
-    @source = sourceFile.readstring(sourceFile.eof) if sourceFile.isopen
+    if sourceFile.isopen
+      size = sourceFile.eof
+      while size > 0
+        @source += sourceFile.readstring Math.min(size, MAX_CHUNK_SIZE)
+        size -= MAX_CHUNK_SIZE
     sourceFile.close()
