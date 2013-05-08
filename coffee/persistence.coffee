@@ -62,3 +62,50 @@ class Persistence
       @connection()["jsObject"][deviceId] = object
     else
       @connection()["jsObject"][deviceId]
+
+  # Hybrid getter/setter for Dicts.
+  # 
+  access: (key, object) ->
+    dict = new Dict key
+    if object
+      dict.clear()
+      serializeObject object, dict
+    else
+      return deserializeObject dict
+
+  # 
+  # 
+  # 'dict' arg is optional, and not passed in recursive calls.
+  # 
+  serializeObject = (object, dict) ->
+    dict ?= new Dict
+    for key, value of object
+      dict.set(
+        key, 
+        unless value instanceof Object
+          value
+        else
+          serializeObject value)
+    return dict
+
+  # 
+  # 
+  deserializeObject = (dict) ->
+    object = new Object
+    keys = dict.getkeys()
+    keys = [keys] unless keys instanceof Array
+    
+    for key in keys
+      value = dict.get key
+      value = deserializeObject(value) if objectType(value) is "Dict"
+      object[key] = value
+
+    hasNonNumericKey = do -> return true for key in keys when key?.match(/\D/)?
+    return (
+      if hasNonNumericKey
+        object
+      else
+        unless object.length is 1
+          (value for key, value of object)
+        else
+          object[0])
