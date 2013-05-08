@@ -12,7 +12,7 @@ class Loom
   # 
   # Manage Devices and their respective Players and Modules.
   # 
-  @mixin Devices:
+  mixin @, Devices:
 
     # Modules register themselves here so they can be looked up by name.
     # 
@@ -81,7 +81,7 @@ class Loom
   # 
   # Note that some initial events arrive before player has been initialized.
   # 
-  @mixin Observers:
+  mixin @, Observers:
 
     # Live "transport start" event fires an indeterminte duration of time
     # after transport has actually started. (See followTransport() below.)
@@ -139,7 +139,7 @@ class Loom
   # 
   # Receive and send Max messages, from and to self or other devices.
   # 
-  @mixin Messages:
+  mixin @, Messages:
 
     # Player entrypoint.
     # 
@@ -183,7 +183,7 @@ class Loom
         Persistence::jsObject(event.forDevice).outlet 1, event.serialize()
         outputDeviceIds.push event.forDevice
 
-      for deviceId in outputDeviceIds.unique()
+      for deviceId in unique(outputDeviceIds)
         Persistence::jsObject(deviceId).outlet 0, "schedule"
 
     # Invoked by player. Clear event queues for all device IDs (typicaly

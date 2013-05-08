@@ -1,5 +1,8 @@
 # 
-# monkeypatch.coffee
+# utilities.coffee: Global utility functions to extend basic JavaScript.
+# 
+# Not monkeypatching because then patched-in function turn up when serializing,
+# etc.
 # 
 # Copyright 2013 Adam Florin
 # 
@@ -10,7 +13,7 @@
 # Example:
 # 
 #   class Class
-#     @mixin Mixin:
+#     mixin @, Mixin:
 #       method: ->
 # 
 # Or:
@@ -18,35 +21,37 @@
 #   class Mixin
 #     method: ->
 #   class Class
-#     @mixin Mixin
+#     mixin @, Mixin
 # 
 # mixin() will determine which syntax is used (whether argument is a Function
 # or an Object).
 # 
-Function::mixin = (mixins) ->
+mixin = (target, mixins) ->
   mixins = if objectType(mixins) is "Function" then {mixin: mixins::} else mixins
-  for mixinName, mixin of mixins
-    @::[name] = method for name, method of mixin
+  for mixinName, mixinMethods of mixins
+    target::[name] = method for name, method of mixinMethods
 
 # Utility for logger date formatting.
 # 
 # Pad integer with leading zeros so that it comes out to (at least) a certain
 # number of digits.
 # 
-Number::toZeroPaddedString = (digits) ->
+toZeroPaddedString = (number, digits) ->
   zeros =
     for powers in [Math.max(digits-1, 0)..1]
-      if this < Math.pow(10, powers) then "0" else break
-  zeros.join("") + this
+      if number < Math.pow(10, powers) then "0" else break
+  zeros.join("") + number
 
-# No longer a monkeypatch as patching into Object leaves turds everywhere.
+# Get string representation of object type, but more precise than typeof.
 # 
 objectType = (object) ->
   Object::toString.call(object).match(/(\S+)]$/)[1]
 
+# De-dupe array.
+# 
 # http://coffeescriptcookbook.com/chapters/arrays/removing-duplicate-elements-from-arrays
 # 
-Array::unique = ->
+unique = (array) ->
   output = {}
-  output[@[key]] = @[key] for key in [0...@length]
+  output[array[key]] = array[key] for key in [0...array.length]
   value for key, value of output

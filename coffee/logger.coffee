@@ -74,12 +74,12 @@ class Logger
   timestamp: ->
     now = new Date
     "#{now.getFullYear()}-" +
-      "#{(now.getMonth()+1).toZeroPaddedString(2)}-" +
-      "#{now.getDate().toZeroPaddedString(2)} " +
-      "#{now.getHours().toZeroPaddedString(2)}:" +
-      "#{now.getMinutes().toZeroPaddedString(2)}:" +
-      "#{now.getSeconds().toZeroPaddedString(2)}." +
-      "#{now.getMilliseconds().toZeroPaddedString(3)}"
+      "#{toZeroPaddedString(now.getMonth()+1, 2)}-" +
+      "#{toZeroPaddedString(now.getDate(), 2)} " +
+      "#{toZeroPaddedString(now.getHours(), 2)}:" +
+      "#{toZeroPaddedString(now.getMinutes(), 2)}:" +
+      "#{toZeroPaddedString(now.getSeconds(), 2)}." +
+      "#{toZeroPaddedString(now.getMilliseconds(), 3)}"
 
   # ANSI-style coloring
   # 
