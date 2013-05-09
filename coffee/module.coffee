@@ -13,7 +13,7 @@ class Module extends Persistence
   # 
   # 
   constructor: (@id, moduleData, args) ->
-    {@playerId, @probability, @mute, @parameters} = moduleData
+    {@probability, @mute, @parameters} = moduleData
     {@player} = args if args
     @probability ?= 1.0
     @mute ?= 0
@@ -26,10 +26,8 @@ class Module extends Persistence
   serialize: ->
     id: @id
     loadClass: @constructor.name
-    playerId: @playerId
     probability: @probability
     mute: @mute
-    value: @value
     parameters: @parameters
 
   # Set module value.
@@ -54,10 +52,6 @@ class Module extends Persistence
   # subclass
   # 
   load: (id, constructorArgs) -> super id, Loom::moduleClass, constructorArgs
-
-  # 
-  # 
-  player: -> Loom::player @playerId
 
   # Generate a random value based on parameter input.
   # 

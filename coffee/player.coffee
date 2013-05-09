@@ -121,7 +121,7 @@ class Player extends Persistence
   # Tell all other players to apply a module method.
   # 
   applyModulesRemotely: (method, methodArgs) ->
-    for remotePlayerId in (id for id of Player::allData() when parseInt(id) isnt @id)
+    for remotePlayerId in (id for id in @allIds() when parseInt(id) isnt @id)
       remotePlayer = @load remotePlayerId
       remotePlayer.applyModules(method, methodArgs)
       remotePlayer.save()
