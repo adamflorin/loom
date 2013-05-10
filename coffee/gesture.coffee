@@ -10,11 +10,25 @@ class Gesture
 
   # Ur-gesture
   # 
-  constructor: (now, gestureArguments) ->
-    {@meter, @forDevice} = gestureArguments
+  constructor: (gestureData) ->
+    {@meter, @forDevice, @afterTime, @activatedModules} = gestureData
     @meter ?= DEFAULT_METER
-    @afterTime = now
-    @events = [new Note(@nextDownbeat(@afterTime), @meter, @forDevice)]
+    @events = for eventData in gestureData.events || []
+      new (Loom::eventClass(eventData.loadClass)) eventData
+    if @events.length == 0
+      @events.push new (Loom::eventClass("Note"))(
+        at: @nextDownbeat(@afterTime)
+        meter: @meter
+        forDevice: @forDevice)
+
+  # 
+  # 
+  serialize: ->
+    meter: @meter
+    forDevice: @forDevice
+    afterTime: @afterTime
+    events: event.serialize() for event in @events
+    activatedModules: @activatedModules
 
   # Gesture starts when its first event starts.
   # 

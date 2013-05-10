@@ -10,7 +10,7 @@ class Loom::modules.Meter extends Module
   # 
   # Constrain meter to powers of two for now
   # 
-  gestureArguments: (gestureArguments) ->
-    gestureArguments.meter =
+  gestureData: (gestureData) ->
+    gestureData.meter =
       Math.pow(2, 2 - Math.round(@generateValue("meter") * 5))
-    return gestureArguments
+    return gestureData

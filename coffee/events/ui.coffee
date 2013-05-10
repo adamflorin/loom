@@ -4,15 +4,23 @@
 # Copyright Adam Florin 2013
 # 
 
-class UI extends Event
+class Loom::events.UI extends Event
   # 
   # 
-  constructor: (at, forDevice, message, scheduleRemotely) ->
-    @scheduleRemotely = scheduleRemotely
-    @dispatchRemotely = not @scheduleRemotely
-    super at, forDevice, message
+  constructor: (eventData) ->
+    super eventData
 
+  # For Persistence in Dict.
   # 
+  # TODO: factor out commonalities.
   # 
   serialize: ->
+    at: @at
+    forDevice: @forDevice
+    loadClass: @constructor.name
+    message: @message
+
+  # For output to Max event loop.
+  # 
+  output: ->
     super ["ui"].concat @message

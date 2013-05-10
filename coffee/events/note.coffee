@@ -4,22 +4,32 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Note extends Event
+class Loom::events.Note extends Event
   
   DEFAULT_PITCH = 60
   DEFAULT_VELOCITY = 100
 
   # 
   # 
-  constructor: (at, meter, forDevice) ->
+  constructor: (eventData) ->
+    {@duration} = eventData
     @pitch = DEFAULT_PITCH
     @velocity = DEFAULT_VELOCITY
-    @duration = meter
-    @scheduleRemotely = forDevice?
-    @dispatchRemotely = false
-    super at, forDevice
+    super eventData
 
+  # For Persistence in Dict.
   # 
+  # TODO: factor out commonalities.
   # 
   serialize: ->
+    at: @at
+    forDevice: @forDevice
+    loadClass: @constructor.name
+    pitch: @pitch
+    velocity: @velocity
+    duration: @duration
+
+  # For output to Max event loop.
+  # 
+  output: ->
     super ["midi", "note", @pitch, @velocity, Max::beatsToTicks @duration]

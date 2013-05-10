@@ -13,7 +13,10 @@ class Player extends Persistence
   # 
   # 
   constructor: (@id, playerData) ->
-    {@moduleIds, @pastGestures, @nextGesture} = playerData
+    {@moduleIds} = playerData
+    @pastGestures = for gestureData in playerData.pastGestures || {}
+      new Gesture gestureData
+    @nextGesture = new Gesture playerData.nextGesture if playerData.nextGesture?
     @moduleIds ?= []
     @pastGestures ?= []
     @activatedModuleIds = []
@@ -22,8 +25,8 @@ class Player extends Persistence
   # 
   serialize: ->
     moduleIds: @moduleIds
-    pastGestures: @pastGestures
-    nextGesture: @nextGesture
+    pastGestures: gesture.serialize() for gesture in @pastGestures
+    nextGesture: @nextGesture?.serialize()
 
   # Let modules populate their UI elements.
   # 
@@ -50,11 +53,13 @@ class Player extends Persistence
 
   # Generate a gesture and store it in nextGesture.
   # 
-  # Provide two hooks for modules: gestureArguments (return )
+  # Provide two hooks for modules: gestureData (return )
   # 
   generateGesture: (time, forDevice) ->
-    gestureArguments = @applyModules "gestureArguments", {forDevice: forDevice || Live::deviceId()}
-    @applyModules "processGesture", new Gesture(time, gestureArguments)
+    gestureData = @applyModules "gestureData",
+      forDevice: forDevice || Live::deviceId()
+      afterTime: time
+    @applyModules "processGesture", new Gesture(gestureData)
 
   # Schedule next gesture for dispatch, including both MIDI and UI events,
   # and archive it, including all player modules. Then clear everything.
@@ -75,18 +80,16 @@ class Player extends Persistence
     uiEvents = []
     at = @nextGesture.startAt()
     for moduleId in @activatedModuleIds
-      uiEvents.push new UI(
-        at,
-        forDevice || moduleId,
-        ["moduleActivated", "bang"],
-        forDevice?)
+      uiEvents.push new (Loom::eventClass("UI"))(
+        at: at
+        forDevice: forDevice || moduleId
+        message: ["moduleActivated", "bang"])
       thisModule = module for module in @modules when module.id is moduleId
       for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
-        uiEvents.push new UI(
-          at,
-          forDevice || moduleId,
-          ["parameterValue", parameterName, parameter.generatedValue],
-          forDevice?)
+        uiEvents.push new (Loom::eventClass("UI"))(
+          at: at
+          forDevice: forDevice || moduleId
+          message: ["parameterValue", parameterName, parameter.generatedValue])
     return uiEvents
 
   # Reset all gesture information, history and upcoming,

@@ -1,6 +1,6 @@
 # 
 # persistence.coffee: Mixin enabling simple persistence layer between Loom and
-# [js]'s Global object.
+# [js]'s Global and Dict systems.
 # 
 # Contains a mix of static and instance methods; context should make clear
 # which are which.

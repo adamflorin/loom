@@ -14,14 +14,19 @@ class Loom
   # 
   mixin @, Devices:
 
-    # Modules register themselves here so they can be looked up by name.
+    # Module and event classes register themselves here so they can be looked
+    # up by name.
     # 
     modules: {}
+    events: {}
 
+    # Look up the proper class by name in our modules or events array.
+    # 
     # Module (sub)class name is passed in as an argument to the [js] box.
-    # Look up the proper class by name in our modules array.
+    # 
     # 
     moduleClass: (name) => @::modules[name || jsarguments[1]]
+    eventClass: (name) => @::events[name]
 
     # Create player if necessary and own module, then reset observers for all
     # modules of this player. (Adding a device to a chain can knock out the other
@@ -180,7 +185,7 @@ class Loom
     scheduleEvents: (events) ->
       outputDeviceIds = []
       for event in events.sort((x, y) -> x.at - y.at)
-        Persistence::jsObject(event.forDevice).outlet 1, event.serialize()
+        Persistence::jsObject(event.forDevice).outlet 1, event.output()
         outputDeviceIds.push event.forDevice
 
       for deviceId in unique(outputDeviceIds)

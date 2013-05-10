@@ -8,15 +8,14 @@ class Event
   
   # 
   # 
-  constructor: (@at, @forDevice, @message) ->
+  constructor: (eventData) ->
+    {@at, @forDevice, @message} = eventData
 
-  # Serialize self for output to event dispatch.
+  # For output to Max event loop.
   # 
   # Invoked by subclasses.
   # 
-  # Format is evolving.
-  # 
-  serialize: (message) ->
+  output: (message) ->
     message ?= @message
     atParams = if @at? then ["at", Max::beatsToTicks(@at)] else ["direct"]
     atParams.concat(message)
