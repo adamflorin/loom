@@ -27,14 +27,18 @@ class Persistence
     connection: ->
       (new Global("loom"))
 
-    # Hybrid getter/setter for the jsObject
+    # Hybrid getter/setter where each device stores its 'jsthis' so that other
+    # devices may access one another's outlets. This is an important aspect of
+    # event dispatch, enabling UI events for a number of devices to come from
+    # the device that scheduled a gesture, and enabling devices to affect the
+    # output of other devices in other players.
     # 
-    jsObject: (deviceId, object) ->
-      @connection()["jsObject"] ?= []
+    deviceContext: (deviceId, object) ->
+      @connection()["deviceContext"] ?= []
       if object
-        @connection()["jsObject"][deviceId] = object
+        @connection()["deviceContext"][deviceId] = object
       else
-        @connection()["jsObject"][deviceId]
+        @connection()["deviceContext"][deviceId]
 
   # Dict
   # 

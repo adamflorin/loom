@@ -35,7 +35,7 @@ class Loom
     initDevice: ->
       Live::resetCache()
       @liveReady = yes
-      Persistence::jsObject(Live::deviceId(), thisDeviceJs)
+      Persistence::deviceContext(Live::deviceId(), deviceContext)
 
       logger.warn "Module created outside of rack" unless Live::deviceInRack()
 
@@ -185,11 +185,11 @@ class Loom
     scheduleEvents: (events) ->
       outputDeviceIds = []
       for event in events.sort((x, y) -> x.at - y.at)
-        Persistence::jsObject(event.deviceId).outlet 1, event.output()
+        Persistence::deviceContext(event.deviceId).outlet 1, event.output()
         outputDeviceIds.push event.deviceId
 
       for deviceId in unique(outputDeviceIds)
-        Persistence::jsObject(deviceId).outlet 0, "schedule"
+        Persistence::deviceContext(deviceId).outlet 0, "schedule"
 
     # Invoked by player. Clear event queues for all device IDs (typicaly
     # a player's modules).
@@ -198,4 +198,4 @@ class Loom
     # 
     clearEventQueue: (deviceIds) ->
       for deviceId in deviceIds
-        Persistence::jsObject(deviceId).outlet 0, "clear"
+        Persistence::deviceContext(deviceId).outlet 0, "clear"
