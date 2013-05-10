@@ -9,7 +9,7 @@ class Event
   # 
   # 
   constructor: (eventData) ->
-    {@at, @forDevice, @message} = eventData
+    {@at, @deviceId, @message} = eventData
 
   # For output to Max event loop.
   # 

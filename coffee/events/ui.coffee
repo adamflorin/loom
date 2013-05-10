@@ -16,7 +16,7 @@ class Loom::events.UI extends Event
   # 
   serialize: ->
     at: @at
-    forDevice: @forDevice
+    deviceId: @deviceId
     loadClass: @constructor.name
     message: @message
 

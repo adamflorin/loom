@@ -23,7 +23,7 @@ class Loom::events.Note extends Event
   # 
   serialize: ->
     at: @at
-    forDevice: @forDevice
+    deviceId: @deviceId
     loadClass: @constructor.name
     pitch: @pitch
     velocity: @velocity

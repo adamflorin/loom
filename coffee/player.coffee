@@ -40,24 +40,25 @@ class Player extends Persistence
 
   # Start playing: generate a gesture and output its events.
   # 
-  # If forPlayer is specified, all of those events must be individually
-  # targeted to another player's device
+  # If deviceId is specified, all of those events must be individually
+  # targeted to another player's device.
   # 
-  play: (time, forDevice) ->
+  play: (time, deviceId) ->
     time ?= Live::now()
+    deviceId ?= Live::deviceId()
     unless @nextGesture?
       lastGestureEndsAt = @lastPastGesture()?.endAt()
       gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
-      @nextGesture = @generateGesture(gestureStartTime, forDevice)
-      @scheduleNextGesture(forDevice)
+      @nextGesture = @generateGesture(gestureStartTime, deviceId)
+      @scheduleNextGesture(deviceId)
 
   # Generate a gesture and store it in nextGesture.
   # 
   # Provide two hooks for modules: gestureData (return )
   # 
-  generateGesture: (time, forDevice) ->
+  generateGesture: (time, deviceId) ->
     gestureData = @applyModules "gestureData",
-      forDevice: forDevice || Live::deviceId()
+      deviceId: deviceId
       afterTime: time
     @applyModules "processGesture", new Gesture(gestureData)
 
@@ -66,8 +67,8 @@ class Player extends Persistence
   # 
   # Also, reap past gestures from earlier than our limit.
   # 
-  scheduleNextGesture: (forDevice) ->
-    events = @nextGesture.toEvents().concat(@gestureUiEvents(forDevice))
+  scheduleNextGesture: (deviceId) ->
+    events = @nextGesture.toEvents().concat(@gestureUiEvents(deviceId))
     Loom::scheduleEvents events
     @nextGesture.activatedModules = (module.serialize() for module in @modules)
     @pastGestures.push @nextGesture
@@ -76,19 +77,19 @@ class Player extends Persistence
 
   # Generate UI events for module patchers.
   # 
-  gestureUiEvents: (forDevice) ->
+  gestureUiEvents: (deviceId) ->
     uiEvents = []
     at = @nextGesture.startAt()
     for moduleId in @activatedModuleIds
       uiEvents.push new (Loom::eventClass("UI"))(
         at: at
-        forDevice: forDevice || moduleId
+        deviceId: deviceId || moduleId
         message: ["moduleActivated", "bang"])
       thisModule = module for module in @modules when module.id is moduleId
       for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
         uiEvents.push new (Loom::eventClass("UI"))(
           at: at
-          forDevice: forDevice || moduleId
+          deviceId: deviceId || moduleId
           message: ["parameterValue", parameterName, parameter.generatedValue])
     return uiEvents
 

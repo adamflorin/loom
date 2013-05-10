@@ -185,8 +185,8 @@ class Loom
     scheduleEvents: (events) ->
       outputDeviceIds = []
       for event in events.sort((x, y) -> x.at - y.at)
-        Persistence::jsObject(event.forDevice).outlet 1, event.output()
-        outputDeviceIds.push event.forDevice
+        Persistence::jsObject(event.deviceId).outlet 1, event.output()
+        outputDeviceIds.push event.deviceId
 
       for deviceId in unique(outputDeviceIds)
         Persistence::jsObject(deviceId).outlet 0, "schedule"
