@@ -107,10 +107,12 @@ class Persistence
     # 
     # 'dict' arg is optional, and not passed in recursive calls.
     # 
+    # Don't store null values.
+    # 
     serializeObject: (object, dict) ->
       dict.clear() if dict?
       dict ?= new Dict
-      for key, value of object
+      for key, value of object when value?
         dict.set(
           key, 
           unless value instanceof Object then value else @serializeObject value)
@@ -121,12 +123,15 @@ class Persistence
     # Determine that dict should be built as an Array if all of its keys are
     # contiguous numbers beginning with "0".
     # 
+    # If dict is empty, there's no way to determine if it's supposed to be an
+    # array or object, so just return null so object can initialize that value.
+    # 
     deserializeObject: (dict) ->
-      object = new Object
       keys = @normalizedKeys dict
-      isArray = keys.length > 0
+      return null if keys.length == 0
+      object = new Object
+      isArray = true
       lastKey = "-1"
-      
       for key in keys when key?
         value = dict.get(key)
         value = @deserializeObject(value) if objectType(value) is "Dict"
@@ -134,7 +139,6 @@ class Persistence
         if isArray
           isArray = false if parseInt(key) isnt parseInt(lastKey) + 1
           lastKey = key
-
       return unless isArray then object else (value for key, value of object)
 
     # The return value of getkeys() is unreliable, presumably because it was
