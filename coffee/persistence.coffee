@@ -54,7 +54,7 @@ class Persistence
     # 
     load: (id, classFromName, constructorArgs) ->
       data = @data id.toString()
-      logger.debug "-> Loading #{@classKey()} #{id}:", data
+      # logger.debug "-> Loading #{@classKey()} #{id}:", data
       loadClass = if data?.loadClass? then classFromName(data.loadClass) else @constructor
       logger.info "Loading previously nonexistant #{loadClass.name} #{id}" if not data?
       new loadClass id, data || {}, constructorArgs
@@ -68,13 +68,13 @@ class Persistence
     # 
     save: ->
       data = @serialize()
-      logger.debug "<- Saving #{@classKey()} #{@id}:", data
+      # logger.debug "<- Saving #{@classKey()} #{@id}:", data
       @allData().set @id.toString(), @serializeObject(data)
 
     # Destroy data for this object.
     # 
     destroy: ->
-      logger.debug "X- Destroying #{@classKey()} #{@id}"
+      # logger.debug "X- Destroying #{@classKey()} #{@id}"
       @allData().remove @id.toString()
 
     # Return deserialized object, given ID.
