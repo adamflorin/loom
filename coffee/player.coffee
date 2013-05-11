@@ -88,13 +88,13 @@ class Player extends Persistence
     for moduleId in @activatedModuleIds
       uiEvents.push new (Loom::eventClass("UI"))(
         at: at
-        deviceId: deviceId || moduleId
+        deviceId: moduleId
         message: ["moduleActivated", "bang"])
       thisModule = module for module in @modules when module.id is moduleId
       for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
         uiEvents.push new (Loom::eventClass("UI"))(
           at: at
-          deviceId: deviceId || moduleId
+          deviceId: moduleId
           message: ["parameterValue", parameterName, parameter.generatedValue])
     return uiEvents
 
