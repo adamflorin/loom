@@ -169,7 +169,8 @@ class Loom
 
     # Player entrypoint.
     # 
-    # Notification from patcher that all events have been dispatched.
+    # Notification from patcher that all events for this device have been
+    # dispatched.
     # 
     eventQueueEmpty: ->
       if Persistence::connection().transportPlaying
