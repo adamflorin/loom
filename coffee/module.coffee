@@ -62,11 +62,12 @@ class Module extends Persistence
       parameter.deviation * @DEVIATION_REDUCE)
     nextValue = Probability::constrain nextValue
     parameter.generatedValue = Probability::applyInertia(
-      (@lastValue() || nextValue),
+      (@lastValue(parameterName) || nextValue),
       nextValue,
       parameter.inertia)
 
-  # Get last output value from player's gesture history.
+  # Count backwards from end to beginning of player's gesture history to find
+  # last generated output from this module.
   # 
   lastValue: (parameterName) ->
     for gestureIndex in [Math.max(@player.pastGestures.length-1, 0)..0]
