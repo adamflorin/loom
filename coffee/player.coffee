@@ -52,7 +52,7 @@ class Player extends Persistence
   play: (time, deviceId) ->
     time ?= Live::now()
     deviceId ?= Live::deviceId()
-    unless @lastPastGesture()?.startAt() >= time
+    unless @lastPastGesture()?.startAt() > time
       gesture = @generateGesture(@nextGestureAfterTime(time), deviceId)
       @scheduleGesture gesture
 
@@ -73,7 +73,7 @@ class Player extends Persistence
   # 
   scheduleGesture: (gesture) ->
     events = gesture.toEvents().concat(@gestureUiEvents(gesture))
-    Loom::scheduleEvents events
+    Loom::scheduleEvents events, gesture.deviceId
     gesture.activatedModules = (module.serialize() for module in @modules)
     @pastGestures.push gesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES

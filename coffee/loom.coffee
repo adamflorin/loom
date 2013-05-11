@@ -116,7 +116,7 @@ class Loom
     observeTransport: (playing) ->
       if playing is 1
         Persistence::connection().overrideNow =
-          if Live::now() > @TIME_DELAY_THRESHOLD then 0 else null
+          if Live::now(true) > @TIME_DELAY_THRESHOLD then 0 else null
         unless Persistence::connection().transportPlaying
           Persistence::connection().transportPlaying = yes
           player = Player::load Live::playerId()
@@ -172,8 +172,14 @@ class Loom
     # Notification from patcher that all events for this device have been
     # dispatched.
     # 
-    eventQueueEmpty: ->
+    # 'now' is the current time in beats (float). It comes straight from [when],
+    # which is the most reliable way to determine current time. So just set up
+    # an override, which will remain in place until the next call to
+    # eventQueueEmpty.
+    # 
+    eventQueueEmpty: (now) ->
       if Persistence::connection().transportPlaying
+        Persistence::connection().overrideNow = now
         player = Player::load Live::playerId()
         player.eventQueueEmpty()
         player.save()
@@ -186,11 +192,15 @@ class Loom
     # 
     # Note: It is indeterminate which device in a player's rack will output
     # events, depending on which device received the initial "play" message.
-    # As long as no two devices ever have timed events "out" in Max at the
-    # same time (a scenario Player should never allow), this indeterminacy
-    # is not a problem.
     # 
-    scheduleEvents: (events) ->
+    # If returnDeviceId is specified, notify Max that we expect that device to
+    # return here--in the form of an eventQueueEmpty message when events have
+    # all been dispatched.
+    # 
+    scheduleEvents: (events, returnDeviceId) ->
+      if returnDeviceId?
+        Persistence::deviceContext(returnDeviceId).outlet 0, "return"
+
       outputDeviceIds = []
       for event in events.sort((x, y) -> x.at - y.at)
         Persistence::deviceContext(event.deviceId).outlet 1, event.output()

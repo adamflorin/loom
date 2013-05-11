@@ -44,8 +44,11 @@ class Live
 
   # Get current time from Live, unless an override is specified.
   # 
-  now: ->
-    if Persistence::connection().overrideNow?
+  # Use overrides whenever possible, as it turns out that the LiveAPI
+  # current_song_time we have access to is frequently if not always stale.
+  # 
+  now: (ignoreOverride) ->
+    if Persistence::connection().overrideNow? and not ignoreOverride
       Persistence::connection().overrideNow
     else
       (new LiveAPI "live_set").get("current_song_time")
