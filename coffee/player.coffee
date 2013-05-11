@@ -16,7 +16,6 @@ class Player extends Persistence
     {@moduleIds} = playerData
     @pastGestures = for gestureData in playerData.pastGestures || {}
       new Gesture gestureData
-    @nextGesture = new Gesture playerData.nextGesture if playerData.nextGesture?
     @moduleIds ?= []
     @pastGestures ?= []
     @activatedModuleIds = []
@@ -26,7 +25,6 @@ class Player extends Persistence
   serialize: ->
     moduleIds: @moduleIds
     pastGestures: gesture.serialize() for gesture in @pastGestures
-    nextGesture: @nextGesture?.serialize()
 
   # Let modules populate their UI elements.
   # 
@@ -45,19 +43,20 @@ class Player extends Persistence
 
   # Start playing: generate a gesture and output its events.
   # 
+  # If the last generated gesture hasn't begun yet, don't generate. The
+  # rule is that no player looks more than one gesture into the future.
+  # 
   # If deviceId is specified, all of those events must be individually
   # targeted to another player's device.
   # 
   play: (time, deviceId) ->
     time ?= Live::now()
     deviceId ?= Live::deviceId()
-    unless @nextGesture?
-      lastGestureEndsAt = @lastPastGesture()?.endAt()
-      gestureStartTime = if lastGestureEndsAt > time then lastGestureEndsAt else time
-      @nextGesture = @generateGesture(gestureStartTime, deviceId)
-      @scheduleNextGesture(deviceId)
+    unless @lastPastGesture()?.startAt() >= time
+      gesture = @generateGesture(@nextGestureAfterTime(time), deviceId)
+      @scheduleGesture gesture
 
-  # Generate a gesture and store it in nextGesture.
+  # Generate a gesture.
   # 
   # Provide two hooks for modules: gestureData (return )
   # 
@@ -72,19 +71,18 @@ class Player extends Persistence
   # 
   # Also, reap past gestures from earlier than our limit.
   # 
-  scheduleNextGesture: (deviceId) ->
-    events = @nextGesture.toEvents().concat(@gestureUiEvents(deviceId))
+  scheduleGesture: (gesture) ->
+    events = gesture.toEvents().concat(@gestureUiEvents(gesture))
     Loom::scheduleEvents events
-    @nextGesture.activatedModules = (module.serialize() for module in @modules)
-    @pastGestures.push @nextGesture
+    gesture.activatedModules = (module.serialize() for module in @modules)
+    @pastGestures.push gesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
-    @nextGesture = null
 
   # Generate UI events for module patchers.
   # 
-  gestureUiEvents: (deviceId) ->
+  gestureUiEvents: (gesture) ->
     uiEvents = []
-    at = @nextGesture.startAt()
+    at = gesture.startAt()
     for moduleId in @activatedModuleIds
       uiEvents.push new (Loom::eventClass("UI"))(
         at: at
@@ -103,14 +101,13 @@ class Player extends Persistence
   # 
   clearGestures: ->
     @pastGestures = []
-    @nextGesture = null
     Loom::clearEventQueue(@moduleIds)
 
   # Notification from patcher that all scheduled events have been dispatched.
   # 
   eventQueueEmpty: ->
     @applyModules "gestureOutputComplete"
-    lastGestureEndsAt = (@nextGesture || @lastPastGesture())?.endAt()
+    lastGestureEndsAt = @lastPastGesture()?.endAt()
     @applyModulesRemotely "remoteOutputComplete", [@id, lastGestureEndsAt]
 
   # Go through module list in order, firing callback on each where applicable.
@@ -139,6 +136,13 @@ class Player extends Persistence
   # 
   loadModules: ->
     @modules ?= (Module::load moduleId, player: @ for moduleId in @moduleIds)
+
+  # Next gesture should start after now, or end of last gesture, whichever is
+  # later.
+  # 
+  nextGestureAfterTime: (time) ->
+    lastGestureEndsAt = @lastPastGesture()?.endAt()
+    return if lastGestureEndsAt > time then lastGestureEndsAt else time
 
   # Get last gesture that was output (typically to influence nextGesture).
   # 
