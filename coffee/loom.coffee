@@ -43,6 +43,7 @@ class Loom
       module.save()
 
       player = Player::load Live::playerId()
+      player.refreshModuleIds()
       player.save()
 
     # Set module parameter. If Live isn't ready yet (haven't received initDevice)
@@ -63,22 +64,26 @@ class Loom
     # Destroy device.
     # 
     # Note that if this is being called from [freebang], LiveAPI is no longer
-    # avalable.
+    # avalable. However, the basic device/player ID functions should correctly
+    # return cached values.
     # 
-    destroyDevice: (playerId) ->
+    destroyDevice: () ->
       module = @moduleClass()::load Live::deviceId()
       module.destroy()
-      @destroyPlayerIfEmpty(playerId)
+      @removePlayerModule Live::playerId(), Live::deviceId()
 
-    # If player has no more modules, destroy it.
+    # Remove module from player. If that was the last module, destroy player.
+    # Otherwise, save it. It's possible user is moving multiple modules at once
+    # and this is not the last call.
     # 
-    # Optional playerId arg defaults to current player.
-    # 
-    destroyPlayerIfEmpty: (playerId) ->
-      playerId ?= Live::playerId()
-      player = (Player::load playerId)
-      player.destroy() if player.moduleIds.length is 0
-      @populate()
+    removePlayerModule: (playerId, deviceId) ->
+      player = Player::load playerId
+      player.moduleIds = (id for id in player.moduleIds when id isnt deviceId)
+      if player.moduleIds.length > 0
+        player.save()
+      else
+        player.destroy()
+        @populate()
 
   # Observers
   # 
@@ -129,14 +134,16 @@ class Loom
     # If device has changed players, may have to create or destroy
     # new or old players, respectively, and re-init.
     # 
-    observeDevices: (deviceIds...) ->
+    # Ignore "bang" argument, and just  get the device IDs from LiveAPI.
+    # 
+    observeDevices: ->
       if oldPlayerId = Live::detectPlayerChange()
         logger.info "Device moved from player #{oldPlayerId} to #{Live::playerId()}"
         @initDevice()
-        @destroyPlayerIfEmpty(oldPlayerId)
+        @removePlayerModule(oldPlayerId, Live::deviceId())
       else
         player = Player::load Live::playerId()
-        player.moduleIds = deviceIds
+        player.moduleIds = (id for id in Live::siblingDevices() when Module::exists(id))
         player.save()
       @populate()
     

@@ -101,6 +101,11 @@ class Persistence
     allIds: ->
       @normalizedKeys @allData()
 
+    # Returns true if object for ID exists.
+    # 
+    exists: (id) ->
+      id.toString() in @allIds()
+
     # Static method to return parent Dict which contains all serialized objects
     # of this class.
     # 

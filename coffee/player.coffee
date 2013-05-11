@@ -33,6 +33,11 @@ class Player extends Persistence
   populate: ->
     @applyModules "populate"
   
+  # Keep internal state in sync with Live.
+  # 
+  refreshModuleIds: ->
+    @moduleIds = Live::siblingDevices()
+
   # Transport has started
   # 
   transportStart: () ->

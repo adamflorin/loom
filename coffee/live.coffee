@@ -25,6 +25,12 @@ class Live
   deviceInRack: ->
     (new LiveAPI "this_device canonical_parent").type is "Chain"
 
+  # Return IDs of devices in this rack.
+  # 
+  siblingDevices: ->
+    deviceIds = (new LiveAPI "this_device canonical_parent").get "devices"
+    id for id in deviceIds[1..] when id isnt "id"
+
   # Check if device has been moved to a new player. Do this by clearing and
   # repopulating ID cache.
   # 
