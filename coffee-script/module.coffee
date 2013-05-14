@@ -4,8 +4,8 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Module extends Persistence
-  
+class Module extends Persisted
+
   # Reduce deviation to contain Gaussian random values.
   # 
   @::DEVIATION_REDUCE = 0.2

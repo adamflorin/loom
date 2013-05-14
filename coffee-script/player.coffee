@@ -4,8 +4,8 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Player extends Persistence
-
+class Player extends Persisted
+  
   # How many past gestures to store.
   # 
   @::NUM_PAST_GESTURES = 10
