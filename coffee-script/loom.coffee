@@ -25,7 +25,7 @@ class Loom
     # Module (sub)class name is passed in as an argument to the [js] box.
     # 
     # 
-    moduleClass: (name) => @::modules[name || jsarguments[1]]
+    moduleClass: (name) => @::modules[name]
     eventClass: (name) => @::events[name]
 
     # Create player if necessary and own module, then reset observers for all
@@ -39,21 +39,18 @@ class Loom
 
       logger.warn "Module created outside of rack" unless Live::deviceInRack()
 
-      module = @moduleClass()::load Live::deviceId()
+      moduleClass = @moduleClass jsarguments[1]
+      module = moduleClass::load Live::deviceId()
       module.save()
 
-      player = Player::load Live::playerId()
-      player.refreshModuleIds()
-      player.save()
+      Player::update Live::playerId(), (player) -> player.refreshModuleIds()
 
     # Set module parameter. If Live isn't ready yet (haven't received initDevice)
     # then do nothing.
     # 
     moduleMessage: (name, value...) ->
       if @liveReady
-        module = @moduleClass()::load Live::deviceId()
-        module.set name, value
-        module.save()
+        Module::update Live::deviceId(), (module) -> module.set name, value
 
     # Give modules the chance to update their interfaces after player layout
     # changes.
@@ -68,9 +65,9 @@ class Loom
     # return cached values.
     # 
     destroyDevice: () ->
-      module = @moduleClass()::load Live::deviceId()
-      module.destroy()
-      @removePlayerModule Live::playerId(), Live::deviceId()
+      deviceId = Live::deviceId()
+      (Module::load deviceId).destroy()
+      @removePlayerModule Live::playerId(), deviceId
 
     # Remove module from player. If that was the last module, destroy player.
     # Otherwise, save it. It's possible user is moving multiple modules at once
@@ -119,14 +116,10 @@ class Loom
           if Live::now(true) > @TIME_DELAY_THRESHOLD then 0 else null
         unless Persistence::connection().transportPlaying
           Persistence::connection().transportPlaying = yes
-          player = Player::load Live::playerId()
-          player.transportStart()
-          player.save()
+          Player::update Live::playerId(), (player) -> player.transportStart()
       else
         Persistence::connection().transportPlaying = no
-        player = Player::load Live::playerId()
-        player.clearGestures()
-        player.save()
+        Player::update Live::playerId(), (player) -> player.clearGestures()
 
     # Observe when module is added, removed or moved in the chain.
     # Normally, just re-sequence the modules within a given player.
@@ -142,9 +135,8 @@ class Loom
         @initDevice()
         @removePlayerModule(oldPlayerId, Live::deviceId())
       else
-        player = Player::load Live::playerId()
-        player.moduleIds = (id for id in Live::siblingDevices() when Module::exists(id))
-        player.save()
+        Player::update Live::playerId(), (player) ->
+          player.moduleIds = (id for id in Live::siblingDevices() when Module::exists(id))
       @populate()
     
   # Messages
@@ -163,9 +155,7 @@ class Loom
     # 
     play: (time) ->
       if Persistence::connection().transportPlaying
-        player = Player::load Live::playerId()
-        player.play(time)
-        player.save()
+        Player::update Live::playerId(), (player) -> player.play(time)
 
     # Player entrypoint.
     # 
@@ -180,9 +170,7 @@ class Loom
     eventQueueEmpty: (now) ->
       if Persistence::connection().transportPlaying
         Persistence::connection().overrideNow = now
-        player = Player::load Live::playerId()
-        player.eventQueueEmpty()
-        player.save()
+        Player::update Live::playerId(), (player) -> player.eventQueueEmpty()
 
     # Invoked by player.
     # 

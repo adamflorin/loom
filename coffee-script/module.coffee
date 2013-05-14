@@ -4,7 +4,9 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Module extends Persisted
+class Module
+  
+  mixin @, Persisted
 
   # Reduce deviation to contain Gaussian random values.
   # 
@@ -19,9 +21,9 @@ class Module extends Persisted
     @mute ?= 0
     @parameters ?= {}
 
-  # Serialize object data to be passed into constructor by Persistence later.
+  # Serialize object data to be passed into constructor by Persisted later.
   # 
-  # loadClass tells Persistence
+  # loadClass tells Persisted which subclass to instantiate.
   # 
   serialize: ->
     id: @id
@@ -44,14 +46,13 @@ class Module extends Persisted
       @[name] = values[0]
 
 
-  # Override Persistence's classKey, as Module is subclassable.
+  # Override Persisted's classKey, as Module is subclassable.
   # 
   classKey: -> "module"
 
-  # Overwrite Persistence for convenience, as we always want the appropriate
-  # subclass
+  # Overwrite Persisted classFromName
   # 
-  load: (id, constructorArgs) -> super id, Loom::moduleClass, constructorArgs
+  classFromName: Loom::moduleClass
 
   # Generate a random value based on parameter input.
   # 

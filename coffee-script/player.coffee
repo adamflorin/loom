@@ -4,7 +4,9 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Player extends Persisted
+class Player
+  
+  mixin @, Persisted
   
   # How many past gestures to store.
   # 
@@ -20,7 +22,7 @@ class Player extends Persisted
     @pastGestures ?= []
     @activatedModuleIds = []
 
-  # Serialize object data to be passed into constructor by Persistence later.
+  # Serialize object data to be passed into constructor by Persisted later.
   # 
   serialize: ->
     moduleIds: @moduleIds
@@ -128,9 +130,8 @@ class Player extends Persisted
   # 
   applyModulesRemotely: (method, methodArgs) ->
     for remotePlayerId in (id for id in @allIds() when parseInt(id) isnt @id)
-      remotePlayer = @load remotePlayerId
-      remotePlayer.applyModules(method, methodArgs)
-      remotePlayer.save()
+      @update remotePlayerId, (remotePlayer) ->
+        remotePlayer.applyModules(method, methodArgs)
 
   # Lazily load modules.
   # 
