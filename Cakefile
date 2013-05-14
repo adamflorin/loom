@@ -4,7 +4,7 @@ COFFEE_ARGS = [
   'coffee'
   '--bare'
   '--output'
-  'build'
+  'javascript'
   '--compile'
   '--join'
   'loom-module.js'
@@ -45,7 +45,7 @@ TEST_ARGS = [
 
 # 
 task "build", "Compile CoffeeScript to JavaScript", ->
-  exec COFFEE_ARGS.concat("coffee/#{file}.coffee" for file in SOURCE_FILES).join(" "),
+  exec COFFEE_ARGS.concat("coffee-script/#{file}.coffee" for file in SOURCE_FILES).join(" "),
     execOutput
 
 task "sbuild", "Build command from Sublime Text 2", ->
@@ -56,9 +56,9 @@ task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
     'coffee'
     '--bare'
     '--output'
-    'build'
+    'javascript'
     '--compile'
-    'coffee/parameter-ui.coffee'
+    'coffee-script/parameter-ui.coffee'
   ]
   exec uiCoffeeArgs.join(" "), execOutput
 
