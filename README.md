@@ -1,68 +1,52 @@
-# Loom
+# Loom v0.5 alpha
 
-## Overview
+**Loom** is a modular generative music platform for Ableton Live.
 
-Loom is a modular generative music platform for Ableton Live.
-
-While it has been used for performances and installations since late 2010, it is still in an early alpha stage of development. Caveat emptor!
+It is currently an alpha, pushing beta.
 
 http://adamflorin.com/loom
 
-### Core Concepts
+## Requirements
 
-A *player* generates and plays back *gestures* (sequences of MIDI *events*) for the track it belongs to.
+For users:
 
-Each player is made up of *modules* which extend its core functionality—from the low-level morphologies of generated gestures, to how those gestures are sequenced in real time, to high-level player behaviors and reactions to external conditions.
+* [Ableton Live 9](http://www.ableton.com/live-8)
+* [Max for Live](http://www.ableton.com/maxforlive)
 
-Each module has inputs in the form of random number *generators* controlled by user input.
+For developers:
 
-All players belong to a shared *environment*, which can govern overall musical form (not yet implemented!).
+* All of the above
+* [MaxMSP 6.1](http://cycling74.com/products/max/)
+* [Node.js](http://nodejs.org/)
 
-### Technology Stack
+## Developing
 
-Loom is built on...
+Once you've downloaded Node.js, you can install all dependencies by running
+`npm install` in the Loom directory.
 
-* ...Live because of its robust timing, MIDI controller integration, and full-featured music production environment.
+To build the JS from CoffeeScript, run `cake build` in the root directory (or
+`cake build-ui` for [jsui] source). Or you can simply hit cmd-B if you use
+[Sublime Text 2](http://www.sublimetext.com/2).
 
-* ...Ruby because of its ease of prototyping, intrinsic modularity, and mutability ("monkeypatchability"?).
+In Max, add the Loom directory to your Max search path using
+`Options > File Preferences...` and restart Max.
 
-Loom bridges these two technologies across a rather tall stack, leveraging the interface-building (and parameter storage) capabilities of Max For Live, the native MIDI & message-handling of Max, and the performance and stability of Java & JRuby along the way.
+You should then be able to use the *.amxd devices in Live.
+
+The default (sparing) development logs are written to `log/loom.log`. The Max
+[`setmirrortoconsole`](http://cycling74.com/docs/max6/dynamic/c74_docs.html#messages_to_max)
+flag is set, so you may check for Max logs in your OS-appropriate location
+(Console.app on Mac OS).
 
 ## Usage
 
-See the [screencast](http://vimeo.com/31945050).
+Loom devices may be dropped into a MIDI track as with any other Live device.
 
-### Installing
+However, Loom devices are all "modules" which bind together to form "players".
 
-Please see [INSTALLATION](INSTALLATION.md).
+For this reason, Loom devices should always be dropped into MIDI Effect Racks.
+Each rack becomes a Loom "player" when it contains one or more Loom devices.
 
-### Creating and editing players
+A given track may contain multiple Loom players, each in their own racks.
 
-To create a player in Live:
-
-* create a MIDI track and give it any old instrument
-* Before the instrument, insert a *MIDI Effect Rack*.
-* Navigate to the `loom/m4l` directory in the Live file browser
-* Drag any `player` module into the rack.
-* Hit play. You're already generating music!
-
-As you add more player modules to the rack, they will each add their own dimension of depth to the generated output. *Note*: you can only add each module once!
-
-So long as they're all in the same rack, they'll be treated as a single player. (You can actually put multiple racks on a same track to have multiple players--as in the left and right hands of a piano, for example.)
-
-### Setting up the environment
-
-*Note*: the environment is not currently necessary unless you are modifying Ruby source and need to globally reload the system. The environment will contain more powerful features in future versions.
-
-Drop the `environment` m4l device in the Master track. (It doesn't generate any MIDI or affect the audio. This is just a good global place to put it.)
-
-To reload _all_ modules across _all_ players, hit `MASTER RELOAD` in the environment. It's recommended you map this to a key in Live (which unfortunately must be tapped 2x).
-
-
-## Modules
-
-* *Chromatic*: select a pitch set from the equal tempered MIDI scale, with range and position settings.
-* *Pattern*: define a MIDI pattern as a series of pulses, with accent position and time scale.
-* *Loop*: loop the last few gestures.
-* *Syncopation*: vary note lengths based on Pattern's accent position.
-* *Density*: probability of silence (rests) vs gestures.
+Loom "player" racks should not contain any non-Loom devices.
