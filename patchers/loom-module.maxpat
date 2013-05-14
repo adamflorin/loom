@@ -2139,7 +2139,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 571.0, 46.0, 146.0, 33.0 ],
+					"patching_rect" : [ 376.0, 46.0, 146.0, 33.0 ],
 					"text" : "Log Max window to system Console."
 				}
 
@@ -2167,7 +2167,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 571.0, 105.0, 60.0, 20.0 ],
+					"patching_rect" : [ 376.0, 105.0, 60.0, 20.0 ],
 					"text" : "loadbang"
 				}
 
@@ -2182,7 +2182,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 571.0, 136.0, 146.0, 31.0 ],
+					"patching_rect" : [ 376.0, 136.0, 146.0, 31.0 ],
 					"text" : ";\rmax setmirrortoconsole 1"
 				}
 
@@ -3204,20 +3204,6 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"id" : "obj-19",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "bang", "int" ],
-					"patching_rect" : [ 376.0, 120.0, 94.0, 20.0 ],
-					"text" : "t b 0"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
 					"id" : "obj-28",
 					"linecount" : 2,
 					"maxclass" : "message",
@@ -3237,49 +3223,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 270.0, 765.0, 25.0, 25.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"frgb" : 0.0,
-					"id" : "obj-11",
-					"linecount" : 2,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 376.0, 46.0, 129.0, 33.0 ],
-					"text" : "Destroy when device is removed."
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-9",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 376.0, 149.0, 88.0, 18.0 ],
-					"text" : "destroyDevice"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-3",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 376.0, 89.0, 61.0, 20.0 ],
-					"text" : "freebang"
 				}
 
 			}
@@ -3638,18 +3581,6 @@
 , 			{
 				"box" : 				{
 					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
-					"id" : "obj-15",
-					"maxclass" : "panel",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 360.0, 30.0, 180.0, 150.0 ],
-					"shadow" : 2
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
 					"id" : "obj-37",
 					"maxclass" : "panel",
 					"numinlets" : 1,
@@ -3740,7 +3671,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 555.0, 30.0, 180.0, 150.0 ],
+					"patching_rect" : [ 360.0, 30.0, 180.0, 150.0 ],
 					"shadow" : 2
 				}
 
@@ -3770,15 +3701,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-18", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-9", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-19", 0 ]
 				}
 
 			}
@@ -3862,15 +3784,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-29", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-19", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-3", 0 ]
 				}
 
 			}
@@ -4056,22 +3969,11 @@
 				}
 
 			}
-, 			{
-				"patchline" : 				{
-					"color" : [ 0.795631, 0.42763, 0.389374, 0.9 ],
-					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"midpoints" : [ 385.5, 187.0, 249.0, 187.0, 249.0, 354.0, 381.5, 354.0 ],
-					"source" : [ "obj-9", 0 ]
-				}
-
-			}
  ],
 		"dependency_cache" : [ 			{
 				"name" : "loom-module.js",
-				"bootpath" : "/Users/adam/projects/loom/code/loom/build",
-				"patcherrelativepath" : "../build",
+				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
+				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}

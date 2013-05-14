@@ -27,6 +27,14 @@ anything = ->
   catch e
     logger.error e
 
+# Destroy device data when removed.
+# 
+notifydeleted = ->
+  try
+    Loom::destroyDevice()
+  catch e
+    logger.error e
+
 # Reload
 # 
 # If loaded flag is already set, then autowatch is reloading this script.
