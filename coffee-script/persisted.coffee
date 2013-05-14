@@ -26,9 +26,8 @@ class Persisted
   # 
   load: (id, constructorArgs) ->
     data = @allData()[id.toString()]
-    # logger.debug "-> Loading #{@classKey()} #{id}:", data
     loadClass = (if data?.loadClass? then @classFromName?(data.loadClass)) || @constructor
-    logger.info "Loading previously nonexistant #{loadClass.name} #{id}" if not data?
+    logger.info "Initializing #{loadClass.name} #{id}" if not data?
     new loadClass id, data || {}, constructorArgs
 
   # Load and save an object, running the passed-in callback on it in between.
@@ -46,14 +45,12 @@ class Persisted
   # Invoke instantiated object's serialize method and store the result.
   # 
   save: ->
-    data = @serialize()
-    # logger.debug "<- Saving #{@classKey()} #{@id}:", data
-    @allData()[@id.toString()] = data
+    @allData()[@id.toString()] = @serialize()
 
   # Destory data for this object.
   # 
   destroy: ->
-    # logger.debug "X- Destroying #{@classKey()} #{@id}"
+    logger.info "Destroying #{@classKey()} #{@id}"
     delete @allData()[@id.toString()]
 
   # Static method to return complete array of all elements.
