@@ -11,9 +11,9 @@
 
 # Tooltips
 # 
-setinletassist(0, "Loom message input")
-setoutletassist(0, "Schedule next event")
-setoutletassist(1, "Timed event output")
+setinletassist 0, "Loom message input"
+setoutletassist 0, "Schedule next event"
+setoutletassist 1, "Timed event output"
 
 class Max
 
