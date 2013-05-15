@@ -34,14 +34,19 @@ class Module
 
   # Set module value.
   # 
-  # Anything with a name of the form patcher::object is a parameter. The rest
-  # are instance properties.
+  # Anything with a name of the form patcher::object is a parameter, unless
+  # it's coming from `loom-module-ui`.
+  # 
+  # The rest are instance properties.
   # 
   set: (name, values) ->
     [all, major, separator, minor] = name.match(/([^:]*)(::)?([^:]*)/)
     if separator?
-      @parameters[major] ?= {}
-      @parameters[major][minor] = if values.length == 1 then values[0] else values
+      if major is "loom-module-ui"
+        @[minor] = values[0]
+      else
+        @parameters[major] ?= {}
+        @parameters[major][minor] = if values.length == 1 then values[0] else values
     else
       @[name] = values[0]
 
