@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 906.0, 302.0, 566.0, 387.0 ],
+		"rect" : [ 906.0, 302.0, 588.0, 410.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,25 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 45.0, 255.0, 85.0, 20.0 ],
+					"saved_object_attributes" : 					{
+						"filename" : "loom-colors",
+						"parameter_enable" : 0
+					}
+,
+					"text" : "js loom-colors"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"comment" : "Bang to output color messages",
 					"id" : "obj-20",
@@ -76,7 +95,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 192.0, 315.0, 25.0, 25.0 ]
+					"patching_rect" : [ 192.0, 330.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -89,7 +108,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 192.0, 265.0, 103.0, 20.0 ],
+					"patching_rect" : [ 192.0, 280.0, 103.0, 20.0 ],
 					"text" : "prepend textcolor"
 				}
 
@@ -131,7 +150,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 405.0, 315.0, 25.0, 25.0 ]
+					"patching_rect" : [ 405.0, 330.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -144,7 +163,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 285.0, 315.0, 25.0, 25.0 ]
+					"patching_rect" : [ 285.0, 330.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -157,7 +176,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 165.0, 315.0, 25.0, 25.0 ]
+					"patching_rect" : [ 165.0, 330.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -170,7 +189,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 405.0, 240.0, 103.0, 20.0 ],
+					"patching_rect" : [ 405.0, 255.0, 103.0, 20.0 ],
 					"text" : "prepend textcolor"
 				}
 
@@ -184,7 +203,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 285.0, 240.0, 97.0, 20.0 ],
+					"patching_rect" : [ 285.0, 255.0, 97.0, 20.0 ],
 					"text" : "prepend bgcolor"
 				}
 
@@ -198,21 +217,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 165.0, 240.0, 97.0, 20.0 ],
+					"patching_rect" : [ 165.0, 255.0, 97.0, 20.0 ],
 					"text" : "prepend bgcolor"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-5",
-					"maxclass" : "newobj",
-					"numinlets" : 4,
-					"numoutlets" : 0,
-					"patching_rect" : [ 45.0, 240.0, 59.5, 20.0 ],
-					"text" : "bgcolor"
 				}
 
 			}
@@ -225,7 +231,7 @@
 					"numinlets" : 5,
 					"numoutlets" : 5,
 					"outlettype" : [ "", "", "", "", "" ],
-					"patching_rect" : [ 45.0, 210.0, 499.0, 20.0 ],
+					"patching_rect" : [ 45.0, 225.0, 499.0, 20.0 ],
 					"text" : "route macro_title surface_bg contrast_frame control_fg"
 				}
 
@@ -268,6 +274,7 @@
 					"destination" : [ "obj-16", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"midpoints" : [ 98.5, 138.0, 54.5, 138.0 ],
 					"source" : [ "obj-19", 0 ]
 				}
 
@@ -283,6 +290,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-16", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 99.5, 206.0, 334.0, 206.0, 334.0, 138.0, 54.5, 138.0 ],
+					"source" : [ "obj-3", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-4", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -292,19 +309,19 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-14", 0 ],
+					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-4", 1 ]
+					"source" : [ "obj-4", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-5", 0 ],
+					"destination" : [ "obj-14", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-4", 0 ]
+					"source" : [ "obj-4", 1 ]
 				}
 
 			}
@@ -363,7 +380,14 @@
 
 			}
  ],
-		"dependency_cache" : [  ]
+		"dependency_cache" : [ 			{
+				"name" : "loom-colors.js",
+				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
+				"patcherrelativepath" : "../javascript",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+ ]
 	}
 
 }

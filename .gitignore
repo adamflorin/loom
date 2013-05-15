@@ -1,3 +1,4 @@
 .DS_Store
 *.log
-javascript/*.js
+javascript/loom-module.js
+javascript/parameter-ui.js
