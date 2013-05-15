@@ -39,7 +39,7 @@ class Loom
 
       unless Live::deviceInRack()
         logger.warn "Module created outside of rack"
-        Max::displayError "Please place device in a MIDI Effect Rack."
+        Max::displayError "Please place Loom device in a MIDI Effect Rack."
       else
         Max::dismissError()
 

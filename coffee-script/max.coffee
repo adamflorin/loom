@@ -31,7 +31,6 @@ class Max
   # differing sytnaxes for `newobject()` and `newdefault()`; the [button].
   # 
   displayError: (message) ->
-    PADDING = 4
     DEVICE_HEIGHT = 170
     MINIMUM_DEVICE_WIDTH = 100
     deviceWidth = @patcherPresentationWidth @devicePatcher(), true
@@ -41,11 +40,7 @@ class Max
       0, 0,
       "panel",
       "@presentation", 1,
-      "@presentation_rect",
-        PADDING,
-        PADDING,
-        deviceWidth - PADDING * 2,
-        DEVICE_HEIGHT - PADDING * 2,
+      "@presentation_rect", 0, 0, deviceWidth, DEVICE_HEIGHT,
       "@rounded", 8)
     panel.varname = "error_background"
 
@@ -53,18 +48,16 @@ class Max
     comment = @devicePatcher().newobject "comment"
     comment.presentation 1
     comment.presentation_rect(
-      (deviceWidth - MINIMUM_DEVICE_WIDTH) / 2 + PADDING * 2,
-      PADDING * 8,
-      MINIMUM_DEVICE_WIDTH - PADDING * 4,
-      DEVICE_HEIGHT - PADDING * 4)
+      (deviceWidth - MINIMUM_DEVICE_WIDTH) / 2, 0,
+      MINIMUM_DEVICE_WIDTH, DEVICE_HEIGHT)
     comment.fontsize 10
     comment.textjustification 1
-    comment.set "\n" + message
+    comment.set "\n\n\n\n\n\n\n\n\n\n#{message}"
     comment.varname = "error_text"
 
     # set to Live skin colors
     colors = @devicePatcher().newdefault 0, 0, "loom-colors"
-    @devicePatcher().connect colors, 2, panel, 0
+    @devicePatcher().connect colors, 0, panel, 0
     @devicePatcher().connect colors, 3, comment, 0
     bang = @devicePatcher().newobject "button"
     @devicePatcher().connect bang, 0, colors, 0
@@ -73,7 +66,7 @@ class Max
     @devicePatcher().remove bang
 
     # tune opacity
-    panel.bgcolor (panel.getattr "bgcolor")[0..2].concat [0.9]
+    panel.bgcolor (panel.getattr "bgcolor")[0..2].concat [0.95]
 
     # bringtofront
     @devicePatcher().bringtofront panel
@@ -101,7 +94,8 @@ class Max
     deviceObject = patcher.firstobject
     while deviceObject
       if deviceObject.subpatcher()? and checkSubPatchers
-        rightmost = @patcherPresentationWidth deviceObject.subpatcher()
+        rightmost = deviceObject.rect[0] +
+          @patcherPresentationWidth deviceObject.subpatcher()
       else
         rect = deviceObject.getattr "presentation_rect"
         rightmost = rect[0] + rect[2] if rect?
