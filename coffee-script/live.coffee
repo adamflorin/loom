@@ -27,7 +27,7 @@ class Live
 
   # Return IDs of devices in this rack.
   # 
-  siblingDevices: ->
+  siblingDeviceIds: ->
     deviceIds = (new LiveAPI "this_device canonical_parent").get "devices"
     id for id in deviceIds[1..] when id isnt "id"
 

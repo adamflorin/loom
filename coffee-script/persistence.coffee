@@ -26,8 +26,13 @@ class Persistence
   # output of other devices in other players.
   # 
   deviceContext: (deviceId, object) ->
-    @connection()["deviceContext"] ?= []
+    @connection().deviceContext ?= {}
     if object
-      @connection()["deviceContext"][deviceId] = object
+      @connection().deviceContext[deviceId] = object
     else
-      @connection()["deviceContext"][deviceId]
+      return @connection().deviceContext[deviceId]
+
+  # Destroyer
+  # 
+  destroyDeviceContext: (deviceId) ->
+    delete @connection().deviceContext[deviceId]

@@ -35,7 +35,7 @@ class Loom
     initDevice: ->
       Live::resetCache()
       @liveReady = yes
-      Persistence::deviceContext(Live::deviceId(), deviceContext)
+      Persistence::deviceContext Live::deviceId(), deviceContext
 
       unless Live::deviceInRack()
         logger.warn "Module created outside of rack"
@@ -70,6 +70,7 @@ class Loom
     # 
     destroyDevice: () ->
       deviceId = Live::deviceId()
+      Persistence::destroyDeviceContext deviceId
       (Module::load deviceId).destroy()
       @removePlayerModule Live::playerId(), deviceId
 
@@ -135,12 +136,11 @@ class Loom
     # 
     observeDevices: ->
       if oldPlayerId = Live::detectPlayerChange()
-        logger.info "Device moved from player #{oldPlayerId} to #{Live::playerId()}"
+        logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
         @initDevice()
         @removePlayerModule(oldPlayerId, Live::deviceId())
       else
-        Player::update Live::playerId(), (player) ->
-          player.moduleIds = (id for id in Live::siblingDevices() when Module::exists(id))
+        Player::update Live::playerId(), (player) -> player.refreshModuleIds()
       @populate()
     
   # Messages

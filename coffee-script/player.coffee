@@ -36,7 +36,7 @@ class Player
   # Keep internal state in sync with Live.
   # 
   refreshModuleIds: ->
-    @moduleIds = Live::siblingDevices()
+    @moduleIds = (id for id in Live::siblingDeviceIds() when Module::exists(id))
 
   # Transport has started
   # 
