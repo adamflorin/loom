@@ -68,7 +68,7 @@ task "test", "Run tests", ->
   exec TEST_ARGS.join(" "), execOutput
 
 task "linecount", "Count lines of CoffeeScript", ->
-  exec "find coffee/. -name '*.coffee' | xargs wc -l", execOutput
+  exec "find coffee-script/. -name '*.coffee' | xargs wc -l", execOutput
     
 # Print results
 # 
