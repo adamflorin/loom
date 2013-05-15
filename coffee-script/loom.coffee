@@ -33,27 +33,39 @@ class Loom
     # devices' observers).
     # 
     initDevice: ->
-      Live::resetCache()
-      @liveReady = yes
-      Persistence::deviceContext Live::deviceId(), deviceContext
+      if @deviceInRack()
+        logger.debug "device in rack, proceed..."
+        Live::resetCache()
+        Persistence::deviceContext Live::deviceId(), deviceContext
+        @initModule jsarguments[1]
+        Player::update Live::playerId(), (player) -> player.refreshModuleIds()
+        @loaded = yes
 
-      unless Live::deviceInRack()
+    # If device is not in a rack, notify user and disable device.
+    # 
+    # Return true if in rack (success case).
+    # 
+    deviceInRack : ->
+      inRack = Live::deviceInRack()
+      if not inRack
         logger.warn "Module created outside of rack"
         Max::displayError "Please place Loom device in a MIDI Effect Rack."
       else
         Max::dismissError()
+      return inRack
 
-      moduleClass = @moduleClass jsarguments[1]
+    # Create module of appropriate subclass and save.
+    # 
+    initModule: (moduleClassName) ->
+      moduleClass = @moduleClass moduleClassName
       module = moduleClass::load Live::deviceId()
       module.save()
-
-      Player::update Live::playerId(), (player) -> player.refreshModuleIds()
 
     # Set module parameter. If Live isn't ready yet (haven't received initDevice)
     # then do nothing.
     # 
     moduleMessage: (name, value...) ->
-      if @liveReady
+      if @loaded
         Module::update Live::deviceId(), (module) -> module.set name, value
 
     # Give modules the chance to update their interfaces after player layout
@@ -116,15 +128,16 @@ class Loom
     # check the time and compare it to the threshold above.
     # 
     observeTransport: (playing) ->
-      if playing is 1
-        Persistence::connection().overrideNow =
-          if Live::now(true) > @TIME_DELAY_THRESHOLD then 0 else null
-        unless Persistence::connection().transportPlaying
-          Persistence::connection().transportPlaying = yes
-          Player::update Live::playerId(), (player) -> player.transportStart()
-      else
-        Persistence::connection().transportPlaying = no
-        Player::update Live::playerId(), (player) -> player.clearGestures()
+      if @loaded
+        if playing is 1
+          Persistence::connection().overrideNow =
+            if Live::now(true) > @TIME_DELAY_THRESHOLD then 0 else null
+          unless Persistence::connection().transportPlaying
+            Persistence::connection().transportPlaying = yes
+            Player::update Live::playerId(), (player) -> player.transportStart()
+        else
+          Persistence::connection().transportPlaying = no
+          Player::update Live::playerId(), (player) -> player.clearGestures()
 
     # Observe when module is added, removed or moved in the chain.
     # Normally, just re-sequence the modules within a given player.
