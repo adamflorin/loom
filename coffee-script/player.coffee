@@ -95,7 +95,7 @@ class Player
         uiEvents.push new (Loom::eventClass("UI"))(
           at: at
           deviceId: moduleId
-          message: ["parameterValue", parameterName, parameter.generatedValue])
+          message: ["parameter", parameterName, "generatedValue", parameter.generatedValue])
     return uiEvents
 
   # Reset all gesture information, history and upcoming,

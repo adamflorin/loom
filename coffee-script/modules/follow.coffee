@@ -10,7 +10,10 @@ class Loom::modules.Follow extends Module
   # 
   populate: ->
     allPlayerIds = (id for id in Player::allIds())
-    Loom::scheduleEvents [new (Loom::eventClass("UI"))(deviceId: @id, message: ["playerIds"].concat(allPlayerIds))]
+    Loom::scheduleEvents [
+      new (Loom::eventClass("UI"))(
+        deviceId: @id,
+        message: ["parameter", "followed", "playerIds"].concat(allPlayerIds))]
 
   # Module API contractually invoked by remote player upon scheduling a gesture.
   # 

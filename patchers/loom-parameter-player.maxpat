@@ -86,7 +86,7 @@
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u437010554"
+					"varname" : "u584009977"
 				}
 
 			}
@@ -100,18 +100,6 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 60.0, 390.0, 170.0, 120.0 ],
 					"shadow" : 2
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"comment" : "Messages from Loom",
-					"id" : "obj-3",
-					"maxclass" : "inlet",
-					"numinlets" : 0,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 151.0, 105.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -176,6 +164,7 @@
 			}
 , 			{
 				"box" : 				{
+					"color" : [ 0.682353, 0.858824, 0.854902, 1.0 ],
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-8",
@@ -184,7 +173,8 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "clear" ],
 					"patching_rect" : [ 151.0, 210.0, 50.0, 20.0 ],
-					"text" : "t l clear"
+					"text" : "t l clear",
+					"varname" : "playerIds"
 				}
 
 			}
@@ -214,20 +204,6 @@
 					}
 ,
 					"varname" : "playerIndex"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-6",
-					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 151.0, 165.0, 91.0, 20.0 ],
-					"text" : "route playerIds"
 				}
 
 			}
@@ -278,24 +254,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-18", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-6", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-3", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-6", 0 ]
 				}
 
 			}
