@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 117.0, 60.0, 612.0, 539.0 ],
+		"rect" : [ 185.0, 165.0, 661.0, 537.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -29,7 +29,7 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"comment" : "",
+					"comment" : "UI messages for parameters",
 					"id" : "obj-5",
 					"maxclass" : "outlet",
 					"numinlets" : 1,
@@ -739,7 +739,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 3.0, 29.0, 106.0, 18.0 ],
 					"text" : "LOOM",
-					"textcolor" : [ 0.666667, 0.698039, 0.717647, 1.0 ]
+					"textcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ]
 				}
 
 			}
@@ -758,7 +758,7 @@
 					"presentation_linecount" : 2,
 					"presentation_rect" : [ 3.0, 0.0, 57.0, 29.0 ],
 					"text" : "Module\nProbability",
-					"textcolor" : [ 0.0, 0.019608, 0.078431, 1.0 ]
+					"textcolor" : [ 0.921569, 0.921569, 0.921569, 1.0 ]
 				}
 
 			}
@@ -777,13 +777,13 @@
 					"presentation_rect" : [ 62.0, 3.0, 25.0, 23.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_shortname" : "Blank",
 							"parameter_longname" : "live.dial[1]",
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 1.0 ],
 							"parameter_type" : 0,
-							"parameter_initial_enable" : 1,
-							"parameter_shortname" : "Blank"
+							"parameter_initial_enable" : 1
 						}
 
 					}
@@ -796,7 +796,7 @@
 			}
 , 			{
 				"box" : 				{
-					"bgcolor" : [ 0.666667, 0.698039, 0.717647, 1.0 ],
+					"bgcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ],
 					"id" : "obj-12",
 					"maxclass" : "panel",
 					"numinlets" : 1,
