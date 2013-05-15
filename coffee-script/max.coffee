@@ -34,7 +34,7 @@ class Max
     PADDING = 4
     DEVICE_HEIGHT = 170
     MINIMUM_DEVICE_WIDTH = 100
-    deviceWidth = (@devicePatcher().getattr "rect")[2]
+    deviceWidth = @patcherPresentationWidth @devicePatcher(), true
 
     # init panel
     panel = @devicePatcher().newdefault(
@@ -89,6 +89,25 @@ class Max
   # 
   devicePatcher: ->
     patcher.parentpatcher.parentpatcher
+
+  # Max tools to get a patcher's presentation rect are unreliable, and there's
+  # no way to _read_ `devicewidth`. So, just calculate it by hand.
+  # 
+  # If checkSubPatchers is true, check subpatchers. Never true in recursive
+  # calls.
+  # 
+  patcherPresentationWidth: (patcher, checkSubPatchers) ->
+    width = rightmost = 0
+    deviceObject = patcher.firstobject
+    while deviceObject
+      if deviceObject.subpatcher()? and checkSubPatchers
+        rightmost = @patcherPresentationWidth deviceObject.subpatcher()
+      else
+        rect = deviceObject.getattr "presentation_rect"
+        rightmost = rect[0] + rect[2] if rect?
+      width = Math.max rightmost, width
+      deviceObject = deviceObject.nextobject
+    return width
 
   # Math utility
   # 
