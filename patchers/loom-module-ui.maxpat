@@ -718,7 +718,7 @@
 					"fontsize" : 12.0,
 					"id" : "obj-10",
 					"maxclass" : "newobj",
-					"numinlets" : 0,
+					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
 					"patching_rect" : [ 221.0, 360.0, 80.0, 20.0 ],
@@ -737,7 +737,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 241.333344, 401.0, 41.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 3.0, 29.0, 106.0, 18.0 ],
+					"presentation_rect" : [ 3.0, 29.0, 40.0, 18.0 ],
 					"text" : "LOOM",
 					"textcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ]
 				}
@@ -777,13 +777,13 @@
 					"presentation_rect" : [ 62.0, 3.0, 25.0, 23.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "Blank",
-							"parameter_longname" : "live.dial[1]",
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 1.0 ],
 							"parameter_type" : 0,
-							"parameter_initial_enable" : 1
+							"parameter_initial_enable" : 1,
+							"parameter_shortname" : "live.dial",
+							"parameter_longname" : "live.dial"
 						}
 
 					}
@@ -1021,7 +1021,7 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-9" : [ "live.dial[1]", "Blank", 0 ]
+			"obj-9" : [ "live.dial", "live.dial", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
@@ -1029,6 +1029,13 @@
 				"bootpath" : "/Users/adam/projects/loom/code/loom/patchers",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "loom-colors.js",
+				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
+				"patcherrelativepath" : "../javascript",
+				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
