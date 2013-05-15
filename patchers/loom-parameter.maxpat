@@ -834,14 +834,14 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "parameter-ui.js",
-				"bootpath" : "/Users/adam/projects/loom/code/loom/build",
+				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
 				"patcherrelativepath" : "../build",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "loom-colors.maxpat",
-				"bootpath" : "/Users/adam/projects/loom/code/loom/max",
+				"bootpath" : "/Users/adam/projects/loom/code/loom/patchers",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1

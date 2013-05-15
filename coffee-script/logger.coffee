@@ -6,7 +6,7 @@
 
 class Logger
   LOG_PATH = "/../log/loom.log"
-  COMPILED_SOURCE_PATH = "/../build/"
+  COMPILED_SOURCE_PATH = "/../javascript/"
   LOG_LEVELS = 
     debug: color: 37
     info: color: 0
