@@ -8,11 +8,30 @@
 # 
 `autowatch = 1`
 
+# 
+# 
+AREA =
+  width: 90
+  height: 50
+
 # Canvas context
 # 
 context = (new MaxCanvas @).getContext('max-2d')
 
+# Mouse input: Update internal state, and output to patcher.
+# 
+onclick = ondrag = (x, y) ->
+  mean = Math.min(Math.max(x, 0), AREA.width) / AREA.width
+  deviation = 1 - Math.min(Math.max(y, 0), AREA.height) / AREA.height
+  GaussianCurveCanvas::set "mean", mean
+  GaussianCurveCanvas::set "deviation", deviation
+  outlet 0, ["mean", mean]
+  outlet 0, ["deviation", deviation]
+
 # Max message inputs
+# 
+# The following are Live rgba colors:
+#   surface_bg, contrast_frame, selection, control_text_bg
 # 
 anything = -> GaussianCurveCanvas::set messagename, arrayfromargs(arguments)...
 paint = -> GaussianCurveCanvas::draw()
@@ -21,12 +40,6 @@ bang = -> context.redraw()
 # 
 # 
 class GaussianCurveCanvas
-
-  # 
-  # 
-  @::AREA =
-    width: 90
-    height: 50
 
   # 
   # 
@@ -55,10 +68,10 @@ class GaussianCurveCanvas
   # 
   drawBackground: ->
     context.fillStyle = @contrast_frame
-    context.fillRect(0, 0, @AREA.width, @AREA.height)
+    context.fillRect(0, 0, AREA.width, AREA.height)
 
-    for x in [0, @AREA.width]
-      for y in [0, @AREA.height]
+    for x in [0, AREA.width]
+      for y in [0, AREA.height]
         @drawCorner x: x, y: y
 
   # Roll our own rounded corners to resemble [panel]'s.
@@ -79,33 +92,33 @@ class GaussianCurveCanvas
   # Crude approxmiation of Gaussian distribution curve.
   # 
   drawCurve: ->
-    midpoint = @mean * @AREA.width
+    midpoint = @mean * AREA.width
     margin = @deviation * @DEVIATION_PIXEL_COEFFICIENT
     top = 2
 
     context.lineWidth = 2
     context.strokeStyle = @selection
     context.beginPath()
-    context.moveTo(midpoint - @AREA.width, @AREA.height)
+    context.moveTo(midpoint - AREA.width, AREA.height)
     context.bezierCurveTo(
-      midpoint - margin, @AREA.height,
+      midpoint - margin, AREA.height,
       midpoint - margin, top,
       midpoint, top)
     context.bezierCurveTo(
       midpoint + margin, top,
-      midpoint + margin, @AREA.height,
-      midpoint + @AREA.width, @AREA.height)
+      midpoint + margin, AREA.height,
+      midpoint + AREA.width, AREA.height)
     context.stroke()
 
   # Draw vertical line indicating most recent random value.
   # 
   drawPosition: ->
-    pixelposition = @linePosition * @AREA.width * 0.96 + 2
+    pixelposition = @linePosition * AREA.width * 0.96 + 2
     context.lineWidth = 0.5
     context.strokeStyle = @selection
     context.beginPath()
     context.moveTo(pixelposition, 0)
-    context.lineTo(pixelposition, @AREA.height)
+    context.lineTo(pixelposition, AREA.height)
     context.stroke()
 
   # Reset and cue up animation.

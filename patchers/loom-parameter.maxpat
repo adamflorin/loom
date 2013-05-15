@@ -8,8 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 421.0, 196.0, 635.0, 370.0 ],
-		"bgcolor" : [ 1.0, 1.0, 1.0, 0.0 ],
+		"rect" : [ 421.0, 196.0, 689.0, 541.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -29,6 +28,20 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-20",
+					"maxclass" : "newobj",
+					"numinlets" : 3,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "" ],
+					"patching_rect" : [ 165.0, 345.0, 123.0, 20.0 ],
+					"text" : "route mean deviation"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -86,7 +99,7 @@
 					"fontsize" : 12.0,
 					"id" : "obj-18",
 					"maxclass" : "newobj",
-					"numinlets" : 0,
+					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
 					"patching_rect" : [ 150.0, 30.0, 199.0, 20.0 ],
@@ -107,11 +120,11 @@
 					"restore" : 					{
 						"deviation" : [ 0.0 ],
 						"inertia" : [ 0.0 ],
-						"mean" : [ 0.503937 ]
+						"mean" : [ 0.5 ]
 					}
 ,
 					"text" : "autopattr",
-					"varname" : "u504001196"
+					"varname" : "u475007328"
 				}
 
 			}
@@ -156,13 +169,13 @@
 					"presentation_rect" : [ 8.0, 72.0, 34.0, 27.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_unitstyle" : 1,
+							"parameter_mmax" : 1.0,
+							"parameter_initial" : [ 0.5 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
 							"parameter_shortname" : "#1",
-							"parameter_longname" : "live.dial",
-							"parameter_unitstyle" : 1,
-							"parameter_mmax" : 1.0,
-							"parameter_initial" : [ 0.5 ]
+							"parameter_longname" : "live.dial"
 						}
 
 					}
@@ -561,13 +574,13 @@
 					"presentation_rect" : [ 50.0, 103.0, 45.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_unitstyle" : 1,
+							"parameter_mmax" : 1.0,
+							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
 							"parameter_shortname" : "live.numbox",
-							"parameter_longname" : "live.numbox[1]",
-							"parameter_unitstyle" : 1,
-							"parameter_mmax" : 1.0,
-							"parameter_initial" : [ 0.0 ]
+							"parameter_longname" : "live.numbox[1]"
 						}
 
 					}
@@ -607,13 +620,13 @@
 					"presentation_rect" : [ 49.0, 71.0, 44.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_unitstyle" : 1,
+							"parameter_mmax" : 1.0,
+							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
 							"parameter_shortname" : "live.numbox",
-							"parameter_longname" : "live.numbox",
-							"parameter_unitstyle" : 1,
-							"parameter_mmax" : 1.0,
-							"parameter_initial" : [ 0.0 ]
+							"parameter_longname" : "live.numbox"
 						}
 
 					}
@@ -637,6 +650,15 @@
 			}
  ],
 		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-20", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
 				"patchline" : 				{
 					"destination" : [ "obj-15", 0 ],
 					"disabled" : 0,
@@ -773,6 +795,26 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 226.5, 383.0, 23.0, 383.0, 23.0, 135.0, 254.5, 135.0 ],
+					"source" : [ "obj-20", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 174.5, 373.0, 33.0, 373.0, 33.0, 144.0, 174.5, 144.0 ],
+					"source" : [ "obj-20", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-6", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -835,7 +877,7 @@
 		"dependency_cache" : [ 			{
 				"name" : "parameter-ui.js",
 				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
-				"patcherrelativepath" : "../build",
+				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
@@ -844,6 +886,13 @@
 				"bootpath" : "/Users/adam/projects/loom/code/loom/patchers",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "loom-colors.js",
+				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
+				"patcherrelativepath" : "../javascript",
+				"type" : "TEXT",
 				"implicit" : 1
 			}
  ]
