@@ -50,27 +50,13 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 570.0, 220.0, 144.0, 20.0 ],
+					"patching_rect" : [ 583.0, 210.0, 144.0, 20.0 ],
 					"restore" : 					{
-						"probability" : [ 0.0 ]
+						"probability" : [ 1.0 ]
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u265010496"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-25",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 591.0, 205.0, 199.0, 18.0 ],
-					"text" : "pattr probability @bindto probability"
+					"varname" : "u284011639"
 				}
 
 			}
