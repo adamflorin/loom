@@ -51,6 +51,7 @@ task "build", "Compile CoffeeScript to JavaScript", ->
 
 task "sbuild", "Build command from Sublime Text 2", ->
   invoke "build"
+  invoke "build-ui"
 
 task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
   uiCoffeeArgs = [
