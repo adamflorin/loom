@@ -25,7 +25,7 @@ class Loom::modules.Pitch extends Module
   # 
   nearestScalePitch: (normalPitch) ->
     pitches = @parameters.pitches?.pitches
-    if pitches? isnt -1
+    if pitches? and pitches isnt -1
       pitches = pitches[1..]
       pitchesByDistance = pitches.sort((x, y) ->
         Math.abs(x - normalPitch) - Math.abs(y - normalPitch))
