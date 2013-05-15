@@ -37,7 +37,11 @@ class Loom
       @liveReady = yes
       Persistence::deviceContext(Live::deviceId(), deviceContext)
 
-      logger.warn "Module created outside of rack" unless Live::deviceInRack()
+      unless Live::deviceInRack()
+        logger.warn "Module created outside of rack"
+        Max::displayError "Please place device in a MIDI Effect Rack."
+      else
+        Max::dismissError()
 
       moduleClass = @moduleClass jsarguments[1]
       module = moduleClass::load Live::deviceId()
