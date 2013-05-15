@@ -34,7 +34,6 @@ class Loom
     # 
     initDevice: ->
       if @deviceInRack()
-        logger.debug "device in rack, proceed..."
         Live::resetCache()
         Persistence::deviceContext Live::deviceId(), deviceContext
         @initModule jsarguments[1]
