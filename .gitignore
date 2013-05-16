@@ -1,4 +1,4 @@
 .DS_Store
 *.log
 javascript/loom-module.js
-javascript/parameter-ui.js
+javascript/gaussian-curve.js
