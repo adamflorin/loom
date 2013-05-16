@@ -19,8 +19,6 @@ AREA =
 mgraphics.init()
 mgraphics.relative_coords = 0
 mgraphics.autofill = 0
-mgraphics.set_line_cap "butt"
-mgraphics.set_line_join "miter"
 
 # Mouse input: Update internal state, and output to patcher.
 # 
@@ -48,24 +46,19 @@ class GaussianCurve
   # 
   CORNER_RADIUS: 8
   DEVIATION_PIXEL_COEFFICIENT: 32
-  ANIMATION_FRAMES: 2
-  ANIMATION_FRAME_DURATION_MS: 25
 
   # Set parameter.
   # 
   set: (key, value...) ->
     @[key] = value
-    if key is "activatePosition"
-      @startLineAnimation()
-    else
-      mgraphics.redraw()
+    mgraphics.redraw()
 
   # Draw all, making sure necessary params are set.
   # 
   draw: ->
     @drawBackground() if @contrast_frame? and @surface_bg?
     @drawCurve() if @mean? and @deviation? and @selection?
-    @drawPosition() if @linePosition? and @selection?
+    @drawPosition() if @activatePosition? and @selection?
 
   # Draw background and corners.
   # 
@@ -118,7 +111,7 @@ class GaussianCurve
   # Draw vertical line indicating most recent random value.
   # 
   drawPosition: ->
-    pixelposition = @linePosition * AREA.width * 0.96 + 2
+    pixelposition = @activatePosition * AREA.width * 0.96 + 2
     mgraphics.new_path()
     mgraphics.move_to pixelposition, 0
     mgraphics.line_to pixelposition, AREA.height
@@ -126,27 +119,3 @@ class GaussianCurve
     mgraphics.set_source_rgba @selection...
     mgraphics.stroke_with_alpha 1.0
     mgraphics.restore()
-
-  # Reset and cue up animation.
-  # 
-  startLineAnimation: ->
-    @animationFrame = 0
-    @linePosition ?= parseInt @activatePosition
-    @lastPosition ?= @linePosition
-    @lineAnimation = new Task => @animateLine()
-    @lineAnimation.interval = @ANIMATION_FRAME_DURATION_MS
-    @lineAnimation.repeat()
-
-  # Each frame of line animation.
-  # 
-  animateLine: ->
-    if @animationFrame <= @ANIMATION_FRAMES
-      @linePosition =
-        (@animationFrame / @ANIMATION_FRAMES) *
-        (@activatePosition - @lastPosition) +
-        (@lastPosition)
-    else
-      @lineAnimation.cancel()
-      @lastPosition = @linePosition
-    mgraphics.redraw()
-    @animationFrame++
