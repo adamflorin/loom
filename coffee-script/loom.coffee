@@ -33,12 +33,12 @@ class Loom
     # devices' observers).
     # 
     initDevice: ->
+      Live::available = yes
+      Live::resetCache()
       if @deviceInRack()
-        Live::resetCache()
         Persistence::deviceContext Live::deviceId(), deviceContext
         @initModule jsarguments[1]
         Player::update Live::playerId(), (player) -> player.refreshModuleIds()
-        @loaded = yes
 
     # If device is not in a rack, notify user and disable device.
     # 
@@ -64,7 +64,7 @@ class Loom
     # then do nothing.
     # 
     parameter: (name, value...) ->
-      if @loaded
+      if Live::available
         Module::update Live::deviceId(), (module) -> module.set name, value
 
     # Give modules the chance to update their interfaces after player layout
@@ -75,19 +75,22 @@ class Loom
 
     # Destroy device.
     # 
-    # Note that if this is being called from [freebang], LiveAPI is no longer
-    # avalable. However, the basic device/player ID functions should correctly
-    # return cached values.
+    # By the time this is called, LiveAPI is no longer available, and tyring to
+    # access it can cause crashes. So unset flag in order to notify other logic.
     # 
-    destroyDevice: () ->
+    destroyDevice: ->
+      Live::available = false
       deviceId = Live::deviceId()
       Persistence::destroyDeviceContext deviceId
-      (Module::load deviceId).destroy()
+      (Module::load deviceId).destroy() if Module::exists deviceId
       @removePlayerModule Live::playerId(), deviceId
 
     # Remove module from player. If that was the last module, destroy player.
     # Otherwise, save it. It's possible user is moving multiple modules at once
     # and this is not the last call.
+    # 
+    # Based on who called this, the Live API may or may not be available, so be
+    # careful.
     # 
     removePlayerModule: (playerId, deviceId) ->
       player = Player::load playerId
@@ -96,7 +99,7 @@ class Loom
         player.save()
       else
         player.destroy()
-        @populate()
+        @populate() if Live::available
 
   # Observers
   # 
@@ -127,7 +130,7 @@ class Loom
     # check the time and compare it to the threshold above.
     # 
     observeTransport: (playing) ->
-      if @loaded
+      if Live::available
         if playing is 1
           Persistence::connection().overrideNow =
             if Live::now(true) > @TIME_DELAY_THRESHOLD then 0 else null

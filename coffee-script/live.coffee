@@ -6,10 +6,16 @@
 
 class Live
 
+  # Look up this device ID.
   # 
+  # If `available` flag isnt set, only serve cached copy. Accessing LiveAPI
+  # when it's not available (e.g. device is being destroyed) can cause crashes.
   # 
-  deviceId: ->
-    @thisDeviceId ?= parseInt((new LiveAPI "this_device").id)
+  deviceId : ->
+    return if @available
+      @thisDeviceId ?= parseInt((new LiveAPI "this_device").id)
+    else
+      @thisDeviceId
 
   # A "player" is defined as a group of modules which all
   # share the same parent. So our parent ID _is_ our player ID.
@@ -18,7 +24,10 @@ class Live
   # Otherwise it will be "Track".
   # 
   playerId: ->
-    @thisPlayerId ?= parseInt((new LiveAPI "this_device canonical_parent").id)
+    return if @available
+      @thisPlayerId ?= parseInt((new LiveAPI "this_device canonical_parent").id)
+    else 
+      @thisPlayerId
 
   # Check that device was inserted into effects rack.
   # 
