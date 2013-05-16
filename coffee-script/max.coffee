@@ -45,18 +45,19 @@ class Max
       "panel",
       "@presentation", 1,
       "@presentation_rect", 0, 0, deviceWidth, DEVICE_HEIGHT,
-      "@rounded", 8)
+      "@rounded", 8,
+      "@ignoreclick", 0)
     panel.varname = "error_background"
 
     # init comment
     comment = @devicePatcher().newobject "comment"
     comment.presentation 1
     comment.presentation_rect(
-      (deviceWidth - MINIMUM_DEVICE_WIDTH) / 2, 0,
+      (deviceWidth - MINIMUM_DEVICE_WIDTH) / 2, DEVICE_HEIGHT * 0.3,
       MINIMUM_DEVICE_WIDTH, DEVICE_HEIGHT)
     comment.fontsize 10
     comment.textjustification 1
-    comment.set "\n\n\n\n\n\n\n\n\n\n#{message}"
+    comment.set "\n#{message}"
     comment.varname = "error_text"
 
     # set to Live skin colors
