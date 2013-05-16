@@ -52,8 +52,7 @@ task "sbuild", "Wrap Build command from Sublime Text 2", ->
   invoke "build"
 
 task "build-core", "Compile Loom core CoffeeScript to JavaScript", ->
-  exec COFFEE_ARGS.concat("coffee-script/#{file}.coffee" for file in SOURCE_FILES).join(" "),
-    execOutput
+  exec COFFEE_ARGS.concat(sourceFiles "development").join(" "), execOutput
 
 task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
   uiCoffeeArgs = [
@@ -66,13 +65,22 @@ task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
   ]
   exec uiCoffeeArgs.join(" "), execOutput
 
+task "build-distribution", "Begin manual distribution process", ->
+  exec COFFEE_ARGS.concat(sourceFiles "distribution").join(" "), execOutput
+
 task "test", "Run tests", ->
   invoke "build"
   exec TEST_ARGS.join(" "), execOutput
 
 task "linecount", "Count lines of CoffeeScript", ->
   exec "find coffee-script/. -name '*.coffee' | xargs wc -l", execOutput
-    
+
+# Prepare list of sources files.
+# 
+sourceFiles = (target) ->
+  ("coffee-script/#{file}.coffee" for file in SOURCE_FILES).concat(
+    "coffee-script/build-targets/#{target}.coffee")
+
 # Print results
 # 
 execOutput = (err, stdout, stderr) ->

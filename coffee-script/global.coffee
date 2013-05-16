@@ -11,9 +11,8 @@
 # Copyright 2013 Adam Florin
 # 
 
-# init globals
+# Get a handle to `jsthis` so that Loom can store it in a Global.
 # 
-logger = new Logger
 thisDeviceContext = @
 
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.

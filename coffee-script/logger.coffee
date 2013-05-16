@@ -15,10 +15,11 @@ class Logger
   ESCAPE_CHAR = String.fromCharCode(27)
   MAX_CHUNK_SIZE = 32768
 
+  # Set disabled flag to disable logger. Do this in distributed version by
+  # default.
   # 
-  # 
-  constructor: ->
-    @loadSourceFile(jsarguments[0])
+  constructor: (@disabled) ->
+    @loadSourceFile(jsarguments[0]) unless @disabled
     @initWriteMethods()
   
   # Metaprogramming convenience functions
@@ -29,8 +30,10 @@ class Logger
   initWriteMethods: ->
     for level of LOG_LEVELS
       do (level) =>
-        @[level] = (objects...) ->
-          @write(level, objects)
+        unless @disabled
+          @[level] = (objects...) -> @write(level, objects)
+        else
+          @[level] = (objects...) ->
 
   # Open File handle and pass it to `write` callback
   # 
