@@ -44,14 +44,16 @@ TEST_ARGS = [
   '--colors'
 ]
 
-# 
-task "build", "Compile CoffeeScript to JavaScript", ->
+task "build", "Compile all CoffeeScript to JavaScript", ->
+  invoke "build-core"
+  invoke "build-ui"
+
+task "sbuild", "Wrap Build command from Sublime Text 2", ->
+  invoke "build"
+
+task "build-core", "Compile Loom core CoffeeScript to JavaScript", ->
   exec COFFEE_ARGS.concat("coffee-script/#{file}.coffee" for file in SOURCE_FILES).join(" "),
     execOutput
-
-task "sbuild", "Build command from Sublime Text 2", ->
-  invoke "build"
-  invoke "build-ui"
 
 task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
   uiCoffeeArgs = [
@@ -60,7 +62,7 @@ task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
     '--output'
     'javascript'
     '--compile'
-    'coffee-script/parameter-ui.coffee'
+    'coffee-script/ui/gaussian-curve.coffee'
   ]
   exec uiCoffeeArgs.join(" "), execOutput
 
