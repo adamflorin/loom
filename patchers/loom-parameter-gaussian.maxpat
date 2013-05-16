@@ -8,8 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 380.0, 215.0, 667.0, 554.0 ],
-		"bgcolor" : [ 0.12549, 0.12549, 0.12549, 1.0 ],
+		"rect" : [ 247.0, 154.0, 667.0, 554.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -184,7 +183,7 @@
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u043002306"
+					"varname" : "u800000290"
 				}
 
 			}
@@ -229,14 +228,14 @@
 					"presentation_rect" : [ 8.0, 72.0, 34.0, 27.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "mean",
+							"parameter_linknames" : 1,
+							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 0.5 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
-							"parameter_shortname" : "mean",
-							"parameter_longname" : "mean",
-							"parameter_linknames" : 1,
-							"parameter_unitstyle" : 1
+							"parameter_shortname" : "mean"
 						}
 
 					}
@@ -307,7 +306,7 @@
 , 			{
 				"box" : 				{
 					"border" : 0,
-					"filename" : "parameter-ui.js",
+					"filename" : "gaussian-curve",
 					"id" : "obj-1",
 					"maxclass" : "jsui",
 					"numinlets" : 1,
@@ -351,14 +350,14 @@
 					"presentation_rect" : [ 50.0, 103.0, 45.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "inertia",
+							"parameter_linknames" : 1,
+							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
-							"parameter_shortname" : "inertia",
-							"parameter_longname" : "inertia",
-							"parameter_linknames" : 1,
-							"parameter_unitstyle" : 1
+							"parameter_shortname" : "inertia"
 						}
 
 					}
@@ -398,14 +397,14 @@
 					"presentation_rect" : [ 49.0, 71.0, 44.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_longname" : "deviation",
+							"parameter_linknames" : 1,
+							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 0.0 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
-							"parameter_shortname" : "deviation",
-							"parameter_longname" : "deviation",
-							"parameter_linknames" : 1,
-							"parameter_unitstyle" : 1
+							"parameter_shortname" : "deviation"
 						}
 
 					}
@@ -638,13 +637,13 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-8" : [ "mean", "mean", 0 ],
 			"obj-3" : [ "deviation", "deviation", 0 ],
-			"obj-22" : [ "inertia", "inertia", 0 ]
+			"obj-22" : [ "inertia", "inertia", 0 ],
+			"obj-8" : [ "mean", "mean", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
-				"name" : "parameter-ui.js",
+				"name" : "gaussian-curve.js",
 				"bootpath" : "/Users/adam/projects/loom/code/loom/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",

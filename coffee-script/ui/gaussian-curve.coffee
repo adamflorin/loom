@@ -46,10 +46,10 @@ class GaussianCurve
 
   # 
   # 
-  @::CORNER_RADIUS = 8
-  @::DEVIATION_PIXEL_COEFFICIENT = 32
-  @::ANIMATION_FRAMES = 5
-  @::ANIMATION_FRAME_RATE = 10
+  CORNER_RADIUS: 8
+  DEVIATION_PIXEL_COEFFICIENT: 32
+  ANIMATION_FRAMES: 2
+  ANIMATION_FRAME_DURATION_MS: 25
 
   # Set parameter.
   # 
@@ -134,13 +134,13 @@ class GaussianCurve
     @linePosition ?= parseInt @activatePosition
     @lastPosition ?= @linePosition
     @lineAnimation = new Task => @animateLine()
-    @lineAnimation.interval = @ANIMATION_FRAME_RATE
+    @lineAnimation.interval = @ANIMATION_FRAME_DURATION_MS
     @lineAnimation.repeat()
 
   # Each frame of line animation.
   # 
   animateLine: ->
-    if @animationFrame < @ANIMATION_FRAMES
+    if @animationFrame <= @ANIMATION_FRAMES
       @linePosition =
         (@animationFrame / @ANIMATION_FRAMES) *
         (@activatePosition - @lastPosition) +
