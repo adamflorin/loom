@@ -12,10 +12,13 @@ class Live
   # when it's not available (e.g. device is being destroyed) can cause crashes.
   # 
   deviceId : ->
-    return if @available
+    if @available
       @thisDeviceId ?= parseInt((new LiveAPI "this_device").id)
-    else
+    else if @thisDeviceId
       @thisDeviceId
+    else
+      logger.warn "Cached deviceId and LiveAPI are both unavilable"
+      null
 
   # A "player" is defined as a group of modules which all
   # share the same parent. So our parent ID _is_ our player ID.
@@ -24,10 +27,13 @@ class Live
   # Otherwise it will be "Track".
   # 
   playerId: ->
-    return if @available
+    if @available
       @thisPlayerId ?= parseInt((new LiveAPI "this_device canonical_parent").id)
-    else 
+    else if @thisPlayerId
       @thisPlayerId
+    else
+      logger.warn "Cached playerId and LiveAPI are both unavilable"
+      null
 
   # Check that device was inserted into effects rack.
   # 
@@ -38,7 +44,11 @@ class Live
   # 
   siblingDeviceIds: ->
     deviceIds = (new LiveAPI "this_device canonical_parent").get "devices"
-    id for id in deviceIds[1..] when id isnt "id"
+    if objectType(deviceIds) is "Array"
+      id for id in deviceIds[1..] when id isnt "id"
+    else
+      logger.warn "Received bogus data from LiveAPI."
+      []    
 
   # Check if device has been moved to a new player. Do this by clearing and
   # repopulating ID cache.
