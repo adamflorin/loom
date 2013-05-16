@@ -38,6 +38,35 @@ The default (sparing) development logs are written to `log/loom.log`. The Max
 flag is set, so you may check for Max logs in your OS-appropriate location
 (Console.app on Mac OS).
 
+## Distributing
+
+To create a Live Pack containing all devices and demo content:
+
+- `cake build-distribution`
+- Open **Loom.als**
+- Create a **MIDI Effect Rack** in any MIDI track
+- Point Browser to **Current Project**
+- One at a time, drag all devices from **Modules** into rack
+- One at a time, **Edit** then **Freeze** each device
+- Delete rack
+- Delete .als from **Current Project**
+- Right click in Browser pane, select **Manage Project**
+- **Packing** > **Create Pack**
+- `git reset --hard HEAD`
+
+## Installing Live Pack
+
+When you open **Loom.alp**, you must decide where to install the Loom Project.
+A good place would be next to the 
+[User Library](https://www.ableton.com/en/articles/where-are-my-user-presets-saved/)
+(as Live will not allow you to install _inside_ of it).
+
+Then immediately **Add Folder...** in Live's Browser to point to Loom Project.
+
+The Players are MIDI Effect Rack presets which use the devices in Modules.
+Start with the Players to get a feel for how Loom operates, and then start
+building your own with the Modules!
+
 ## Usage
 
 Loom devices may be dropped into a MIDI track as with any other Live device.
