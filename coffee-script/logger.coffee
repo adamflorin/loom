@@ -64,7 +64,7 @@ class Logger
   # 
   format: (object, level) ->
     msg = switch objectType(object)
-      when "Object", "Array" then JSON.stringify(object)
+      when "Object", "Array" then ":\n" + JSON.stringify(object, null, "  ")
       when "Error" then @stackTrace(object)
       else object
     @colorize "#{@timestamp()} #{level.toUpperCase()} #{msg}", level
