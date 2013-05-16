@@ -1,4 +1,4 @@
-# Loom v0.5 alpha
+## Loom v0.5 alpha
 
 **Loom** is a modular generative music platform for Ableton Live.
 
@@ -6,7 +6,7 @@ It is currently an alpha, pushing beta.
 
 http://adamflorin.com/loom
 
-## Requirements
+### Requirements
 
 For users:
 
@@ -19,7 +19,7 @@ For developers:
 * [MaxMSP 6.1](http://cycling74.com/products/max/)
 * [Node.js](http://nodejs.org/)
 
-## Developing
+### Developing
 
 Once you've downloaded Node.js, you can install all dependencies by running
 `npm install` in the Loom directory.
@@ -38,7 +38,7 @@ The default (sparing) development logs are written to `log/loom.log`. The Max
 flag is set, so you may check for Max logs in your OS-appropriate location
 (Console.app on Mac OS).
 
-## Distributing
+### Distributing
 
 To create a Live Pack containing all devices and demo content:
 
@@ -54,7 +54,7 @@ To create a Live Pack containing all devices and demo content:
 - **Packing** > **Create Pack**
 - `git reset --hard HEAD`
 
-## Installing Live Pack
+### Installing Live Pack
 
 When you open **Loom.alp**, you must decide where to install the Loom Project.
 A good place would be next to the 
@@ -67,7 +67,7 @@ The Players are MIDI Effect Rack presets which use the devices in Modules.
 Start with the Players to get a feel for how Loom operates, and then start
 building your own with the Modules!
 
-## Usage
+### Usage
 
 Loom devices may be dropped into a MIDI track as with any other Live device.
 
