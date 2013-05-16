@@ -86,7 +86,7 @@
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u584009977"
+					"varname" : "u006012213"
 				}
 
 			}
@@ -216,7 +216,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 60.0, 195.0, 211.0, 165.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ -1.0, 0.0, 100.0, 124.0 ]
+					"presentation_rect" : [ 0.0, 0.0, 100.0, 48.0 ]
 				}
 
 			}

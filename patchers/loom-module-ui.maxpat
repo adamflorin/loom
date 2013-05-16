@@ -127,7 +127,7 @@
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u672009589"
+					"varname" : "u616004600"
 				}
 
 			}
@@ -347,11 +347,11 @@
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
 					"id" : "obj-36",
-					"linecount" : 6,
+					"linecount" : 5,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 426.333374, 98.0, 227.0, 87.0 ],
+					"patching_rect" : [ 426.333374, 98.0, 230.0, 74.0 ],
 					"text" : "UI wrapper for loom-module. Responsible for dispatching Max messages around the bpatcher hierarchy of the device.\n\nOpens in presentation mode by default."
 				}
 
@@ -852,7 +852,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 389.333344, 561.5, 41.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 3.0, 29.0, 40.0, 18.0 ],
+					"presentation_rect" : [ 3.0, 27.0, 40.0, 18.0 ],
 					"text" : "LOOM",
 					"textcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ]
 				}
