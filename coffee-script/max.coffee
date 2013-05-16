@@ -22,6 +22,41 @@ class Max
   patcherDirPath: ->
     patcher.filepath.match(/^(.+\/)([^/]+)$/)[1]
 
+  # Display error bpatcher.
+  # 
+  # NOTE: Loading patchers here has a tendency to crash Live, however, so
+  # actually run the tediously verbose yet more reliable version, which
+  # creates only native objects, without Loom patchers.
+  # 
+  displayError: (message) ->
+    return @displayErrorWithoutCrashing message
+
+    DEVICE_HEIGHT = 170
+    MINIMUM_DEVICE_WIDTH = 100
+    deviceWidth = @patcherPresentationWidth @devicePatcher(), true
+
+    errorPane = @devicePatcher().newobject(
+      "bpatcher",
+      "@name", "loom-error",
+      "@args", message,
+      "@presentation", 1,
+      "@presentation_rect", 0, 0, deviceWidth, DEVICE_HEIGHT)
+    errorPane.varname = "error"
+    errorPane.subpatcher().getnamed("pane").presentation_rect(
+      0, 0,
+      deviceWidth, DEVICE_HEIGHT)
+    errorPane.subpatcher().getnamed("message").presentation_rect(
+      (deviceWidth - MINIMUM_DEVICE_WIDTH) / 2, DEVICE_HEIGHT * 0.3,
+      MINIMUM_DEVICE_WIDTH, DEVICE_HEIGHT)
+
+    @devicePatcher().bringtofront errorPane
+
+  # Dismiss error created by displayError().
+  # 
+  dismissError: ->
+    return @dismissErrorWithoutCrashing()
+    @devicePatcher().remove @devicePatcher().getnamed "error"
+
   # Use patcher scripting to create [comment] and [panel] objects to display
   # an error condition. Do it in patcher scripting so that the .amxd devices
   # are not responsible for keeping these objects around.
@@ -30,7 +65,7 @@ class Max
   # newline prepended to `message` (without which text will not wrap); the
   # differing sytnaxes for `newobject()` and `newdefault()`; the [button].
   # 
-  displayError: (message) ->
+  displayErrorWithoutCrashing: (message) ->
     DEVICE_HEIGHT = 170
     MINIMUM_DEVICE_WIDTH = 100
     deviceWidth = @patcherPresentationWidth @devicePatcher(), true
@@ -56,14 +91,19 @@ class Max
     comment.varname = "error_text"
 
     # set to Live skin colors
-    colors = @devicePatcher().newdefault 0, 0, "loom-colors"
-    @devicePatcher().connect colors, 0, panel, 0
-    @devicePatcher().connect colors, 3, comment, 0
-    bang = @devicePatcher().newobject "button"
-    @devicePatcher().connect bang, 0, colors, 0
-    bang.bang()
-    @devicePatcher().remove colors
-    @devicePatcher().remove bang
+    # can't use [loom-colors] as it will crash
+    colorNames = ["macro_title", "control_fg"]
+    colors = @devicePatcher().newdefault 0, 0, "live.colors"
+    route = @devicePatcher().newdefault 0, 0, ["route"].concat colorNames
+    bgPrepend = @devicePatcher().newdefault 0, 0, "prepend", "bgcolor"
+    textPrepend = @devicePatcher().newdefault 0, 0, "prepend", "textcolor"
+    @devicePatcher().connect colors, 0, route, 0
+    @devicePatcher().connect route, 0, bgPrepend, 0
+    @devicePatcher().connect route, 1, textPrepend, 0
+    @devicePatcher().connect bgPrepend, 0, panel, 0
+    @devicePatcher().connect textPrepend, 0, comment, 0
+    colors.message name for name in colorNames
+    @devicePatcher().remove object for object in [colors, route, bgPrepend, textPrepend]
 
     # tune opacity
     panel.bgcolor (panel.getattr "bgcolor")[0..2].concat [0.95]
@@ -74,9 +114,9 @@ class Max
 
   # Dismiss error created by displayError().
   # 
-  dismissError: ->
-    @devicePatcher().remove @devicePatcher().getnamed "error_background"
-    @devicePatcher().remove @devicePatcher().getnamed "error_text"
+  dismissErrorWithoutCrashing: ->
+    for name in ["error_background", "error_text"]
+      @devicePatcher().remove @devicePatcher().getnamed name
 
   # Shorthand to .amxd device
   # 
