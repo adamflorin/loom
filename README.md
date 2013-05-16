@@ -34,7 +34,7 @@ Or you can simply hit cmd-B if you use
 [CoffeeScript-Sublime-Plugin](https://github.com/Xavura/CoffeeScript-Sublime-Plugin).
 
 In Max, add the Loom directory to your Max search path using
-`Options > File Preferences...` and restart Max.
+**Options** > **File Preferences...** and restart Max.
 
 The Max For Live devices reside in the Loom Project, which is also where the
 demo content (Players) is created.
@@ -53,10 +53,9 @@ To create a Live Pack containing all devices and demo content:
 - Create a **MIDI Effect Rack** in any MIDI track
 - One at a time, drag all devices from **Modules** into rack
 - One at a time, **Edit** then **Freeze** each device
-- Delete rack
 - Delete .als from **Current Project**
 - Right click in Browser pane, select **Manage Project**
-- **Packing** > **Create Pack**
+- **Packing** > **Create Pack** and save
 - Run `git reset --hard HEAD` to reset local working copy
 
 ### Installing Live Pack
