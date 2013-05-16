@@ -1,8 +1,12 @@
-## Loom v0.5 alpha
+## Loom
 
-**Loom** is a modular generative music platform for Ableton Live.
+**Loom** is a modular generative music platform for Ableton Live, written in
+[Max For Live](https://www.ableton.com/en/live/max-for-live/) with
+[CoffeeScript](http://coffeescript.org/).
 
-It is currently an alpha, pushing beta.
+It is currently in alpha, pushing beta. I'm calling it v0.5.
+
+Developer documentation wll be written in May 2013.
 
 http://adamflorin.com/loom
 
@@ -24,35 +28,36 @@ For developers:
 Once you've downloaded Node.js, you can install all dependencies by running
 `npm install` in the Loom directory.
 
-To build the JS from CoffeeScript, run `cake build` in the root directory (or
-`cake build-ui` for [jsui] source). Or you can simply hit cmd-B if you use
-[Sublime Text 2](http://www.sublimetext.com/2).
+To build the JS from CoffeeScript, run `cake build` in the root directory.
+Or you can simply hit cmd-B if you use
+[Sublime Text 2](http://www.sublimetext.com/2) and have the
+[CoffeeScript-Sublime-Plugin](https://github.com/Xavura/CoffeeScript-Sublime-Plugin).
 
 In Max, add the Loom directory to your Max search path using
 `Options > File Preferences...` and restart Max.
 
-You should then be able to use the *.amxd devices in Live.
+The Max For Live devices reside in the Loom Project, which is also where the
+demo content (Players) is created.
 
 The default (sparing) development logs are written to `log/loom.log`. The Max
 [`setmirrortoconsole`](http://cycling74.com/docs/max6/dynamic/c74_docs.html#messages_to_max)
-flag is set, so you may check for Max logs in your OS-appropriate location
-(Console.app on Mac OS).
+flag is set, so you may check for Max logs in your OS-appropriate location.
 
 ### Distributing
 
 To create a Live Pack containing all devices and demo content:
 
-- `cake build-distribution`
+- Run `cake build-distribution` to prepare JavaScript
 - Open **Loom.als**
-- Create a **MIDI Effect Rack** in any MIDI track
 - Point Browser to **Current Project**
+- Create a **MIDI Effect Rack** in any MIDI track
 - One at a time, drag all devices from **Modules** into rack
 - One at a time, **Edit** then **Freeze** each device
 - Delete rack
 - Delete .als from **Current Project**
 - Right click in Browser pane, select **Manage Project**
 - **Packing** > **Create Pack**
-- `git reset --hard HEAD`
+- Run `git reset --hard HEAD` to reset local working copy
 
 ### Installing Live Pack
 
