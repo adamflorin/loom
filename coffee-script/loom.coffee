@@ -80,8 +80,9 @@ class Loom
       Live::available = false
       deviceId = Live::deviceId()
       Persistence::destroyDeviceContext deviceId
-      (Module::load deviceId).destroy() if Module::exists deviceId
-      @removePlayerModule Live::playerId(), deviceId
+      if Module::exists deviceId
+        (Module::load deviceId).destroy()
+        @removePlayerModule Live::playerId(), deviceId
 
     # Remove module from player. If that was the last module, destroy player.
     # Otherwise, save it. It's possible user is moving multiple modules at once
