@@ -150,13 +150,14 @@ class Loom
     # Ignore "bang" argument, and just  get the device IDs from LiveAPI.
     # 
     observeDevices: ->
-      if oldPlayerId = Live::detectPlayerChange()
-        logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
-        @initDevice()
-        @removePlayerModule(oldPlayerId, Live::deviceId())
-      else
-        Player::update Live::playerId(), (player) -> player.refreshModuleIds()
-      @populate()
+      if Live::available
+        if oldPlayerId = Live::detectPlayerChange()
+          logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
+          @initDevice()
+          @removePlayerModule(oldPlayerId, Live::deviceId())
+        else
+          Player::update Live::playerId(), (player) -> player.refreshModuleIds()
+        @populate()
     
   # Messages
   # 
