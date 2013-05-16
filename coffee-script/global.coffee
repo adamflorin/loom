@@ -14,7 +14,7 @@
 # init globals
 # 
 logger = new Logger
-deviceContext = @
+thisDeviceContext = @
 
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 

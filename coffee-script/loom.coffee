@@ -28,15 +28,13 @@ class Loom
     moduleClass: (name) => @::modules[name]
     eventClass: (name) => @::events[name]
 
-    # Create player if necessary and own module, then reset observers for all
-    # modules of this player. (Adding a device to a chain can knock out the other
-    # devices' observers).
+    # Create player if necessary and own module, unless device is not in rack.
     # 
     initDevice: ->
       Live::available = yes
       Live::resetCache()
+      Persistence::deviceContext Live::deviceId(), thisDeviceContext
       if @deviceInRack()
-        Persistence::deviceContext Live::deviceId(), deviceContext
         @initModule jsarguments[1]
         Player::update Live::playerId(), (player) -> player.refreshModuleIds()
 
@@ -152,7 +150,8 @@ class Loom
     observeDevices: ->
       if Live::available
         if oldPlayerId = Live::detectPlayerChange()
-          logger.info "Device #{Live::deviceId()} moved from player #{oldPlayerId} to #{Live::playerId()}"
+          logger.info "Device #{Live::deviceId()} moved from player " +
+            "#{oldPlayerId} to #{Live::playerId()}"
           @initDevice()
           @removePlayerModule(oldPlayerId, Live::deviceId())
         else
@@ -206,16 +205,16 @@ class Loom
     # all been dispatched.
     # 
     scheduleEvents: (events, returnDeviceId) ->
-      if returnDeviceId?
-        Persistence::deviceContext(returnDeviceId).outlet 0, "return"
-
       outputDeviceIds = []
+
+      @outputFromDevice returnDeviceId, "return" if returnDeviceId?
+      
       for event in events.sort((x, y) -> x.at - y.at)
-        Persistence::deviceContext(event.deviceId).outlet 1, event.output()
+        @outputFromDevice event.deviceId, event.output()
         outputDeviceIds.push event.deviceId
 
       for deviceId in unique(outputDeviceIds)
-        Persistence::deviceContext(deviceId).outlet 0, "schedule"
+        @outputFromDevice deviceId, "schedule"
 
     # Invoked by player. Clear event queues for all device IDs (typicaly
     # a player's modules).
@@ -223,5 +222,15 @@ class Loom
     # Clear patcher event queue.
     # 
     clearEventQueue: (deviceIds) ->
-      for deviceId in deviceIds
-        Persistence::deviceContext(deviceId).outlet 0, "clear"
+      @outputFromDevice deviceId, "clear" for deviceId in deviceIds
+
+    # Send a message out of any registered Loom [js] object.
+    # 
+    # Infer outlet by message type. Arrays are events which to be scheduled,
+    # so should go out the event outlet (1). Strings are commands, to go out
+    # the command outlet (0).
+    # 
+    outputFromDevice: (deviceId, message) ->
+      outletIndex = if typeof message is "string" then 0 else 1
+      deviceContext = Persistence::deviceContext(deviceId)
+      deviceContext.outlet outletIndex, message unless not deviceContext?
