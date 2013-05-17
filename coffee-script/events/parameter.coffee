@@ -16,4 +16,4 @@ class Loom::events.Parameter extends Event
   # For output to Max event loop.
   # 
   output: ->
-    super ["ui", "parameter", @patcher, @attribute, @value]
+    super ["ui", "parameter", @patcher, @attribute].concat @value

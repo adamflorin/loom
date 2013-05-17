@@ -12,7 +12,7 @@ class Loom::parameters.Other extends Parameter
   # 
   constructor: (@name, parameterData) ->
     @deserialize parameterData
-    parameterData
+    super parameterData
 
   # Send list of playerIds to Max [umenu].
   # 
@@ -20,7 +20,7 @@ class Loom::parameters.Other extends Parameter
     allPlayerIds = (id for id in Player::allIds())
     Loom::scheduleEvents [
       new (Loom::eventClass "Parameter")
-        deviceId: @moduleId(),
+        deviceId: @moduleId()
         patcher: @name
         attribute: "playerIds"
         value: allPlayerIds]

@@ -12,7 +12,7 @@ class Loom::parameters.Pitches extends Parameter
   # 
   constructor: (@name, parameterData) ->
     @deserialize parameterData
-    parameterData
+    super parameterData
     @pitches ?= -1
 
   # Given a normal pitch (0-11), provide the nearest pitch in the user-selected
