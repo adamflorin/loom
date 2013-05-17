@@ -19,6 +19,7 @@ class Loom
     # 
     modules: {}
     events: {}
+    parameters: {}
 
     # Look up the proper class by name in our modules or events array.
     # 
@@ -27,6 +28,7 @@ class Loom
     # 
     moduleClass: (name) => @::modules[name]
     eventClass: (name) => @::events[name]
+    parameterClass: (name) => @::parameters[name]
 
     # Create player if necessary and own module, unless device is not in rack.
     # 

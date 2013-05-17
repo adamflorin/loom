@@ -55,3 +55,12 @@ unique = (array) ->
   output = {}
   output[array[key]] = array[key] for key in [0...array.length]
   value for key, value of output
+
+# Extend a source object with the properties of another object (shallow copy).
+# 
+# http://jashkenas.github.io/coffee-script/documentation/docs/helpers.html
+# 
+extend = (object, properties) ->
+  for key, val of properties
+    object[key] = val
+  object

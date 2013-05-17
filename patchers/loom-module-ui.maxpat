@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 60.0, 44.0, 759.0, 678.0 ],
+		"rect" : [ 62.0, 44.0, 759.0, 678.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -31,12 +31,40 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
+					"id" : "obj-40",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 140.0, 240.0, 57.0, 18.0 ],
+					"text" : "populate"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-23",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "bang", "" ],
+					"patching_rect" : [ 140.0, 210.0, 56.0, 20.0 ],
+					"text" : "sel done"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
 					"id" : "obj-47",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 503.333374, 510.0, 57.0, 20.0 ],
+					"patching_rect" : [ 503.333374, 540.0, 57.0, 20.0 ],
 					"text" : "zl.slice 2"
 				}
 
@@ -50,7 +78,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 503.333374, 540.0, 43.0, 20.0 ],
+					"patching_rect" : [ 503.333374, 570.0, 43.0, 20.0 ],
 					"text" : "buddy"
 				}
 
@@ -64,7 +92,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 527.333374, 570.5, 157.0, 20.0 ],
+					"patching_rect" : [ 527.333374, 600.5, 157.0, 20.0 ],
 					"text" : "sprintf send parent::%s::%s"
 				}
 
@@ -79,7 +107,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 321.5, 701.0, 153.0, 33.0 ],
+					"patching_rect" : [ 321.5, 731.0, 153.0, 33.0 ],
 					"text" : "Dispatch messages to patchers."
 				}
 
@@ -93,7 +121,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 321.5, 671.0, 75.0, 20.0 ],
+					"patching_rect" : [ 321.5, 701.0, 75.0, 20.0 ],
 					"text" : "pattrforward"
 				}
 
@@ -121,13 +149,13 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 435.0, 450.0, 144.0, 20.0 ],
+					"patching_rect" : [ 435.0, 480.0, 144.0, 20.0 ],
 					"restore" : 					{
 						"probability" : [ 1.0 ]
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u616004600"
+					"varname" : "u249000441"
 				}
 
 			}
@@ -140,7 +168,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 131.0, 405.0, 137.0, 20.0 ],
+					"patching_rect" : [ 131.0, 435.0, 137.0, 20.0 ],
 					"text" : "Dispatch patcher event."
 				}
 
@@ -154,7 +182,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 493.0, 606.5, 189.0, 20.0 ],
+					"patching_rect" : [ 493.0, 636.5, 189.0, 20.0 ],
 					"text" : "Send value to parameter UI."
 				}
 
@@ -168,7 +196,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 309.5, 264.0, 63.0, 20.0 ],
+					"patching_rect" : [ 309.5, 294.0, 63.0, 20.0 ],
 					"text" : "MIDI thru."
 				}
 
@@ -182,7 +210,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 133.0, 264.0, 71.0, 20.0 ],
+					"patching_rect" : [ 133.0, 294.0, 71.0, 20.0 ],
 					"text" : "Loom core."
 				}
 
@@ -197,8 +225,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 105.0, 40.0, 207.0, 47.0 ],
-					"text" : "Input from device. If message is not recognized, it's probably from [pattrstorage]."
+					"patching_rect" : [ 105.0, 40.0, 212.0, 47.0 ],
+					"text" : "Input from device. If message is not recognized, it's probably a parameter message from [pattrstorage]."
 				}
 
 			}
@@ -211,7 +239,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 317.0, 315.0, 54.0, 20.0 ],
+					"patching_rect" : [ 317.0, 345.0, 54.0, 20.0 ],
 					"text" : "gate 1 1"
 				}
 
@@ -224,7 +252,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 317.0, 345.0, 48.0, 20.0 ],
+					"patching_rect" : [ 317.0, 375.0, 48.0, 20.0 ],
 					"text" : "midiout"
 				}
 
@@ -238,7 +266,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 352.0, 284.0, 42.0, 20.0 ],
+					"patching_rect" : [ 352.0, 314.0, 42.0, 20.0 ],
 					"text" : "midiin"
 				}
 
@@ -253,7 +281,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 435.0, 375.0, 139.0, 60.0 ],
+					"patching_rect" : [ 435.0, 405.0, 139.0, 60.0 ],
 					"text" : "Hook all Live inputs into Max's 'pattr' system so that parameter values are passed into JS."
 				}
 
@@ -268,7 +296,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 43.5, 505.0, 153.0, 31.0 ],
+					"patching_rect" : [ 43.5, 535.0, 153.0, 31.0 ],
 					"text" : "send parent::parameters, dump"
 				}
 
@@ -282,7 +310,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 199.0, 203.0, 113.0, 20.0 ],
+					"patching_rect" : [ 206.0, 240.0, 113.0, 20.0 ],
 					"text" : "prepend parameter"
 				}
 
@@ -324,7 +352,7 @@
 					"numinlets" : 4,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 133.0, 445.0, 248.0, 20.0 ],
+					"patching_rect" : [ 133.0, 475.0, 248.0, 20.0 ],
 					"text" : "route initParams moduleActivated parameter"
 				}
 
@@ -351,7 +379,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 426.333374, 98.0, 230.0, 74.0 ],
+					"patching_rect" : [ 411.333374, 113.0, 235.0, 74.0 ],
 					"text" : "UI wrapper for loom-module. Responsible for dispatching Max messages around the bpatcher hierarchy of the device.\n\nOpens in presentation mode by default."
 				}
 
@@ -365,7 +393,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 426.333374, 78.0, 162.0, 20.0 ],
+					"patching_rect" : [ 411.333374, 93.0, 162.0, 20.0 ],
 					"text" : "loom-module-ui"
 				}
 
@@ -623,7 +651,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 75.0, 345.0, 148.0, 20.0 ],
-									"text" : "fade-color"
+									"text" : "loom-fade-color"
 								}
 
 							}
@@ -794,7 +822,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 238.0, 505.0, 119.0, 20.0 ],
+					"patching_rect" : [ 238.0, 535.0, 119.0, 20.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Arial",
@@ -822,7 +850,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 133.0, 315.0, 104.0, 20.0 ],
+					"patching_rect" : [ 133.0, 345.0, 104.0, 20.0 ],
 					"text" : "loom-module #1"
 				}
 
@@ -836,7 +864,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 369.0, 505.0, 80.0, 20.0 ],
+					"patching_rect" : [ 369.0, 535.0, 80.0, 20.0 ],
 					"text" : "loom-colors"
 				}
 
@@ -850,7 +878,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 389.333344, 561.5, 41.0, 18.0 ],
+					"patching_rect" : [ 389.333344, 591.5, 41.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 3.0, 27.0, 40.0, 18.0 ],
 					"text" : "LOOM",
@@ -868,7 +896,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 248.0, 561.5, 57.0, 29.0 ],
+					"patching_rect" : [ 248.0, 591.5, 57.0, 29.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
 					"presentation_rect" : [ 3.0, 0.0, 57.0, 29.0 ],
@@ -887,19 +915,19 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 314.5, 561.5, 25.0, 23.0 ],
+					"patching_rect" : [ 314.5, 591.5, 25.0, 23.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 62.0, 3.0, 25.0, 23.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_linknames" : 1,
 							"parameter_unitstyle" : 1,
 							"parameter_mmax" : 1.0,
 							"parameter_initial" : [ 1.0 ],
 							"parameter_type" : 0,
 							"parameter_initial_enable" : 1,
 							"parameter_shortname" : "probability",
-							"parameter_longname" : "probability"
+							"parameter_longname" : "probability",
+							"parameter_linknames" : 1
 						}
 
 					}
@@ -917,7 +945,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 238.0, 549.0, 119.0, 51.0 ],
+					"patching_rect" : [ 238.0, 579.0, 119.0, 51.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 0.0, 0.0, 100.0, 29.0 ]
 				}
@@ -930,7 +958,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 92.0, 30.0, 238.0, 210.0 ],
+					"patching_rect" : [ 92.0, 30.0, 238.0, 240.0 ],
 					"shadow" : 2
 				}
 
@@ -943,7 +971,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 420.0, 360.0, 170.0, 120.0 ],
+					"patching_rect" : [ 420.0, 390.0, 170.0, 120.0 ],
 					"shadow" : 2
 				}
 
@@ -955,19 +983,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 300.0, 255.0, 105.0, 120.0 ],
-					"shadow" : 2
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
-					"id" : "obj-18",
-					"maxclass" : "panel",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 120.0, 255.0, 165.0, 120.0 ],
+					"patching_rect" : [ 300.0, 285.0, 105.0, 120.0 ],
 					"shadow" : 2
 				}
 
@@ -982,7 +998,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 43.5, 600.0, 153.0, 33.0 ],
+					"patching_rect" : [ 43.5, 630.0, 153.0, 33.0 ],
 					"text" : "Request dump from [pattrstorage]."
 				}
 
@@ -994,7 +1010,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 30.0, 491.0, 177.0, 150.0 ],
+					"patching_rect" : [ 30.0, 521.0, 177.0, 150.0 ],
 					"shadow" : 2
 				}
 
@@ -1006,7 +1022,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 225.0, 491.0, 240.0, 150.0 ],
+					"patching_rect" : [ 225.0, 521.0, 240.0, 150.0 ],
 					"shadow" : 2
 				}
 
@@ -1018,7 +1034,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 478.0, 491.0, 227.0, 150.0 ],
+					"patching_rect" : [ 478.0, 521.0, 227.0, 150.0 ],
 					"shadow" : 2
 				}
 
@@ -1030,7 +1046,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 120.0, 390.0, 285.0, 90.0 ],
+					"patching_rect" : [ 120.0, 420.0, 285.0, 90.0 ],
 					"shadow" : 2
 				}
 
@@ -1042,7 +1058,19 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 308.0, 656.0, 182.333344, 90.0 ],
+					"patching_rect" : [ 308.0, 686.0, 182.333344, 90.0 ],
+					"shadow" : 2
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.04 ],
+					"id" : "obj-18",
+					"maxclass" : "panel",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 120.0, 285.0, 165.0, 120.0 ],
 					"shadow" : 2
 				}
 
@@ -1062,7 +1090,7 @@
 					"destination" : [ "obj-11", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 439.5, 537.0, 257.5, 537.0 ],
+					"midpoints" : [ 439.5, 567.0, 257.5, 567.0 ],
 					"source" : [ "obj-10", 3 ]
 				}
 
@@ -1141,6 +1169,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-40", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-23", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-12", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -1177,10 +1214,28 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-40", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-22", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-43", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-23", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-43", 0 ]
 				}
 
 			}
@@ -1281,7 +1336,7 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "fade-color.maxpat",
+				"name" : "loom-fade-color.maxpat",
 				"bootpath" : "/Users/adam/projects/loom/code/loom/patchers",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",

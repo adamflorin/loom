@@ -51,8 +51,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 190.0, 97.0, 163.0, 20.0 ],
-					"text" : "fade-color"
+					"patching_rect" : [ 190.0, 97.0, 164.0, 20.0 ],
+					"text" : "loom-fade-color"
 				}
 
 			}

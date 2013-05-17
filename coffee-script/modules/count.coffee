@@ -6,16 +6,20 @@
 
 class Loom::modules.Count extends Module
 
+  # Register UI inputs
+  # 
+  accepts: count: "Gaussian"
+
   # 
   # 
-  @::MAX_COUNT = 4
+  MAX_COUNT: 4
 
   # Increase count by effectively repeating the whole gesture.
   # 
   # NOTE: Assumes basic note-based gestures.
   # 
   processGesture: (gesture) ->
-    repeats = Math.round(@generateValue("count") * (@MAX_COUNT-1))
+    repeats = Math.round(@parameters.count.generateValue() * (@MAX_COUNT-1))
     repeatEvents = []
     for iteration in [1..repeats]
       for note in gesture.events

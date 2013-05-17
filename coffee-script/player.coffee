@@ -16,8 +16,8 @@ class Player
   # 
   constructor: (@id, playerData) ->
     {@moduleIds} = playerData
-    @pastGestures = for gestureData in playerData.pastGestures || {}
-      new Gesture gestureData
+    @pastGestures = for data in playerData.pastGestures || {}
+      new Gesture data
     @moduleIds ?= []
     @pastGestures ?= []
     @activatedModuleIds = []

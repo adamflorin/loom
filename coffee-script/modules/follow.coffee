@@ -6,24 +6,15 @@
 
 class Loom::modules.Follow extends Module
 
-  # Populate UI
+  # Register UI inputs
   # 
-  populate: ->
-    allPlayerIds = (id for id in Player::allIds())
-    Loom::scheduleEvents [
-      new (Loom::eventClass("UI"))(
-        deviceId: @id,
-        message: ["parameter", "followed", "playerIds"].concat(allPlayerIds))]
+  accepts: followed: "Other"
 
   # Module API contractually invoked by remote player upon scheduling a gesture.
   # 
   remoteOutputComplete: (args) ->
     [remotePlayerId, time] = args
-    @player.play(time, @id) if remotePlayerId is @followingPlayerId()
+    @player.play(time, @id) if remotePlayerId is @parameters.followed.playerId()
     [remotePlayerId, time]
 
-  # [pattr] only furnishes us with the index of the selected menu item.
-  # Look that up in our own players listing.
-  # 
-  followingPlayerId: ->
-    parseInt (id for id in Player::allIds())[@parameters.followed?.playerIndex]
+  
