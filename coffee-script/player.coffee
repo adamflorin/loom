@@ -57,6 +57,7 @@ class Player
   # Provide two hooks for modules: gestureData (return )
   # 
   generateGesture: (time, deviceId) ->
+    @activatedModuleIds.push deviceId
     gestureData = @applyModules "gestureData",
       deviceId: deviceId
       afterTime: time
@@ -79,7 +80,7 @@ class Player
   gestureUiEvents: (gesture) ->
     uiEvents = []
     at = gesture.startAt()
-    for moduleId in @activatedModuleIds
+    for moduleId in unique @activatedModuleIds
       uiEvents.push new (Loom::eventClass "Activate")
         at: at
         deviceId: moduleId
