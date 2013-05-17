@@ -225,7 +225,6 @@ class Loom
     # Clear patcher event queue.
     # 
     clearEventQueue: (deviceIds) ->
-      logger.debug "clearEventQueue #{Live::deviceId()}"
       @outputFromDevice deviceId, "clear" for deviceId in deviceIds
 
     # Send a message out of any registered Loom [js] object.
