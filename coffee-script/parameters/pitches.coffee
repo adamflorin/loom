@@ -5,19 +5,15 @@
 # 
 
 class Loom::parameters.Pitches extends Parameter
+  mixin @, Serializable
+  @::serialized "pitches"
 
   # 
   # 
   constructor: (@name, parameterData) ->
-    {@pitches} = parameterData if parameterData?
+    @deserialize parameterData
+    parameterData
     @pitches ?= -1
-    super parameterData
-
-  # 
-  # 
-  serialize: ->
-    extend super,
-      pitches: @pitches
 
   # Given a normal pitch (0-11), provide the nearest pitch in the user-selected
   # pitches array.

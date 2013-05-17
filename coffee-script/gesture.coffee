@@ -6,30 +6,23 @@
 # 
 
 class Gesture
+  mixin @, Serializable
+  @::serialized "meter", "deviceId", "afterTime", "events", "activatedModules"
 
   DEFAULT_METER: 2
 
   # Ur-gesture
   # 
   constructor: (gestureData) ->
-    {@meter, @deviceId, @afterTime, @activatedModules} = gestureData
+    @deserialize gestureData,
+      events: (data) -> new (Loom::eventClass data.loadClass) data
     @meter ?= @DEFAULT_METER
-    @events = for eventData in gestureData.events || []
-      new (Loom::eventClass eventData.loadClass) eventData
+    @events ?= []
     if @events.length == 0
       @events.push new (Loom::eventClass "Note")
         at: @nextDownbeat(@afterTime)
         duration: @meter
         deviceId: @deviceId
-
-  # 
-  # 
-  serialize: ->
-    meter: @meter
-    deviceId: @deviceId
-    afterTime: @afterTime
-    events: event.serialize() for event in @events
-    activatedModules: @activatedModules
 
   # Gesture starts when its first event starts.
   # 

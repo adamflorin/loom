@@ -5,18 +5,14 @@
 # 
 
 class Loom::parameters.Other extends Parameter
+  mixin @, Serializable
+  @::serialized "playerIndex"
 
   # 
   # 
   constructor: (@name, parameterData) ->
-    {@playerIndex} = parameterData if parameterData?
-    super parameterData
-
-  # 
-  # 
-  serialize: ->
-    extend super,
-      playerIndex: @playerIndex
+    @deserialize parameterData
+    parameterData
 
   # Send list of playerIds to Max [umenu].
   # 

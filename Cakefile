@@ -16,6 +16,7 @@ SOURCE_FILES = [
   "live"
   "logger"
   "loom"
+  "serializable"
   "persistence"
   "persisted"
   "probability"

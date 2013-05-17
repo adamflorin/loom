@@ -6,6 +6,8 @@
 # 
 
 class Loom::parameters.Gaussian extends Parameter
+  mixin @, Serializable
+  @::serialized "mean", "deviation", "inertia", "generateValue"
 
   # Reduce deviation to contain Gaussian random values.
   # 
@@ -14,21 +16,11 @@ class Loom::parameters.Gaussian extends Parameter
   # 
   # 
   constructor: (@name, parameterData) ->
-    if parameterData?
-      {@mean, @deviation, @inertia, @generatedValue} = parameterData
+    @deserialize parameterData
+    super parameterData
     @mean ?= 0.5
     @deviation ?= 0
     @inertia ?= 0
-    super parameterData
-
-  # 
-  # 
-  serialize: ->
-    extend super,
-      mean: @mean
-      deviation: @deviation
-      inertia: @inertia
-      generatedValue: @generatedValue
 
   # Generate a random value based on parameter input.
   # 

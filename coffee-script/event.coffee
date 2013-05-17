@@ -1,22 +1,14 @@
 # 
 # event.coffee: Ancestor class for all MIDI and UI events.
 # 
+# Note: Ancestor class should not be instantiated, only subclasses.
+# 
 # Copyright 2013 Adam Florin
 # 
 
 class Event
-  
-  # 
-  # 
-  constructor: (eventData) ->
-    {@at, @deviceId} = eventData
-
-  # Called by subclasses, who promise to extend it into their return value.
-  # 
-  serialize: ->
-    at: @at
-    deviceId: @deviceId
-    loadClass: @constructor.name
+  mixin @, Serializable
+  @::serialized "at", "deviceId"
 
   # For output to Max event loop.
   # 

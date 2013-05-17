@@ -3,20 +3,19 @@
 # 
 # Each parameter type corresponds to a Max patcher.
 # 
+# Note: Ancestor class should not be instantiated, only subclasses.
+# 
 # Copyright 2013 Adam Florin
 # 
 
 class Parameter
+  mixin @, Serializable
+  @::serialized "deviceId"
 
-  # 
+  # Note: subclass is reponsible for calling deserialize().
   # 
   constructor: (parameterData) ->
-    {@deviceId, @module} = parameterData if parameterData?
-    
-  # Called by subclasses, who promise to extend it into their return value.
-  # 
-  serialize: ->  
-    deviceId: @module.id
+    {@module} = parameterData if parameterData?
 
   # Use cached or fresh module ID.
   # 

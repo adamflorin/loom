@@ -5,6 +5,8 @@
 # 
 
 class Loom::events.Note extends Event
+  mixin @, Serializable
+  @::serialized "pitch", "velocity", "duration"
   
   # Defaults for the Ur-gesture.
   # 
@@ -14,18 +16,9 @@ class Loom::events.Note extends Event
   # 
   # 
   constructor: (eventData) ->
-    {@duration, @pitch, @velocity} = eventData
+    @deserialize eventData
     @pitch ?= @DEFAULT_PITCH
     @velocity ?= @DEFAULT_VELOCITY
-    super eventData
-
-  # For Persistence in Dict.
-  # 
-  serialize: ->
-    extend super,
-      pitch: @pitch
-      velocity: @velocity
-      duration: @duration
 
   # For output to Max event loop.
   # 

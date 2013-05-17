@@ -9,12 +9,7 @@ class Loom::events.Activate extends Event
   # 
   # 
   constructor: (eventData) ->
-    super eventData
-
-  # For Persistence in Dict.
-  # 
-  serialize: ->
-    super
+    @deserialize eventData
 
   # For output to Max event loop.
   # 

@@ -5,28 +5,22 @@
 # 
 
 class Player
-  
   mixin @, Persisted
+  mixin @, Serializable
+  @::serialized "moduleIds", "pastGestures"
   
   # How many past gestures to store.
   # 
-  @::NUM_PAST_GESTURES = 10
+  NUM_PAST_GESTURES: 10
 
   # 
   # 
   constructor: (@id, playerData) ->
-    {@moduleIds} = playerData
-    @pastGestures = for data in playerData.pastGestures || {}
-      new Gesture data
+    @deserialize playerData,
+      pastGestures: (data) -> new Gesture data
     @moduleIds ?= []
     @pastGestures ?= []
     @activatedModuleIds = []
-
-  # Serialize object data to be passed into constructor by Persisted later.
-  # 
-  serialize: ->
-    moduleIds: @moduleIds
-    pastGestures: gesture.serialize() for gesture in @pastGestures
 
   # Let modules populate their UI elements.
   # 
@@ -66,7 +60,7 @@ class Player
     gestureData = @applyModules "gestureData",
       deviceId: deviceId
       afterTime: time
-    @applyModules "processGesture", new Gesture(gestureData)
+    return @applyModules "processGesture", new Gesture(gestureData)
 
   # Schedule next gesture for dispatch, including both MIDI and UI events,
   # and archive it, including all player modules. Then clear everything.

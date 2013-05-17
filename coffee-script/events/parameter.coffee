@@ -5,20 +5,13 @@
 # 
 
 class Loom::events.Parameter extends Event
+  mixin @, Serializable
+  @::serialized "patcher", "attribute", "value"
 
   # 
   # 
   constructor: (eventData) ->
-    {@patcher, @attribute, @value} = eventData
-    super eventData
-
-  # For Persistence in Dict.
-  # 
-  serialize: ->
-    extend super,
-      patcher: @patcher
-      attribute: @attribute
-      value: @value
+    @deserialize eventData
 
   # For output to Max event loop.
   # 

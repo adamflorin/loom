@@ -5,33 +5,19 @@
 # 
 
 class Module
-  
   mixin @, Persisted
+  mixin @, Serializable
+  @::serialized "id", "probability", "mute", "parameters"
 
   # 
   # 
   constructor: (@id, moduleData, args) ->
-    {@probability, @mute} = moduleData
-    {@player} = args if args
-    @parameters = {}
-    for name, data of moduleData.parameters || {}
-      @parameters[name] = @buildParameter name, extend(data, module: @)
+    @deserialize moduleData,
+      parameters: (data, name) => @buildParameter name, extend(data, module: @)
     @probability ?= 1.0
     @mute ?= 0
-
-  # Serialize object data to be passed into constructor by Persisted later.
-  # 
-  # loadClass tells Persisted which subclass to instantiate.
-  # 
-  serialize: ->
-    serializedParameters = {}
-    for name, parameter of @parameters
-      serializedParameters[name] = parameter.serialize()
-    id: @id
-    loadClass: @constructor.name
-    probability: @probability
-    mute: @mute
-    parameters: serializedParameters
+    @parameters ?= {}
+    {@player} = args if args
 
   # Set module value.
   # 
