@@ -33,8 +33,9 @@ SOURCE_FILES = [
   "parameters/other"
   "parameters/pitches"
   "event"
+  "events/activate"
   "events/note"
-  "events/ui"
+  "events/parameter"
   "gesture"
   "global"
 ]

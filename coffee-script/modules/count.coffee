@@ -23,9 +23,9 @@ class Loom::modules.Count extends Module
     repeatEvents = []
     for iteration in [1..repeats]
       for note in gesture.events
-        repeatEvents.push new (Loom::eventClass("Note"))(
+        repeatEvents.push new (Loom::eventClass "Note")
           at: note.at + (gesture.endAt()-gesture.startAt()) * iteration
           duration: note.duration
-          deviceId: note.deviceId)
+          deviceId: note.deviceId
     gesture.events.push event for event in repeatEvents
     return gesture

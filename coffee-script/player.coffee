@@ -1,5 +1,5 @@
 # 
-# player.coffee
+# player.coffee: Generate Gestures by applying Modules in time.
 # 
 # Copyright 2013 Adam Florin
 # 
@@ -74,7 +74,7 @@ class Player
   # Also, reap past gestures from earlier than our limit.
   # 
   scheduleGesture: (gesture) ->
-    events = gesture.toEvents().concat(@gestureUiEvents(gesture))
+    events = gesture.events.concat @gestureUiEvents(gesture)
     Loom::scheduleEvents events, gesture.deviceId
     gesture.activatedModules = (module.serialize() for module in @modules)
     @pastGestures.push gesture
@@ -86,16 +86,19 @@ class Player
     uiEvents = []
     at = gesture.startAt()
     for moduleId in @activatedModuleIds
-      uiEvents.push new (Loom::eventClass("UI"))(
+      uiEvents.push new (Loom::eventClass "Activate")
         at: at
         deviceId: moduleId
-        message: ["moduleActivated", "bang"])
-      thisModule = module for module in @modules when module.id is moduleId
-      for parameterName, parameter of thisModule.parameters when parameter.generatedValue?
-        uiEvents.push new (Loom::eventClass("UI"))(
-          at: at
-          deviceId: moduleId
-          message: ["parameter", parameterName, "generatedValue", parameter.generatedValue])
+      thisModule = do =>
+        return module for module in @modules when module.id is moduleId
+      for parameterName, parameter of thisModule.parameters
+        if parameter.generatedValue?
+          uiEvents.push new (Loom::eventClass "Parameter")
+            at: at
+            deviceId: moduleId
+            patcher: parameterName
+            attribute: "generatedValue"
+            value: parameter.generatedValue
     return uiEvents
 
   # Reset all gesture information, history and upcoming,

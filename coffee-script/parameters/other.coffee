@@ -23,9 +23,11 @@ class Loom::parameters.Other extends Parameter
   populate: ->
     allPlayerIds = (id for id in Player::allIds())
     Loom::scheduleEvents [
-      new (Loom::eventClass("UI"))(
+      new (Loom::eventClass "Parameter")
         deviceId: @moduleId(),
-        message: ["parameter", @name, "playerIds"].concat(allPlayerIds))]
+        patcher: @name
+        attribute: "playerIds"
+        value: allPlayerIds]
 
   # [pattr] only furnishes us with the index of the selected menu item.
   # Look that up in our own players listing.

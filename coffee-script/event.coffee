@@ -1,7 +1,7 @@
 # 
+# event.coffee: Ancestor class for all MIDI and UI events.
 # 
-# 
-# 
+# Copyright 2013 Adam Florin
 # 
 
 class Event
