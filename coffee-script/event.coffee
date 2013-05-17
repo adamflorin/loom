@@ -9,16 +9,21 @@ class Event
   # 
   # 
   constructor: (eventData) ->
-    {@at, @deviceId, @message} = eventData
+    {@at, @deviceId} = eventData
+
+  # Called by subclasses, who promise to extend it into their return value.
+  # 
+  serialize: ->
+    at: @at
+    deviceId: @deviceId
+    loadClass: @constructor.name
 
   # For output to Max event loop.
   # 
-  # Invoked by subclasses.
+  # Invoked by subclasses with subclass-specific message.
   # 
   output: (message) ->
-    message ?= @message
-    atParams = if @at? then ["at", Max::beatsToTicks(@at)] else ["direct"]
-    atParams.concat(message)
+    (if @at? then ["at", Max::beatsToTicks(@at)] else ["direct"]).concat message
 
   # When event ends
   # 

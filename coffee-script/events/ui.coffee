@@ -8,17 +8,14 @@ class Loom::events.UI extends Event
   # 
   # 
   constructor: (eventData) ->
+    {@message} = eventData
     super eventData
 
   # For Persistence in Dict.
   # 
-  # TODO: factor out commonalities.
-  # 
   serialize: ->
-    at: @at
-    deviceId: @deviceId
-    loadClass: @constructor.name
-    message: @message
+    extend super,
+      message: @message
 
   # For output to Max event loop.
   # 
