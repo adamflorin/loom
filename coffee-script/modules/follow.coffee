@@ -16,5 +16,3 @@ class Loom::modules.Follow extends Module
     [remotePlayerId, time] = args
     @player.play(time, @id) if remotePlayerId is @parameters.followed.playerId()
     [remotePlayerId, time]
-
-  
