@@ -40,6 +40,11 @@ class Live
   deviceInRack: ->
     (new LiveAPI "this_device canonical_parent").type is "Chain"
 
+  # Check that device was inserted into effects rack.
+  # 
+  transportPlaying: ->
+    ((new LiveAPI "live_set").get "is_playing")[0] == 1
+
   # Return IDs of devices in this rack.
   # 
   siblingDeviceIds: ->
@@ -47,7 +52,7 @@ class Live
     if objectType(deviceIds) is "Array"
       id for id in deviceIds[1..] when id isnt "id"
     else
-      logger.warn "Received bogus data from LiveAPI."
+      logger.warn "LiveAPI returned bogus device IDs for this device's rack"
       []    
 
   # Check if device has been moved to a new player. Do this by clearing and

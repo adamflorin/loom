@@ -176,7 +176,7 @@ class Loom
     # Save player state when finished.
     # 
     play: (time) ->
-      if Persistence::deviceEnvironment Live::deviceId(), "transportPlaying"
+      if Live::transportPlaying()
         Player::update Live::playerId(), (player) -> player.play(time)
 
     # Player entrypoint.
@@ -190,7 +190,7 @@ class Loom
     # eventQueueEmpty.
     # 
     eventQueueEmpty: (now) ->
-      if Persistence::deviceEnvironment Live::deviceId(), "transportPlaying"
+      if Live::transportPlaying()
         Persistence::connection().overrideNow = now
         Player::update Live::playerId(), (player) -> player.eventQueueEmpty()
 
