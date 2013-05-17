@@ -19,20 +19,23 @@ class Persistence
   connection: ->
     (new Global("loom"))
 
-  # Hybrid getter/setter where each device stores its 'jsthis' so that other
+  # Hybrid getter/setter for environmental properties for this device.
+  # 
+  # "context" key stores device's 'jsthis' so that other
   # devices may access one another's outlets. This is an important aspect of
   # event dispatch, enabling UI events for a number of devices to come from
   # the device that scheduled a gesture, and enabling devices to affect the
   # output of other devices in other players.
   # 
-  deviceContext: (deviceId, object) ->
-    @connection().deviceContext ?= {}
-    if object
-      @connection().deviceContext[deviceId] = object
+  deviceEnvironment: (deviceId, key, object) ->
+    @connection().devices ?= {}
+    @connection().devices[deviceId] ?= {}
+    if object?
+      @connection().devices[deviceId][key] = object
     else
-      return @connection().deviceContext[deviceId]
+      return @connection().devices[deviceId][key]
 
   # Destroyer
   # 
-  destroyDeviceContext: (deviceId) ->
-    delete @connection().deviceContext[deviceId]
+  destroyDeviceEnvironment: (deviceId) ->
+    delete @connection().devices[deviceId]

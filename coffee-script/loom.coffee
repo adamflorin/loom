@@ -35,7 +35,7 @@ class Loom
     initDevice: ->
       Live::available = yes
       Live::resetCache()
-      Persistence::deviceContext Live::deviceId(), thisDeviceContext
+      Persistence::deviceEnvironment Live::deviceId(), "context", thisDeviceContext
       if @deviceInRack()
         @initModule jsarguments[1]
         Player::update Live::playerId(), (player) -> player.refreshModuleIds()
@@ -81,7 +81,7 @@ class Loom
     destroyDevice: ->
       Live::available = false
       deviceId = Live::deviceId()
-      Persistence::destroyDeviceContext deviceId
+      Persistence::destroyDeviceEnvironment deviceId
       if Module::exists deviceId
         (Module::load deviceId).destroy()
         @removePlayerModule Live::playerId(), deviceId
@@ -135,11 +135,11 @@ class Loom
         if playing is 1
           Persistence::connection().overrideNow =
             if Live::now(true) > @TIME_DELAY_THRESHOLD then 0 else null
-          unless Persistence::connection().transportPlaying
-            Persistence::connection().transportPlaying = yes
+          unless Persistence::deviceEnvironment Live::deviceId(), "transportPlaying"
+            Persistence::deviceEnvironment Live::deviceId(), "transportPlaying", yes
             Player::update Live::playerId(), (player) -> player.transportStart()
         else
-          Persistence::connection().transportPlaying = no
+          Persistence::deviceEnvironment Live::deviceId(), "transportPlaying", no
           Player::update Live::playerId(), (player) -> player.clearGestures()
 
     # Observe when module is added, removed or moved in the chain.
@@ -176,7 +176,7 @@ class Loom
     # Save player state when finished.
     # 
     play: (time) ->
-      if Persistence::connection().transportPlaying
+      if Persistence::deviceEnvironment Live::deviceId(), "transportPlaying"
         Player::update Live::playerId(), (player) -> player.play(time)
 
     # Player entrypoint.
@@ -190,7 +190,7 @@ class Loom
     # eventQueueEmpty.
     # 
     eventQueueEmpty: (now) ->
-      if Persistence::connection().transportPlaying
+      if Persistence::deviceEnvironment Live::deviceId(), "transportPlaying"
         Persistence::connection().overrideNow = now
         Player::update Live::playerId(), (player) -> player.eventQueueEmpty()
 
@@ -225,6 +225,7 @@ class Loom
     # Clear patcher event queue.
     # 
     clearEventQueue: (deviceIds) ->
+      logger.debug "clearEventQueue #{Live::deviceId()}"
       @outputFromDevice deviceId, "clear" for deviceId in deviceIds
 
     # Send a message out of any registered Loom [js] object.
@@ -235,7 +236,7 @@ class Loom
     # 
     outputFromDevice: (deviceId, message) ->
       outletIndex = if typeof message is "string" then 0 else 1
-      deviceContext = Persistence::deviceContext(deviceId)
+      deviceContext = Persistence::deviceEnvironment deviceId, "context"
       unless not deviceContext?
         deviceContext.outlet outletIndex, message
       else
