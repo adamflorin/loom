@@ -163,7 +163,7 @@ class Loom
     
   # Messages
   # 
-  # Receive and send Max messages, from and to self or other devices.
+  # Loom event scheduling logic, from and to Max.
   # 
   mixin @, Messages:
 
@@ -211,7 +211,7 @@ class Loom
       outputDeviceIds = []
 
       @outputFromDevice returnDeviceId, "return" if returnDeviceId?
-      
+
       for event in events.sort((x, y) -> x.at - y.at)
         @outputFromDevice event.deviceId, event.output()
         outputDeviceIds.push event.deviceId
@@ -236,4 +236,7 @@ class Loom
     outputFromDevice: (deviceId, message) ->
       outletIndex = if typeof message is "string" then 0 else 1
       deviceContext = Persistence::deviceContext(deviceId)
-      deviceContext.outlet outletIndex, message unless not deviceContext?
+      unless not deviceContext?
+        deviceContext.outlet outletIndex, message
+      else
+        logger.warn "Device context not available for ID #{deviceId}"

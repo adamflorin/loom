@@ -43,7 +43,7 @@ notifydeleted = ->
 # 
 try
   if loaded?
-    logger.warn "Detected script reload"
+    logger.info "Detected script reload"
     Loom::initDevice()
   loaded = true
 catch e
