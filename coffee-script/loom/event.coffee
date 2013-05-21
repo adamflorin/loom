@@ -15,7 +15,7 @@ class Event
   # Invoked by subclasses with subclass-specific message.
   # 
   output: (message) ->
-    (if @at? then ["at", Max::beatsToTicks(@at)] else ["direct"]).concat message
+    (if @at? then ["at", beatsToTicks @at] else ["direct"]).concat message
 
   # When event ends
   # 

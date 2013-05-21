@@ -25,11 +25,9 @@ class Loom::parameters.Gaussian extends Parameter
   # Generate a random value based on parameter input.
   # 
   generateValue: ->
-    nextValue = Probability::gaussian(
-      @mean,
-      @deviation * @DEVIATION_REDUCE)
-    nextValue = Probability::constrain nextValue
-    @generatedValue = Probability::applyInertia(
+    nextValue = @gaussianRandom(@mean, @deviation * @DEVIATION_REDUCE)
+    nextValue = constrain(nextValue)
+    @generatedValue = @applyInertia(
       @lastGeneratedValue() || nextValue,
       nextValue,
       @inertia)
@@ -38,4 +36,26 @@ class Loom::parameters.Gaussian extends Parameter
   # 
   lastGeneratedValue: ->
     @module.atLastGesture()?.parameters[@name]?.generatedValue
-    
+
+  # Box Mueller algorithm for Gaussian or normal distribution.
+  # 
+  gaussianRandom: (mean, deviation) ->
+    x1 = 0.0
+    x2 = 0.0
+    w = 0.0
+
+    until w > 0.0 and w < 1.0
+      x1 = 2.0 * Math.random() - 1.0
+      x2 = 2.0 * Math.random() - 1.0
+      w = ( x1 * x2 ) + ( x2 * x2 )
+
+    w = Math.sqrt( -2.0 * Math.log( w ) / w )
+    r = x1 * w
+
+    mean + r * deviation
+  
+  # Given "start" and "end" values, move toward "end" value in proportion to
+  # given "inertia" (0.0-1.0).
+  # 
+  applyInertia: (start, end, inertia) ->
+    start + (end - start) * (1.0 - inertia)

@@ -31,17 +31,6 @@ mixin = (target, mixins) ->
   for mixinName, mixinMethods of mixins
     target::[name] = method for name, method of mixinMethods
 
-# Utility for logger date formatting.
-# 
-# Pad integer with leading zeros so that it comes out to (at least) a certain
-# number of digits.
-# 
-toZeroPaddedString = (number, digits) ->
-  zeros =
-    for powers in [Math.max(digits-1, 0)..1]
-      if number < Math.pow(10, powers) then "0" else break
-  zeros.join("") + number
-
 # Get string representation of object type, but more precise than typeof.
 # 
 objectType = (object) ->

@@ -11,34 +11,34 @@ COFFEE_ARGS = [
 ]
 
 SOURCE_FILES = [
-  "utilities"
-  "max"
-  "live"
-  "logger"
+  "utilities/utilities"
+  "utilities/number"
+  "utilities/logger"
+  "persistence/serializable"
+  "persistence/persistence"
+  "persistence/persisted"
   "loom"
-  "serializable"
-  "persistence"
-  "persisted"
-  "probability"
-  "player"
-  "module"
-  "modules/continue"
-  "modules/count"
-  "modules/follow"
-  "modules/impulse"
-  "modules/meter"
-  "modules/pitch"
-  "modules/start"
-  "parameter"
-  "parameters/gaussian"
-  "parameters/other"
-  "parameters/pitches"
-  "event"
-  "events/activate"
-  "events/note"
-  "events/parameter"
-  "gesture"
-  "global"
+  "loom/player"
+  "loom/module"
+  "loom/modules/continue"
+  "loom/modules/count"
+  "loom/modules/follow"
+  "loom/modules/impulse"
+  "loom/modules/meter"
+  "loom/modules/pitch"
+  "loom/modules/start"
+  "loom/parameter"
+  "loom/parameters/gaussian"
+  "loom/parameters/other"
+  "loom/parameters/pitches"
+  "loom/gesture"
+  "loom/event"
+  "loom/events/activate"
+  "loom/events/note"
+  "loom/events/parameter"
+  "max-for-live/max"
+  "max-for-live/live"
+  "max-for-live/global"
 ]
 
 TEST_ARGS = [
@@ -67,7 +67,7 @@ task "build-ui", "Compile [jsui] CoffeeScript to JavaScript", ->
     '--output'
     'javascript'
     '--compile'
-    'coffee-script/ui/gaussian-curve.coffee'
+    'coffee-script/max-for-live/ui/gaussian-curve.coffee'
   ]
   exec uiCoffeeArgs.join(" "), execOutput
 
@@ -84,8 +84,8 @@ task "linecount", "Count lines of CoffeeScript", ->
 # Prepare list of sources files.
 # 
 sourceFiles = (target) ->
-  ("coffee-script/#{file}.coffee" for file in SOURCE_FILES).concat(
-    "coffee-script/build-targets/#{target}.coffee")
+  [ "coffee-script/config/#{target}.coffee"].concat(
+    "coffee-script/#{file}.coffee" for file in SOURCE_FILES)
 
 # Print results
 # 

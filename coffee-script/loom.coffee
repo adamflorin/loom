@@ -6,6 +6,10 @@
 # Copyright 2013 Adam Florin
 # 
 
+# Get a handle to `jsthis` to store in a Global.
+# 
+thisDeviceContext = @
+
 class Loom
 
   # Devices

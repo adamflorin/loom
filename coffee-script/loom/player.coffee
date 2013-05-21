@@ -119,7 +119,7 @@ class Player
     @loadModules()
     for module in @modules when module.mute is 0
       if module[method]?
-        if Probability::flip(module.probability)
+        if randomBoolean(module.probability)
           @activatedModuleIds.push module.id
           methodArgs = module[method](methodArgs)
     return methodArgs

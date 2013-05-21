@@ -23,4 +23,4 @@ class Loom::events.Note extends Event
   # For output to Max event loop.
   # 
   output: ->
-    super ["midi", "note", @pitch, @velocity, Max::beatsToTicks @duration]
+    super ["midi", "note", @pitch, @velocity, beatsToTicks @duration]

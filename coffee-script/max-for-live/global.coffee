@@ -11,9 +11,9 @@
 # Copyright 2013 Adam Florin
 # 
 
-# Get a handle to `jsthis` so that Loom can store it in a Global.
+# Create global logger for development.
 # 
-thisDeviceContext = @
+logger = new Logger config.disableLogger?
 
 # Pass all messages directly to Loom: initDevice, destroyDevice, etc.
 # 

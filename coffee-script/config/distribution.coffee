@@ -1,0 +1,2 @@
+config =
+  disableLogger: true

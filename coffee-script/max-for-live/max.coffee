@@ -112,7 +112,3 @@ class Max
       deviceObject = deviceObject.nextobject
     return width
 
-  # Math utility
-  # 
-  beatsToTicks: (beats) ->
-    beats * 480
