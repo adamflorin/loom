@@ -43,6 +43,8 @@ The default (sparing) development logs are written to `log/loom.log`. The Max
 [`setmirrortoconsole`](http://cycling74.com/docs/max6/dynamic/c74_docs.html#messages_to_max)
 flag is set, so you may check for Max logs in your OS-appropriate location.
 
+Then read about the code [architecture](doc/ARCHITECTURE.md).
+
 ### Distributing
 
 To create a Live Pack containing all devices and demo content:
