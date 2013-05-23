@@ -56,6 +56,13 @@ class Module
   populate: ->
     parameter.populate?() for name, parameter of @parameters
 
+  # Return event for when this module is activated.
+  # 
+  activated: (at) ->
+    new (Loom::eventClass "Activate")
+      at: at
+      deviceId: @id
+
   # Work backwards through player's gesture history to acceess the last
   # serialized record for this module.
   # 

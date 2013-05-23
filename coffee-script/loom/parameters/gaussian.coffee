@@ -7,7 +7,7 @@
 
 class Loom::parameters.Gaussian extends Parameter
   mixin @, Serializable
-  @::serialized "mean", "deviation", "inertia", "generateValue"
+  @::serialized "mean", "deviation", "inertia", "generatedValue"
 
   # Reduce deviation to contain Gaussian random values.
   # 
@@ -36,6 +36,16 @@ class Loom::parameters.Gaussian extends Parameter
   # 
   lastGeneratedValue: ->
     @module.atLastGesture()?.parameters[@name]?.generatedValue
+
+  # Build UI event when gesture is generated.
+  # 
+  activated: (at) ->
+    @uiEvent(
+      at: at
+      deviceId: @module.id
+      patcher: @name
+      attribute: "generatedValue"
+      value: @generatedValue)
 
   # Box Mueller algorithm for Gaussian or normal distribution.
   # 

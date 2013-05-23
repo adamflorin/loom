@@ -21,3 +21,7 @@ class Parameter
   # 
   moduleId: ->
     @deviceId || @module?.id
+
+  uiEvent: (eventData) ->
+    new (Loom::eventClass "Parameter") eventData
+

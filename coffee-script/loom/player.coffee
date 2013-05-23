@@ -68,32 +68,12 @@ class Player
   # Also, reap past gestures from earlier than our limit.
   # 
   scheduleGesture: (gesture) ->
-    events = gesture.events.concat @gestureUiEvents(gesture)
-    Loom::scheduleEvents events, gesture.deviceId
-    gesture.activatedModules = (module.serialize() for module in @modules)
+    gesture.activatedModules =
+      (module for module in @modules when module.id in @activatedModuleIds)
+    gesture.buildUIEvents()
+    Loom::scheduleEvents gesture.events, gesture.deviceId
     @pastGestures.push gesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
-
-  # Generate UI events for module patchers.
-  # 
-  gestureUiEvents: (gesture) ->
-    uiEvents = []
-    at = gesture.startAt()
-    for moduleId in unique @activatedModuleIds
-      uiEvents.push new (Loom::eventClass "Activate")
-        at: at
-        deviceId: moduleId
-      thisModule = do =>
-        return module for module in @modules when module.id is moduleId
-      for parameterName, parameter of thisModule.parameters
-        if parameter.generatedValue?
-          uiEvents.push new (Loom::eventClass "Parameter")
-            at: at
-            deviceId: moduleId
-            patcher: parameterName
-            attribute: "generatedValue"
-            value: parameter.generatedValue
-    return uiEvents
 
   # Reset all gesture information, history and upcoming,
   # and notify patcher event scheduler to do the same.

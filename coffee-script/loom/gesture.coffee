@@ -24,6 +24,14 @@ class Gesture
         duration: @meter
         deviceId: @deviceId
 
+  # Generate UI events for module patchers.
+  # 
+  buildUIEvents: (activatedModules) ->
+    for module in @activatedModules
+      @events.push module.activated @startAt()
+      for name, parameter of module.parameters
+        @events.push parameter.activated @startAt() if parameter.uiEvent?
+
   # Gesture starts when its first event starts.
   # 
   startAt: ->
