@@ -3083,7 +3083,7 @@
 											"architecture" : "x86"
 										}
 ,
-										"rect" : [ 673.0, 125.0, 605.0, 342.0 ],
+										"rect" : [ 673.0, 125.0, 530.0, 421.0 ],
 										"bglocked" : 0,
 										"openinpresentation" : 0,
 										"default_fontsize" : 12.0,
@@ -3104,12 +3104,29 @@
 										"tags" : "",
 										"boxes" : [ 											{
 												"box" : 												{
-													"id" : "obj-11",
-													"maxclass" : "button",
-													"numinlets" : 1,
+													"fontname" : "Arial",
+													"fontsize" : 12.0,
+													"id" : "obj-18",
+													"maxclass" : "newobj",
+													"numinlets" : 2,
 													"numoutlets" : 1,
-													"outlettype" : [ "bang" ],
-													"patching_rect" : [ 60.0, 225.0, 20.0, 20.0 ]
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 75.0, 240.0, 54.0, 20.0 ],
+													"text" : "gate 1 1"
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"fontname" : "Arial",
+													"fontsize" : 12.0,
+													"id" : "obj-20",
+													"maxclass" : "newobj",
+													"numinlets" : 1,
+													"numoutlets" : 4,
+													"outlettype" : [ "int", "bang", "int", "bang" ],
+													"patching_rect" : [ 75.0, 270.0, 59.5, 20.0 ],
+													"text" : "t 1 b 0 b"
 												}
 
 											}
@@ -3118,13 +3135,13 @@
 													"fontname" : "Arial",
 													"fontsize" : 12.0,
 													"frgb" : 0.0,
-													"id" : "obj-9",
-													"linecount" : 18,
+													"id" : "obj-22",
+													"linecount" : 11,
 													"maxclass" : "comment",
 													"numinlets" : 1,
 													"numoutlets" : 0,
-													"patching_rect" : [ 285.0, 43.0, 285.0, 248.0 ],
-													"text" : "Just output a bang when parent devices have changed, and figure out the new deviceIds in JS.\n\nCould of course do that here, but it's tricker. Whenever the observer outputs a list, it's possible that the device has changed parents, in which case the list of IDs reflects the child devices of the OLD parent, not the new one. So, upon receiving ANY message from the observer, you'd have ignore the content of the data, repoint the observer to the new \"canonical_parent\", and THEN have usable output from the observer. However in the process of repointing the observer you have to gate to avoid infinite recursion. So, it's much simpler just to send a bang here, and write a one-liner in JS.\n\nAgain, not using callbacks in JS LiveAPI as they have a tendency to go dark."
+													"patching_rect" : [ 225.0, 150.0, 253.0, 154.0 ],
+													"text" : "Whenever this observer outputs a value, it's possible that this device has moved to a new parent.\n\nSo, after any message, re-point the observer to its current (possibly new) parent— meanwhile suppressing its output to avoid infinite recursion.\n\nJust output a bang and let JS figure out the deviceIds to keep things simple."
 												}
 
 											}
@@ -3136,7 +3153,7 @@
 													"numinlets" : 0,
 													"numoutlets" : 1,
 													"outlettype" : [ "bang" ],
-													"patching_rect" : [ 60.0, 43.0, 25.0, 25.0 ]
+													"patching_rect" : [ 75.0, 43.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -3147,7 +3164,7 @@
 													"maxclass" : "outlet",
 													"numinlets" : 1,
 													"numoutlets" : 0,
-													"patching_rect" : [ 60.0, 270.0, 25.0, 25.0 ]
+													"patching_rect" : [ 75.0, 345.0, 25.0, 25.0 ]
 												}
 
 											}
@@ -3160,7 +3177,7 @@
 													"numinlets" : 2,
 													"numoutlets" : 1,
 													"outlettype" : [ "" ],
-													"patching_rect" : [ 60.0, 105.0, 192.0, 18.0 ],
+													"patching_rect" : [ 75.0, 105.0, 192.0, 18.0 ],
 													"text" : "path this_device canonical_parent"
 												}
 
@@ -3174,7 +3191,7 @@
 													"numinlets" : 1,
 													"numoutlets" : 2,
 													"outlettype" : [ "bang", "" ],
-													"patching_rect" : [ 60.0, 165.0, 32.5, 20.0 ],
+													"patching_rect" : [ 75.0, 165.0, 32.5, 20.0 ],
 													"text" : "t b l"
 												}
 
@@ -3188,7 +3205,7 @@
 													"numinlets" : 1,
 													"numoutlets" : 3,
 													"outlettype" : [ "", "", "" ],
-													"patching_rect" : [ 60.0, 135.0, 55.0, 20.0 ],
+													"patching_rect" : [ 75.0, 135.0, 55.0, 20.0 ],
 													"text" : "live.path"
 												}
 
@@ -3202,7 +3219,7 @@
 													"numinlets" : 2,
 													"numoutlets" : 2,
 													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 60.0, 195.0, 123.0, 20.0 ],
+													"patching_rect" : [ 75.0, 195.0, 123.0, 20.0 ],
 													"saved_object_attributes" : 													{
 														"_persistence" : 1
 													}
@@ -3213,15 +3230,6 @@
 											}
  ],
 										"lines" : [ 											{
-												"patchline" : 												{
-													"destination" : [ "obj-1", 0 ],
-													"disabled" : 0,
-													"hidden" : 0,
-													"source" : [ "obj-11", 0 ]
-												}
-
-											}
-, 											{
 												"patchline" : 												{
 													"destination" : [ "obj-16", 1 ],
 													"disabled" : 0,
@@ -3250,10 +3258,19 @@
 											}
 , 											{
 												"patchline" : 												{
-													"destination" : [ "obj-11", 0 ],
+													"destination" : [ "obj-18", 1 ],
 													"disabled" : 0,
 													"hidden" : 0,
 													"source" : [ "obj-16", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-20", 0 ],
+													"disabled" : 0,
+													"hidden" : 0,
+													"source" : [ "obj-18", 0 ]
 												}
 
 											}
@@ -3272,6 +3289,45 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"source" : [ "obj-2", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-1", 0 ],
+													"disabled" : 0,
+													"hidden" : 0,
+													"source" : [ "obj-20", 3 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-18", 0 ],
+													"disabled" : 0,
+													"hidden" : 0,
+													"midpoints" : [ 111.5, 302.698792, 60.0, 302.698792, 60.0, 231.216858, 84.5, 231.216858 ],
+													"source" : [ "obj-20", 2 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-18", 0 ],
+													"disabled" : 0,
+													"hidden" : 0,
+													"midpoints" : [ 84.5, 302.566284, 60.0, 302.566284, 60.0, 231.987915, 84.5, 231.987915 ],
+													"source" : [ "obj-20", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-19", 0 ],
+													"disabled" : 0,
+													"hidden" : 0,
+													"midpoints" : [ 98.0, 310.0, 50.0, 310.0, 50.0, 99.0, 84.5, 99.0 ],
+													"source" : [ "obj-20", 1 ]
 												}
 
 											}

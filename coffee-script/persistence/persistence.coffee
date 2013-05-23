@@ -38,4 +38,4 @@ class Persistence
   # Destroyer
   # 
   destroyDeviceEnvironment: (deviceId) ->
-    delete @connection().devices[deviceId]
+    delete @connection().devices[deviceId] if @connection().devices?

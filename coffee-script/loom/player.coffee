@@ -134,7 +134,8 @@ class Player
   # Lazily load modules.
   # 
   loadModules: ->
-    @modules ?= (Module::load moduleId, player: @ for moduleId in @moduleIds)
+    @modules ?= for moduleId in @moduleIds when Module::exists moduleId
+      Module::load moduleId, player: @
 
   # Next gesture should start after now, or end of last gesture, whichever is
   # later.

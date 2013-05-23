@@ -36,25 +36,40 @@ class Loom
 
     # Create player if necessary and own module, unless device is not in rack.
     # 
+    # Note: There's no harm in calling initDevice redundantly.
+    # 
     initDevice: ->
       Live::available = yes
       Live::resetCache()
       Persistence::deviceEnvironment Live::deviceId(), "context", thisDeviceContext
-      if @deviceInRack()
+      if @deviceInPlayerRack()
         @initModule jsarguments[1]
-        Player::update Live::playerId(), (player) -> player.refreshModuleIds()
+        player = Player::load Live::playerId()
+        player.refreshModuleIds()
+        player.save()
+      else
+        @destroyDevice()
+        Live::available = yes
 
     # If device is not in a rack, notify user and disable device.
     # 
-    # Return true if in rack (success case).
+    # If device is in a rack with non-Loom devices, do the same.
     # 
-    deviceInRack : ->
-      inRack = Live::deviceInRack()
-      if not inRack
+    # Return true if in rack with only Loom devices (success case).
+    # 
+    deviceInPlayerRack : ->
+      Max::dismissError()
+      if not inRack = Live::deviceInRack()
         logger.warn "Module created outside of rack"
         Max::displayError "Please place Loom device in a MIDI Effect Rack."
       else
-        Max::dismissError()
+        rackContainsNonLoomDevices = do ->
+          for id in Live::siblingDeviceIds() when id isnt Live::deviceId()
+            return true if not Module::exists id
+        if rackContainsNonLoomDevices
+          logger.warn "Module #{Live::deviceId()} placed in rack with non-Loom devices"
+          Max::displayError "Please remove non-Loom devices from this rack."
+          inRack = false
       return inRack
 
     # Create module of appropriate subclass and save.
@@ -156,10 +171,11 @@ class Loom
     # 
     observeDevices: ->
       if Live::available
-        if oldPlayerId = Live::detectPlayerChange()
+        oldPlayerId = Live::detectPlayerChange()
+        @initDevice()
+        if oldPlayerId?
           logger.info "Device #{Live::deviceId()} moved from player " +
             "#{oldPlayerId} to #{Live::playerId()}"
-          @initDevice()
           @removePlayerModule(oldPlayerId, Live::deviceId())
         else
           Player::update Live::playerId(), (player) -> player.refreshModuleIds()

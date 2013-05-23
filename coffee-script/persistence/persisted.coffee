@@ -33,14 +33,15 @@ class Persisted
   # Load and save an object, running the passed-in callback on it in between.
   # 
   update: (id, callback) ->
-    instance = @load(id)
-    callback instance
-    instance.save()
+    if @exists id
+      instance = @load(id)
+      callback instance
+      instance.save()
 
   # Instantiate objects for all stored items.
   # 
   loadAll: ->
-    @load parseInt(id) for id in @allIds()
+    @load parseInt(id) for id in @allIds() when @exists parseInt(id)
   
   # Invoke instantiated object's serialize method and store the result.
   # 
