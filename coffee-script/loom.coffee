@@ -62,14 +62,6 @@ class Loom
       if not inRack = Live::deviceInRack()
         logger.warn "Module created outside of rack"
         Max::displayError "Please place Loom device in a MIDI Effect Rack."
-      else
-        rackContainsNonLoomDevices = do ->
-          for id in Live::siblingDeviceIds() when id isnt Live::deviceId()
-            return true if not Module::exists id
-        if rackContainsNonLoomDevices
-          logger.warn "Module #{Live::deviceId()} placed in rack with non-Loom devices"
-          Max::displayError "Please remove non-Loom devices from this rack."
-          inRack = false
       return inRack
 
     # Create module of appropriate subclass and save.
