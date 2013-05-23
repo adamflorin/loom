@@ -57,7 +57,6 @@ class Player
   # Provide two hooks for modules: gestureData (return )
   # 
   generateGesture: (time, deviceId) ->
-    @activatedModuleIds.push deviceId
     gestureData = @applyModules "gestureData",
       deviceId: deviceId
       afterTime: time

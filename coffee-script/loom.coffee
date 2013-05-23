@@ -189,7 +189,9 @@ class Loom
     # 
     play: (time) ->
       if Live::transportPlaying()
-        Player::update Live::playerId(), (player) -> player.play(time)
+        Player::update Live::playerId(), (player) ->
+          player.activatedModuleIds.push Live::deviceId()
+          player.play(time)
 
     # Player entrypoint.
     # 
