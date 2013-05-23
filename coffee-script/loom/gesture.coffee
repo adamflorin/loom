@@ -30,7 +30,7 @@ class Gesture
     for module in @activatedModules
       @events.push module.activated @startAt()
       for name, parameter of module.parameters
-        @events.push parameter.activated @startAt() if parameter.uiEvent?
+        @events.push parameter.activated @startAt() if parameter.activated?
 
   # Gesture starts when its first event starts.
   # 
