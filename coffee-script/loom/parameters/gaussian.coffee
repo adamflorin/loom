@@ -15,12 +15,28 @@ class Loom::parameters.Gaussian extends Parameter
 
   # 
   # 
-  constructor: (@name, parameterData) ->
+  constructor: (parameterData) ->
     @deserialize parameterData
+    {@bands} = parameterData
     super parameterData
     @mean ?= 0.5
     @deviation ?= 0
     @inertia ?= 0
+
+  # Build UI event when gesture is generated.
+  # 
+  activated: (at) ->
+    @uiEvent(
+      at: at
+      attribute: "generatedValue"
+      value: @generatedValue)
+
+  # Pass number of bands into [jsui].
+  # 
+  populate: ->
+    @dispatchUIEvent
+      attribute: "bands"
+      value: @bands
 
   # Generate a random value based on parameter input.
   # 
@@ -36,16 +52,6 @@ class Loom::parameters.Gaussian extends Parameter
   # 
   lastGeneratedValue: ->
     @module.atLastGesture()?.parameters[@name]?.generatedValue
-
-  # Build UI event when gesture is generated.
-  # 
-  activated: (at) ->
-    @uiEvent(
-      at: at
-      deviceId: @module.id
-      patcher: @name
-      attribute: "generatedValue"
-      value: @generatedValue)
 
   # Box Mueller algorithm for Gaussian or normal distribution.
   # 

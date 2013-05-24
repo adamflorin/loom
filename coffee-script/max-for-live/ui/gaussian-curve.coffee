@@ -56,7 +56,7 @@ class GaussianCurve
   # Draw all, making sure necessary params are set.
   # 
   draw: ->
-    @drawBackground() if @contrast_frame? and @surface_bg?
+    @drawBackground() if @contrast_frame? and @surface_bg? and @bands?
     @drawCurve() if @mean? and @deviation? and @selection?
     @drawPosition() if @activatePosition? and @selection?
 
@@ -66,6 +66,7 @@ class GaussianCurve
     mgraphics.set_source_rgba @contrast_frame...
     mgraphics.rectangle 0, 0, AREA.width, AREA.height
     mgraphics.fill_with_alpha 1.0
+    @drawBands()
     for x in [0, AREA.width]
       for y in [0, AREA.height]
         @drawCorner x: x, y: y
@@ -86,6 +87,16 @@ class GaussianCurve
     mgraphics.set_source_rgba @surface_bg...
     mgraphics.fill_with_alpha 1.0
     mgraphics.restore()
+
+  # Draw vertical bands indicating discrete values.
+  # 
+  drawBands: ->
+    if @bands > 0
+      bandWidth = AREA.width / @bands
+      for band in [0..@bands-1] when band % 2 is 0
+        mgraphics.set_source_rgba @surface_bg...
+        mgraphics.rectangle bandWidth * band, 0, bandWidth, AREA.height
+        mgraphics.fill_with_alpha 0.25
 
   # Crude approxmiation of Gaussian distribution curve.
   # 

@@ -15,13 +15,25 @@ class Parameter
   # Note: subclass is reponsible for calling deserialize().
   # 
   constructor: (parameterData) ->
-    {@module} = parameterData if parameterData?
+    {@module, @name} = parameterData if parameterData?
 
   # Use cached or fresh module ID.
   # 
   moduleId: ->
     @deviceId || @module?.id
 
+  # Build UI event.
+  # 
+  # eventData must contain 'attribute' and 'value', and may optionally contain
+  # 'at'.
+  # 
   uiEvent: (eventData) ->
-    new (Loom::eventClass "Parameter") eventData
+    new (Loom::eventClass "Parameter")(
+      extend(eventData,
+        deviceId: @moduleId()
+        patcher: @name))
 
+  # Build and dispatch UI event.
+  # 
+  dispatchUIEvent: (eventData) ->
+    Loom::scheduleEvents [@uiEvent(eventData)]

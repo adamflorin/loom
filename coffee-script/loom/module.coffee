@@ -40,13 +40,24 @@ class Module
     else
       @[name] = values[0]
 
+  # Builds parameter class based on module's `accepts` declaration of the form:
   # 
+  #   accepts: <parameterName>: "<ParameterClass>"
+  # 
+  # Or, if parameter requries arguments:
+  # 
+  #   accepts: <parameterName>: ["<ParameterClass>", {arg: ...}]
   # 
   buildParameter: (name, parameterData) ->
-    parameterClassName = @accepts?[name]
+    parameterDefinition = @accepts?[name]
+    unless objectType(parameterDefinition) is "Array"
+      parameterDefinition = [parameterDefinition]
+    parameterClassName = parameterDefinition[0]
     parameterClass = Loom::parameterClass parameterClassName
     unless not parameterClass?
-      new parameterClass name, parameterData
+      new parameterClass extend(
+        extend(parameterData, name: name),
+        parameterDefinition[1])
     else
       logger.warn "No parameter class found for #{name}"
       return null

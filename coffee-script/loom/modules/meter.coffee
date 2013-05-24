@@ -6,15 +6,20 @@
 
 class Loom::modules.Meter extends Module
 
+  # Number of meter options.
+  # 
+  NUM_METERS: 6
+  NUM_SUBDIVIDING_METERS: 2
+
   # Register UI inputs
   # 
-  accepts: meter: "Gaussian"
+  accepts: meter: ["Gaussian", bands: @::NUM_METERS]
 
   # Shift meter.
   # 
   # Constrain meter to powers of two for now
   # 
   gestureData: (gestureData) ->
-    gestureData.meter =
-      Math.pow(2, 2 - Math.round(@parameters.meter.generateValue() * 5))
+    meterIndex = Math.floor(@parameters.meter.generateValue() * @NUM_METERS)
+    gestureData.meter = Math.pow(2, @NUM_SUBDIVIDING_METERS - meterIndex)
     return gestureData

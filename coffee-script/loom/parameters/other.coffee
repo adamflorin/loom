@@ -10,21 +10,17 @@ class Loom::parameters.Other extends Parameter
 
   # 
   # 
-  constructor: (@name, parameterData) ->
+  constructor: (parameterData) ->
     @deserialize parameterData
     super parameterData
 
   # Send list of playerIds to Max [umenu].
   # 
   populate: ->
-    allPlayerIds = (id for id in Player::allIds())
-    Loom::scheduleEvents [
-      new (Loom::eventClass "Parameter")
-        deviceId: @moduleId()
-        patcher: @name
-        attribute: "playerIds"
-        value: allPlayerIds]
-
+    @dispatchUIEvent
+      attribute: "playerIds"
+      value: (id for id in Player::allIds())
+  
   # [pattr] only furnishes us with the index of the selected menu item.
   # Look that up in our own players listing.
   # 
