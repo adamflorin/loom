@@ -18,21 +18,12 @@ class Loom
   # 
   mixin @, Devices:
 
-    # Module and event classes register themselves here so they can be looked
-    # up by name.
+    # Module, event, and parameter classes register themselves here so they
+    # can be looked up by name.
     # 
-    modules: {}
-    events: {}
-    parameters: {}
-
-    # Look up the proper class by name in our modules or events array.
-    # 
-    # Module (sub)class name is passed in as an argument to the [js] box.
-    # 
-    # 
-    moduleClass: (name) => @::modules[name]
-    eventClass: (name) => @::events[name]
-    parameterClass: (name) => @::parameters[name]
+    Modules: {}
+    Events: {}
+    Parameters: {}
 
     # Create player if necessary and own module, unless device is not in rack.
     # 
@@ -69,8 +60,7 @@ class Loom
     # Then request that [pattrstorage] dump all param values.
     # 
     initModule: (moduleClassName) ->
-      moduleClass = @moduleClass moduleClassName
-      module = moduleClass::load Live::deviceId()
+      module = @Modules[moduleClassName]::load Live::deviceId()
       module.save()
       @scheduleEvents [module.uiEvent("initParams")]
 

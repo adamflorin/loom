@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::events.Parameter extends Event
+class Loom::Events.Parameter extends Event
   mixin @, Serializable
   @::serialized "patcher", "attribute", "value"
 

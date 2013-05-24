@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Pitch extends Module
+class Loom::Modules.Pitch extends Module
 
   # Register UI inputs
   # 

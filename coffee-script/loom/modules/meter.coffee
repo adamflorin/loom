@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Meter extends Module
+class Loom::Modules.Meter extends Module
 
   # Number of meter options.
   # 

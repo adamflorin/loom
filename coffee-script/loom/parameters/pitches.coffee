@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::parameters.Pitches extends Parameter
+class Loom::Parameters.Pitches extends Parameter
   mixin @, Serializable
   @::serialized "pitches"
 

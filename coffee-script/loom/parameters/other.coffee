@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::parameters.Other extends Parameter
+class Loom::Parameters.Other extends Parameter
   mixin @, Serializable
   @::serialized "playerIndex"
 

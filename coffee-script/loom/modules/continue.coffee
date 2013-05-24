@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Continue extends Module
+class Loom::Modules.Continue extends Module
   
   # When there are no more events in the future, generate another.
   # 

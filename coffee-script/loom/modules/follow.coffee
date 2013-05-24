@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Follow extends Module
+class Loom::Modules.Follow extends Module
 
   # Register UI inputs
   # 

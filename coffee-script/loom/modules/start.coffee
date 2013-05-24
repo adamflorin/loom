@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Start extends Module
+class Loom::Modules.Start extends Module
   
   # Play on start.
   # 

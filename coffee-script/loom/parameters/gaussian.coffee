@@ -5,7 +5,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::parameters.Gaussian extends Parameter
+class Loom::Parameters.Gaussian extends Parameter
   mixin @, Serializable
   @::serialized "mean", "deviation", "inertia", "generatedValue"
 

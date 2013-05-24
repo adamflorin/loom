@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::events.Module extends Event
+class Loom::Events.Module extends Event
   mixin @, Serializable
   @::serialized "message"
 

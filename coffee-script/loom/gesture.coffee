@@ -15,11 +15,11 @@ class Gesture
   # 
   constructor: (gestureData) ->
     @deserialize gestureData,
-      events: (data) -> new (Loom::eventClass data.loadClass) data
+      events: (data) -> new (Loom::Events[data.loadClass]) data
     @meter ?= @DEFAULT_METER
     @events ?= []
     if @events.length == 0
-      @events.push new (Loom::eventClass "Note")
+      @events.push new (Loom::Events["Note"])
         at: @nextDownbeat(@afterTime)
         duration: @meter
         deviceId: @deviceId

@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Count extends Module
+class Loom::Modules.Count extends Module
 
   # 
   # 
@@ -24,7 +24,7 @@ class Loom::modules.Count extends Module
     if repeats > 0
       for iteration in [1..repeats]
         for note in gesture.events
-          repeatEvents.push new (Loom::eventClass "Note")
+          repeatEvents.push new (Loom::Events["Note"])
             at: note.at + (gesture.endAt()-gesture.startAt()) * iteration
             duration: note.duration
             deviceId: note.deviceId

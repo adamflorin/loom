@@ -4,7 +4,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::events.Note extends Event
+class Loom::Events.Note extends Event
   mixin @, Serializable
   @::serialized "pitch", "velocity", "duration"
   

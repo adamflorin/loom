@@ -63,7 +63,7 @@ class Module
     unless objectType(parameterDefinition) is "Array"
       parameterDefinition = [parameterDefinition]
     parameterClassName = parameterDefinition[0]
-    parameterClass = Loom::parameterClass parameterClassName
+    parameterClass = Loom::Parameters[parameterClassName]
     unless not parameterClass?
       return new parameterClass extend(
         extend(parameterData,
@@ -89,7 +89,7 @@ class Module
   # 'at' is optional
   # 
   uiEvent: (message, at) ->
-    new (Loom::eventClass "Module")
+    new (Loom::Events["Module"])
       at: at
       deviceId: @id
       message: message
@@ -113,4 +113,5 @@ class Module
 
   # Overwrite Persisted classFromName
   # 
-  classFromName: Loom::moduleClass
+  classFromName: (name) ->
+    Loom::Modules[name]

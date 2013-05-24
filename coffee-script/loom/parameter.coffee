@@ -28,7 +28,7 @@ class Parameter
   # 'at'.
   # 
   uiEvent: (eventData) ->
-    new (Loom::eventClass "Parameter")(
+    new (Loom::Events["Parameter"])(
       extend(eventData,
         deviceId: @moduleId()
         patcher: @name))

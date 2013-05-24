@@ -4,4 +4,4 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::modules.Impulse extends Module
+class Loom::Modules.Impulse extends Module
