@@ -26,11 +26,13 @@ class Gesture
 
   # Generate UI events for module patchers.
   # 
-  buildUIEvents: (activatedModules) ->
+  allEvents: ->
+    uiEvents = []
     for module in @activatedModules
-      @events.push module.activated @startAt()
-      for name, parameter of module.parameters
-        @events.push parameter.activated @startAt() if parameter.activated?
+      uiEvents.push module.activated @startAt()
+      for name, parameter of module.parameters when parameter.activated?
+        uiEvents.push parameter.activated @startAt()
+    return @events.concat uiEvents
 
   # Gesture starts when its first event starts.
   # 

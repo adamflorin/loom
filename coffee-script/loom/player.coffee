@@ -70,8 +70,7 @@ class Player
   scheduleGesture: (gesture) ->
     gesture.activatedModules =
       (module for module in @modules when module.id in @activatedModuleIds)
-    gesture.buildUIEvents()
-    Loom::scheduleEvents gesture.events, gesture.deviceId
+    Loom::scheduleEvents gesture.allEvents(), gesture.deviceId
     @pastGestures.push gesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
 
