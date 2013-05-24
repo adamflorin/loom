@@ -93,14 +93,15 @@ class GaussianCurve
     midpoint = @mean * AREA.width
     margin = @deviation * @DEVIATION_PIXEL_COEFFICIENT
     top = 2
+    centerControlPointY = top + (1.0 - @deviation) * AREA.height
     mgraphics.new_path()
     mgraphics.move_to midpoint - AREA.width, AREA.height
     mgraphics.curve_to(
       midpoint - margin, AREA.height,
-      midpoint - margin, top,
+      midpoint - margin, centerControlPointY,
       midpoint, top)
     mgraphics.curve_to(
-      midpoint + margin, top,
+      midpoint + margin, centerControlPointY,
       midpoint + margin, AREA.height,
       midpoint + AREA.width, AREA.height)
     mgraphics.set_line_width 2
