@@ -141,7 +141,10 @@ class Loom
     # To determine whether we're receiving the "true" transport start,
     # check the time and compare it to the threshold above.
     # 
-    observeTransport: (playing) ->
+    # Ignore passed-in now from [when] as it doesn't return different times for
+    # the two start events, making them impossible to distinguish.
+    # 
+    observeTransport: (playing, now) ->
       if Live::available
         if playing is 1
           Persistence::connection().overrideNow =
@@ -187,11 +190,12 @@ class Loom
     # 
     # Save player state when finished.
     # 
-    play: (time) ->
+    play: (now) ->
       if Live::transportPlaying()
+        Persistence::connection().overrideNow = now
         Player::update Live::playerId(), (player) ->
           player.activatedModuleIds.push Live::deviceId()
-          player.play(time)
+          player.play()
 
     # Player entrypoint.
     # 
