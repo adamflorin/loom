@@ -13,18 +13,24 @@ class Module
   # 
   constructor: (@id, moduleData, args) ->
     @deserialize moduleData,
-      parameters: (data, name) => @buildParameter name, extend(data, module: @)
+      parameters: (data, name) => @buildParameter name, data
     @probability ?= 1.0
     @mute ?= 0
-    @parameters ?= {}
+    @initParameters()
     {@player} = args if args
+
+  # Init parameters based on values in `accepts` declaration in subclass. See
+  # buildParameter.
+  # 
+  initParameters: ->
+    @parameters ?= {}
+    for name, parameterDefinition of @accepts
+      @parameters[name] ?= @buildParameter name
 
   # Set module value.
   # 
   # Anything with a name of the form patcher::object is a parameter, unless
   # it's coming from `loom-module-ui`.
-  # 
-  # Lazily load parameter classes here.
   # 
   # Determine parameter class based on what each module declared that it
   # accepts. Then instantiate class.
@@ -37,7 +43,6 @@ class Module
       if major is "loom-module-ui"
         @[minor] = values[0]
       else
-        @parameters[major] ?= @buildParameter major, module: @
         @parameters[major][minor] = if values.length == 1 then values[0] else values
     else
       @[name] = values[0]
@@ -50,15 +55,20 @@ class Module
   # 
   #   accepts: <parameterName>: ["<ParameterClass>", {arg: ...}]
   # 
+  # parameterData is optional.
+  # 
   buildParameter: (name, parameterData) ->
+    parameterData ?= {}
     parameterDefinition = @accepts?[name]
     unless objectType(parameterDefinition) is "Array"
       parameterDefinition = [parameterDefinition]
     parameterClassName = parameterDefinition[0]
     parameterClass = Loom::parameterClass parameterClassName
     unless not parameterClass?
-      new parameterClass extend(
-        extend(parameterData, name: name),
+      return new parameterClass extend(
+        extend(parameterData,
+          name: name,
+          module: @),
         parameterDefinition[1])
     else
       logger.warn "No parameter class found for #{name}"
