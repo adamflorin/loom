@@ -82,10 +82,17 @@ class Module
   # Return event for when this module is activated.
   # 
   activated: (at) ->
+    @uiEvent "moduleActivated", at
+
+  # Build UI event.
+  # 
+  # 'at' is optional
+  # 
+  uiEvent: (message, at) ->
     new (Loom::eventClass "Module")
       at: at
       deviceId: @id
-      message: "moduleActivated"
+      message: message
 
   # Work backwards through player's gesture history to acceess the last
   # serialized record for this module.
