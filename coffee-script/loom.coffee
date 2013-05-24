@@ -168,7 +168,7 @@ class Loom
       if Live::available
         oldPlayerId = Live::detectPlayerChange()
         @initDevice()
-        if oldPlayerId?
+        if oldPlayerId? and Player::exists oldPlayerId
           logger.info "Device #{Live::deviceId()} moved from player " +
             "#{oldPlayerId} to #{Live::playerId()}"
           @removePlayerModule(oldPlayerId, Live::deviceId())
