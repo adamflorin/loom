@@ -9,6 +9,7 @@
 		}
 ,
 		"rect" : [ 293.0, 45.0, 681.0, 710.0 ],
+		"bgcolor" : [ 0.12549, 0.12549, 0.12549, 1.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -243,7 +244,7 @@
 					}
 ,
 					"text" : "pattr",
-					"varname" : "u228004864"
+					"varname" : "u404005156"
 				}
 
 			}
@@ -576,7 +577,7 @@
 					}
 ,
 					"text" : "pattr",
-					"varname" : "u172004875"
+					"varname" : "u974005167"
 				}
 
 			}
@@ -883,6 +884,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-16", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-14", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-18", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-17", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-18", 3 ]
 				}
 
 			}
