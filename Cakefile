@@ -33,7 +33,7 @@ SOURCE_FILES = [
   "loom/parameters/pitches"
   "loom/gesture"
   "loom/event"
-  "loom/events/activate"
+  "loom/events/module"
   "loom/events/note"
   "loom/events/parameter"
   "max-for-live/max"

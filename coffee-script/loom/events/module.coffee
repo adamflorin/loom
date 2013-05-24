@@ -1,10 +1,12 @@
 # 
-# activate.coffee: Notify module when it has been activated in a gesture.
+# module.coffee: Send message to module.
 # 
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::events.Activate extends Event
+class Loom::events.Module extends Event
+  mixin @, Serializable
+  @::serialized "message"
 
   # 
   # 
@@ -14,4 +16,4 @@ class Loom::events.Activate extends Event
   # For output to Max event loop.
   # 
   output: ->
-    super ["ui", "moduleActivated", "bang"]
+    super ["ui", @message]

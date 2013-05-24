@@ -24,6 +24,8 @@ class Module
   # Anything with a name of the form patcher::object is a parameter, unless
   # it's coming from `loom-module-ui`.
   # 
+  # Lazily load parameter classes here.
+  # 
   # Determine parameter class based on what each module declared that it
   # accepts. Then instantiate class.
   # 
@@ -70,9 +72,10 @@ class Module
   # Return event for when this module is activated.
   # 
   activated: (at) ->
-    new (Loom::eventClass "Activate")
+    new (Loom::eventClass "Module")
       at: at
       deviceId: @id
+      message: "moduleActivated"
 
   # Work backwards through player's gesture history to acceess the last
   # serialized record for this module.

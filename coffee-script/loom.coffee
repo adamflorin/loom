@@ -70,6 +70,15 @@ class Loom
       moduleClass = @moduleClass moduleClassName
       module = moduleClass::load Live::deviceId()
       module.save()
+      @initParams()
+
+    # Request that [pattrstorage] dump all param values.
+    # 
+    initParams: ->
+      @scheduleEvents [
+        new (Loom::eventClass "Module")
+          deviceId: Live::deviceId()
+          message: "initParams"]
 
     # Set module parameter. If Live isn't ready yet (haven't received initDevice)
     # then do nothing.

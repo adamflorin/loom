@@ -31,27 +31,13 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"id" : "obj-43",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 48.0, 330.0, 33.0, 18.0 ],
-					"text" : "play"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
 					"id" : "obj-34",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 48.0, 300.0, 63.0, 20.0 ],
-					"text" : "route play"
+					"patching_rect" : [ 48.0, 315.0, 89.0, 20.0 ],
+					"text" : "routepass play"
 				}
 
 			}
@@ -573,22 +559,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 321.25, 585.0, 71.0, 20.0 ],
+					"patching_rect" : [ 325.5, 585.0, 71.0, 20.0 ],
 					"text" : "route direct"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-52",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 241.0, 705.0, 67.0, 18.0 ],
-					"text" : "initParams"
 				}
 
 			}
@@ -2772,10 +2744,10 @@
 					"id" : "obj-29",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "bang", "bang", "bang" ],
-					"patching_rect" : [ 120.0, 120.0, 63.0, 20.0 ],
-					"text" : "t b b b"
+					"numoutlets" : 2,
+					"outlettype" : [ "bang", "bang" ],
+					"patching_rect" : [ 120.0, 120.0, 49.0, 20.0 ],
+					"text" : "t b b"
 				}
 
 			}
@@ -3774,7 +3746,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 90.0, 481.0, 101.0, 47.0 ],
+					"patching_rect" : [ 90.0, 436.0, 101.0, 47.0 ],
 					"text" : "Hook Loom into Max for Live ecosystem."
 				}
 
@@ -3803,7 +3775,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 90.0, 459.0, 101.0, 22.0 ],
+					"patching_rect" : [ 90.0, 414.0, 101.0, 22.0 ],
 					"text" : "loom-module"
 				}
 
@@ -4049,7 +4021,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 164.0, 150.0, 63.0, 18.0 ],
+					"patching_rect" : [ 150.0, 150.0, 63.0, 18.0 ],
 					"text" : "initDevice"
 				}
 
@@ -4080,7 +4052,7 @@
 					"outlettype" : [ "", "" ],
 					"patching_rect" : [ 325.5, 480.0, 116.0, 20.0 ],
 					"saved_object_attributes" : 					{
-						"filename" : "loom-module.js",
+						"filename" : "loom-module",
 						"parameter_enable" : 0
 					}
 ,
@@ -4288,7 +4260,7 @@
 					"destination" : [ "obj-23", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-29", 1 ]
+					"source" : [ "obj-29", 0 ]
 				}
 
 			}
@@ -4297,16 +4269,7 @@
 					"destination" : [ "obj-4", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-29", 2 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-52", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-29", 0 ]
+					"source" : [ "obj-29", 1 ]
 				}
 
 			}
@@ -4354,14 +4317,14 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 101.5, 366.0, 335.0, 366.0 ],
+					"midpoints" : [ 127.5, 366.0, 335.0, 366.0 ],
 					"source" : [ "obj-34", 1 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-43", 0 ],
+					"destination" : [ "obj-31", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-34", 0 ]
@@ -4374,7 +4337,7 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 173.5, 202.0, 204.0, 202.0, 204.0, 366.0, 335.0, 366.0 ],
+					"midpoints" : [ 159.5, 202.0, 204.0, 202.0, 204.0, 366.0, 335.0, 366.0 ],
 					"source" : [ "obj-4", 0 ]
 				}
 
@@ -4385,15 +4348,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-42", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-31", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-43", 0 ]
 				}
 
 			}
@@ -4414,15 +4368,6 @@
 					"hidden" : 0,
 					"midpoints" : [ 234.5, 366.0, 335.0, 366.0 ],
 					"source" : [ "obj-5", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-20", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-52", 0 ]
 				}
 
 			}
