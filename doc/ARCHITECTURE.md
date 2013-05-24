@@ -1,5 +1,8 @@
 ## Loom architecture
 
+Files are first organized according to the
+[Max package convention](http://cycling74.com/sdk/MaxSDK-6.1.1/html/chapter_appendix_f.html).
+
 This diagram roughly demonstrates the relations between source files:
 
 ![architecture](images/architecture.png "Loom Architecture")
