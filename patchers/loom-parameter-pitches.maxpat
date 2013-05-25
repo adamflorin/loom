@@ -244,7 +244,7 @@
 					}
 ,
 					"text" : "pattr",
-					"varname" : "u404005156"
+					"varname" : "u107000518"
 				}
 
 			}
@@ -444,12 +444,12 @@
 					"presentation_rect" : [ 4.0, 104.0, 40.0, 16.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_type" : 2,
-							"parameter_shortname" : "live.text",
 							"parameter_longname" : "clear-notes",
 							"parameter_linknames" : 1,
 							"parameter_enum" : [ "val1", "val2" ],
-							"parameter_mmax" : 1.0
+							"parameter_mmax" : 1.0,
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.text"
 						}
 
 					}
@@ -472,12 +472,12 @@
 					"presentation_rect" : [ 4.0, 84.0, 15.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_type" : 2,
-							"parameter_shortname" : "live.toggle",
 							"parameter_longname" : "note-toggle",
 							"parameter_linknames" : 1,
 							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0
+							"parameter_mmax" : 1.0,
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.toggle"
 						}
 
 					}
@@ -499,12 +499,12 @@
 					"presentation_rect" : [ 4.0, 66.0, 15.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_type" : 2,
-							"parameter_shortname" : "live.toggle",
 							"parameter_longname" : "midi-in",
 							"parameter_linknames" : 1,
 							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0
+							"parameter_mmax" : 1.0,
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.toggle"
 						}
 
 					}
@@ -577,7 +577,7 @@
 					}
 ,
 					"text" : "pattr",
-					"varname" : "u974005167"
+					"varname" : "u368000529"
 				}
 
 			}
@@ -779,7 +779,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 30.0, 30.0, 73.0, 20.0 ],
+					"patching_rect" : [ 30.0, 30.0, 237.5, 20.0 ],
 					"text" : "loom-colors"
 				}
 
@@ -1380,8 +1380,8 @@
 		"parameters" : 		{
 			"obj-35" : [ "pitches", "pitches", 0 ],
 			"obj-21" : [ "midi-in", "live.toggle", 0 ],
-			"obj-24" : [ "clear-notes", "live.text", 0 ],
-			"obj-22" : [ "note-toggle", "live.toggle", 0 ]
+			"obj-22" : [ "note-toggle", "live.toggle", 0 ],
+			"obj-24" : [ "clear-notes", "live.text", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
