@@ -34,6 +34,37 @@ class Gesture
         uiEvents.push parameter.activated @startAt()
     return @events.concat uiEvents
 
+  # Return a clone of self, but scheduled after given time, and for a given
+  # device.
+  # 
+  # Do all rescheduling math within the context of _this gesture's meter_, not
+  # within global "beats".
+  # 
+  cloneAfterTime: (time, module) ->
+    gestureData = extend @serialize(),
+      afterTime: time
+      activatedModules: [module.serialize()]
+      deviceId: module.id
+
+    oldAfterTimeMeter = @afterTime / @meter
+    newAfterTimeMeter = time / @meter
+    
+    for event in gestureData.events
+      atMeter = event.at / @meter
+      phase = atMeter % 1
+      numPhases = Math.floor(atMeter - oldAfterTimeMeter)
+      newAtMeterTime =
+        phase +
+        numPhases +
+        if newAfterTimeMeter % 1 > phase
+          Math.ceil(newAfterTimeMeter)
+        else
+          Math.floor(newAfterTimeMeter)
+      event.at = newAtMeterTime * @meter
+      event.deviceId = module.id
+
+    return new Gesture gestureData
+
   # Gesture starts when its first event starts.
   # 
   startAt: ->

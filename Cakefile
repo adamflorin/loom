@@ -22,6 +22,7 @@ SOURCE_FILES = [
   "loom/module"
   "loom/modules/continue"
   "loom/modules/count"
+  "loom/modules/echo"
   "loom/modules/follow"
   "loom/modules/impulse"
   "loom/modules/meter"
