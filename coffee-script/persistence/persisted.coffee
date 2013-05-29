@@ -51,7 +51,7 @@ class Persisted
   # Destory data for this object.
   # 
   destroy: ->
-    logger.info "Destroying #{@classKey()} #{@id}"
+    logger.info "Destroying #{@constructor.name} #{@id}"
     delete @allData()[@id.toString()]
 
   # Static method to return complete array of all elements.
