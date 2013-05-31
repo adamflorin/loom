@@ -7,9 +7,3 @@
 class Loom::Parameters.Numeric extends Parameter
   mixin @, Serializable
   @::serialized "value"
-
-  # 
-  # 
-  constructor: (parameterData) ->
-    @deserialize parameterData
-    super parameterData

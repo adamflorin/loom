@@ -15,6 +15,7 @@ class Parameter
   # Note: subclass is reponsible for calling deserialize().
   # 
   constructor: (parameterData) ->
+    @deserialize parameterData
     {@module, @name} = parameterData if parameterData?
 
   # Use cached or fresh module ID.

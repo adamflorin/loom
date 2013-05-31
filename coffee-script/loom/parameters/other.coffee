@@ -25,13 +25,7 @@
 class Loom::Parameters.Other extends Parameter
   mixin @, Serializable
   @::serialized "selectedPlayerIndex", "selectedPlayerPath", "selectedPlayerId"
-
-  # 
-  # 
-  constructor: (parameterData) ->
-    @deserialize parameterData
-    super parameterData
-
+  
   # Populate [umenu] with playerNames, and set up cached variables as
   # necessary.
   # 

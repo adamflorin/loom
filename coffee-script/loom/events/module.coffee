@@ -8,11 +8,6 @@ class Loom::Events.Module extends Event
   mixin @, Serializable
   @::serialized "message"
 
-  # 
-  # 
-  constructor: (eventData) ->
-    @deserialize eventData
-
   # For output to Max event loop.
   # 
   output: ->

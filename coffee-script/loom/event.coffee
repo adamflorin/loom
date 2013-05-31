@@ -10,6 +10,11 @@ class Event
   mixin @, Serializable
   @::serialized "at", "deviceId"
 
+  # 
+  # 
+  constructor: (eventData) ->
+    @deserialize eventData
+  
   # For output to Max event loop.
   # 
   # Invoked by subclasses with subclass-specific message.

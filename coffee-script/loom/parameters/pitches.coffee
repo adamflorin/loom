@@ -11,7 +11,6 @@ class Loom::Parameters.Pitches extends Parameter
   # 
   # 
   constructor: (parameterData) ->
-    @deserialize parameterData
     super parameterData
     @pitches ?= -1
 

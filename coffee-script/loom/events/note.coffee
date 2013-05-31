@@ -16,7 +16,7 @@ class Loom::Events.Note extends Event
   # 
   # 
   constructor: (eventData) ->
-    @deserialize eventData
+    super eventData
     @pitch ?= @DEFAULT_PITCH
     @velocity ?= @DEFAULT_VELOCITY
 

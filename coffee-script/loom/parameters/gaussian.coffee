@@ -16,9 +16,8 @@ class Loom::Parameters.Gaussian extends Parameter
   # 
   # 
   constructor: (parameterData) ->
-    @deserialize parameterData
-    {@bands} = parameterData
     super parameterData
+    {@bands} = parameterData
     @mean ?= 0.5
     @deviation ?= 0
     @inertia ?= 0

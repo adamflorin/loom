@@ -8,11 +8,6 @@ class Loom::Events.Parameter extends Event
   mixin @, Serializable
   @::serialized "patcher", "attribute", "value"
 
-  # 
-  # 
-  constructor: (eventData) ->
-    @deserialize eventData
-
   # For output to Max event loop.
   # 
   output: ->
