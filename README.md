@@ -45,6 +45,14 @@ flag is set, so you may check for Max logs in your OS-appropriate location.
 
 Then read about the code [architecture](doc/ARCHITECTURE.md).
 
+### Making Player presets
+
+To make player presets for distribution:
+
+- Open **Loom.als**
+- Create players in rack as usual
+- Drag rack to **Players** directory in **Current Project** Browser
+
 ### Distributing
 
 To create a Live Pack containing all devices and demo content:
