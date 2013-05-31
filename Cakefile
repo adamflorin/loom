@@ -11,6 +11,7 @@ COFFEE_ARGS = [
 ]
 
 SOURCE_FILES = [
+  "config/version"
   "utilities/utilities"
   "utilities/number"
   "utilities/logger"

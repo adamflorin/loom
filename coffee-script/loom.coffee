@@ -37,7 +37,7 @@ class Loom
       Live::available = yes
       Live::resetCache()
       Persistence::deviceEnvironment Live::deviceId(), "context", thisDeviceContext
-      if @deviceInPlayerRack()
+      if @deviceIsUsable()
         @initModule jsarguments[1]
         player = Player::load Live::playerId()
         player.refreshModuleIds()
@@ -49,16 +49,36 @@ class Loom
 
     # If device is not in a rack, notify user and disable device.
     # 
-    # If device is in a rack with non-Loom devices, do the same.
+    # No longer checking to see if device is in rack with non-Loom devices
+    # because it's ambiguous whether so-called non-Loom devices are in fact
+    # Loom devices which haven't been initialized yet.
     # 
-    # Return true if in rack with only Loom devices (success case).
+    # Also check our version against the version of first device used in set.
     # 
-    deviceInPlayerRack : ->
+    deviceIsUsable : ->
       Max::dismissError()
-      if not inRack = Live::deviceInRack()
+      if not Live::deviceInRack()
         logger.warn "Module created outside of rack"
-        Max::displayError "Please place Loom device in a MIDI Effect Rack."
-      return inRack
+        Max::displayError "Please place Loom module in a MIDI Effect Rack."
+        return false
+      if (otherVersion = @versionIncompatible())?
+        logger.warn "Incompatible module version detected"
+        Max::displayError "This v#{LOOM_VERSION} module is incompatible with " +
+          "v#{otherVersion} modules."
+        return false
+      return true
+
+    # Make sure the Loom version in this devices matches the others. Just check
+    # against first device used in set, giving it special precedence.
+    # 
+    # Return its version number if it doesn't match.
+    # 
+    versionIncompatible: ->
+      otherDeviceId = Module::allIds()[0]
+      if otherDeviceId? and otherDeviceId isnt Live::deviceId()
+        otherLoomVersion = @inDeviceContext otherDeviceId,
+          (context) -> context.LOOM_VERSION
+        return otherLoomVersion if otherLoomVersion isnt LOOM_VERSION
 
     # Create module of appropriate subclass and save.
     # 
@@ -106,8 +126,7 @@ class Loom
     # 
     populateAll: ->
       for moduleId in Module::allIds()
-        deviceContext = Persistence::deviceEnvironment moduleId, "context"
-        deviceContext.Loom::populateDevice() unless not deviceContext?
+        @inDeviceContext moduleId, (context) -> context.Loom::populateDevice()
 
     # Destroy device.
     # 
@@ -279,8 +298,13 @@ class Loom
     # 
     outputFromDevice: (deviceId, message) ->
       outletIndex = if typeof message is "string" then 0 else 1
+      @inDeviceContext deviceId, (context) -> context.outlet outletIndex, message
+      
+    # Run a callback in JS context of any Loom device.
+    # 
+    inDeviceContext: (deviceId, callback) ->
       deviceContext = Persistence::deviceEnvironment deviceId, "context"
       unless not deviceContext?
-        deviceContext.outlet outletIndex, message
+        callback deviceContext
       else
         logger.warn "Device context not available for ID #{deviceId}"
