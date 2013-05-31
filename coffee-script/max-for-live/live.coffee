@@ -41,8 +41,14 @@ class Live
   # 
   #   Track > Rack > Etc.
   # 
+  # If no object exists in the LOM at that ID, device has probably been deleted
+  # and Global has yet to get updated by destroy handlers. Test for that case
+  # and return placeholder text. (Could also check empty path or type
+  # "unknown").
+  # 
   humanName: (id) ->
     liveObject = new LiveAPI "id #{id}"
+    return "[DESTROYED]" if parseInt(liveObject.id) isnt id
     ancestorNames = loop
       liveObject.path = @parentPath liveObject
       break if liveObject.path is "live_set"
