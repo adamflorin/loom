@@ -84,19 +84,29 @@ class Loom
       if Live::available
         Module::update Live::deviceId(), (module) ->
           module.paramsInitializing = false
-      @populateDevice()
+      @populateAll()
 
     # Update module interfaces after player layout changes.
     # 
     # Note: If multiple devices are deleted in one keystroke, some of them will
     # attempt to populate themselves even though they can't, because they do
-    # not yet realize that they no longer have access to the LiveAPI, and the
-    # mere fact of testing for that would crash Live.
+    # not yet realize that they no longer have access to the LiveAPI. In this
+    # particular case, use the isAvailable() call, which crashes in other cases.
     # 
     populateDevice: ->
       if Live::isAvailable()
         Module::update Live::deviceId(), (module) ->
           module.populate()
+
+    # Load every existing module's JS context, and call populateDevice on it.
+    # 
+    # This may be necessary if current device has just been destroyed, or if
+    # anything else has changed that might require a UI re-population.
+    # 
+    populateAll: ->
+      for moduleId in Module::allIds()
+        deviceContext = Persistence::deviceEnvironment moduleId, "context"
+        deviceContext.Loom::populateDevice() unless not deviceContext?
 
     # Destroy device.
     # 
@@ -111,15 +121,6 @@ class Loom
         (Module::load deviceId).destroy()
         @removePlayerModule Live::playerId(), deviceId
         @populateAll()
-
-    # When this device is being destroyed, other devices may need to be
-    # re-populated. The LiveAPI is not available now, so just prompt each
-    # remaining device to populate itself, via its JS context.
-    # 
-    populateAll: ->
-      for moduleId in Module::allIds()
-        deviceContext = Persistence::deviceEnvironment moduleId, "context"
-        deviceContext.Loom::populateDevice() unless not deviceContext?
 
     # Remove module from player. If that was the last module, destroy player.
     # Otherwise, save it. It's possible user is moving multiple modules at once
