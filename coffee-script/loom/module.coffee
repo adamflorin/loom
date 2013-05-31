@@ -97,7 +97,7 @@ class Module
       deviceId: @id
       message: message
 
-  # Work backwards through player's gesture history to acceess the last
+  # Work backwards through player's gesture history to access the last
   # serialized record for this module.
   # 
   # This historic record of past behavior can inform modules' decisions.
