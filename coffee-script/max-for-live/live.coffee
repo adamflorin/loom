@@ -137,9 +137,11 @@ class Live
   # Sanity check.
   # 
   # When LiveAPI is no longer available (i.e., device is being destroyed),
-  # it will still behave normally, but return meaningless, stale data.
+  # it will still return values as normal, but it'll be the same value over and
+  # over, regardless of context. I.e., it'll return the same type (or ID, or 
+  # property) for any path. So just compare the types for the app and the set.
   # 
-  # Ask it a question that it should be able to answer in a sane state of mind.
+  # NOTE: This check can crash Live in certain contexts, so be sparing with it.
   # 
   isAvailable: ->
     (new LiveAPI "live_app").type isnt (new LiveAPI "live_set").type
