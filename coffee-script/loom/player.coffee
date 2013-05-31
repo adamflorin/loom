@@ -37,23 +37,20 @@ class Player
   # If the last generated gesture hasn't begun yet, don't generate. The
   # rule is that no player looks more than one gesture into the future.
   # 
-  # If deviceId is specified, all of those events must be individually
-  # targeted to another player's device.
-  # 
-  play: (time, deviceId) ->
+  play: (time) ->
     time ?= Live::now()
-    deviceId ?= Live::deviceId()
     unless @lastPastGesture()?.startAt() > time
-      gesture = @generateGesture(@nextGestureAfterTime(time), deviceId)
+      gesture = @generateGesture(@nextGestureAfterTime(time))
       @scheduleGesture gesture
 
   # Generate a gesture.
   # 
-  # Provide two hooks for modules: gestureData (return )
+  # Provide two hooks for modules: gestureData (return constructor args for
+  # gesture), and processGesture.
   # 
-  generateGesture: (time, deviceId) ->
+  generateGesture: (time) ->
     gestureData = @applyModules "gestureData",
-      deviceId: deviceId
+      deviceId: @outputModuleId()
       afterTime: time
     return @applyModules "processGesture", new Gesture(gestureData)
 
@@ -109,6 +106,13 @@ class Player
   loadModules: ->
     @modules ?= for moduleId in @moduleIds when Module::exists moduleId
       Module::load moduleId, player: @
+
+  # Always output from last module in player. If output comes from an earlier
+  # module, and module downstream are listening to MIDI input, unspecified
+  # behavior may occur.
+  # 
+  outputModuleId: ->
+    @moduleIds[-1..][0]
 
   # Next gesture should start after now, or end of last gesture, whichever is
   # later.

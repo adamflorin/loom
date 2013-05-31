@@ -18,7 +18,7 @@ class Loom::Modules.Echo extends Module
     if remotePlayerId is @parameters.followed.selectedPlayerId
       remotePlayer = Player::load remotePlayerId
       @echoedGesture = remotePlayer.lastPastGesture()?.cloneAfterTime(time, @)
-      @player.play(time, @id)
+      @player.play(time)
     [remotePlayerId, time]
 
   # If we've been triggered by remote player in above API call, get last

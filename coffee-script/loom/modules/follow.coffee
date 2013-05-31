@@ -15,5 +15,5 @@ class Loom::Modules.Follow extends Module
   remoteOutputComplete: (args) ->
     [remotePlayerId, time] = args
     if remotePlayerId is @parameters.followed.selectedPlayerId
-      @player.play(time, @id)
+      @player.play(time)
     [remotePlayerId, time]
