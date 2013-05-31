@@ -7,7 +7,7 @@
 class Module
   mixin @, Persisted
   mixin @, Serializable
-  @::serialized "id", "probability", "mute", "parameters"
+  @::serialized "id", "probability", "mute", "parameters", "paramsInitializing"
 
   # 
   # 
@@ -43,7 +43,9 @@ class Module
       if major is "loom-module-ui"
         @[minor] = values[0]
       else
-        @parameters[major][minor] = if values.length == 1 then values[0] else values
+        @parameters[major].set(
+          minor,
+          if values.length == 1 then values[0] else values)
     else
       @[name] = values[0]
 
@@ -77,7 +79,8 @@ class Module
   # Hook for UI to populate itself.
   # 
   populate: ->
-    parameter.populate?() for name, parameter of @parameters
+    unless @paramsInitializing
+      parameter.populate?() for name, parameter of @parameters
 
   # Return event for when this module is activated.
   # 

@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 595.0, 284.0, 325.0, 546.0 ],
+		"rect" : [ 236.0, 284.0, 332.0, 533.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,38 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-2",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "" ],
+					"patching_rect" : [ 75.0, 465.0, 141.0, 20.0 ],
+					"restore" : [ 0 ],
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_invisible" : 1,
+							"parameter_linknames" : 1,
+							"parameter_longname" : "selectedPlayerPath",
+							"parameter_shortname" : "playerPath",
+							"parameter_type" : 3
+						}
+
+					}
+,
+					"saved_object_attributes" : 					{
+						"annotation_name" : "",
+						"parameter_enable" : 1
+					}
+,
+					"text" : "pattr selectedPlayerPath",
+					"varname" : "selectedPlayerPath"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -66,7 +98,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 75.0, 405.0, 139.0, 60.0 ],
+					"patching_rect" : [ 75.0, 360.0, 139.0, 60.0 ],
 					"text" : "Hook all Live inputs into Max's 'pattr' system so that parameter values are passed into JS."
 				}
 
@@ -80,13 +112,13 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 75.0, 480.0, 144.0, 20.0 ],
+					"patching_rect" : [ 75.0, 435.0, 144.0, 20.0 ],
 					"restore" : 					{
-						"playerIndex" : [ 0 ]
+						"selectedPlayerIndex" : [ 0 ]
 					}
 ,
 					"text" : "autopattr @autorestore 0",
-					"varname" : "u006012213"
+					"varname" : "u221000312"
 				}
 
 			}
@@ -98,7 +130,7 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 390.0, 170.0, 120.0 ],
+					"patching_rect" : [ 60.0, 345.0, 180.0, 165.0 ],
 					"shadow" : 2
 				}
 
@@ -112,11 +144,11 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 72.0, 210.0, 52.0, 18.0 ],
+					"patching_rect" : [ 72.0, 165.0, 52.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 5.0, 4.0, 52.0, 18.0 ],
 					"text" : "Player",
-					"textcolor" : [ 0.921569, 0.921569, 0.921569, 1.0 ]
+					"textcolor" : [ 0.0, 0.019608, 0.078431, 1.0 ]
 				}
 
 			}
@@ -129,7 +161,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 60.0, 165.0, 76.0, 20.0 ],
+					"patching_rect" : [ 60.0, 120.0, 76.0, 20.0 ],
 					"text" : "loom-colors"
 				}
 
@@ -143,7 +175,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 151.0, 270.0, 100.0, 20.0 ],
+					"patching_rect" : [ 151.0, 225.0, 100.0, 20.0 ],
 					"text" : "prepend append"
 				}
 
@@ -157,7 +189,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 151.0, 240.0, 51.0, 20.0 ],
+					"patching_rect" : [ 151.0, 195.0, 51.0, 20.0 ],
 					"text" : "zl.iter 1"
 				}
 
@@ -172,9 +204,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "clear" ],
-					"patching_rect" : [ 151.0, 210.0, 50.0, 20.0 ],
+					"patching_rect" : [ 151.0, 165.0, 50.0, 20.0 ],
 					"text" : "t l clear",
-					"varname" : "playerIds"
+					"varname" : "playerNames"
 				}
 
 			}
@@ -189,32 +221,32 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 151.0, 315.0, 100.0, 18.0 ],
+					"patching_rect" : [ 151.0, 270.0, 100.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 5.0, 21.0, 88.0, 18.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_linknames" : 1,
 							"parameter_type" : 3,
 							"parameter_invisible" : 1,
 							"parameter_shortname" : "playerIndex",
-							"parameter_longname" : "playerIndex"
+							"parameter_longname" : "selectedPlayerIndex",
+							"parameter_linknames" : 1
 						}
 
 					}
 ,
-					"varname" : "playerIndex"
+					"varname" : "selectedPlayerIndex"
 				}
 
 			}
 , 			{
 				"box" : 				{
-					"bgcolor" : [ 0.168627, 0.168627, 0.168627, 1.0 ],
+					"bgcolor" : [ 0.666667, 0.698039, 0.717647, 1.0 ],
 					"id" : "obj-4",
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 195.0, 211.0, 165.0 ],
+					"patching_rect" : [ 60.0, 150.0, 211.0, 165.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 0.0, 0.0, 100.0, 48.0 ]
 				}
@@ -277,7 +309,8 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-7" : [ "playerIndex", "playerIndex", 0 ]
+			"obj-7" : [ "selectedPlayerIndex", "playerIndex", 0 ],
+			"obj-2" : [ "selectedPlayerPath", "playerPath", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{

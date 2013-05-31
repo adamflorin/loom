@@ -21,11 +21,6 @@ class Player
     @moduleIds ?= []
     @pastGestures ?= []
     @activatedModuleIds = []
-
-  # Let modules populate their UI elements.
-  # 
-  populate: ->
-    @applyModules "populate"
   
   # Keep internal state in sync with Live.
   # 

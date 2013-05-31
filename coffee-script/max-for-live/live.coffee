@@ -8,12 +8,13 @@ class Live
 
   # Look up this device ID.
   # 
-  # If `available` flag isnt set, only serve cached copy. Accessing LiveAPI
-  # when it's not available (e.g. device is being destroyed) can cause crashes.
+  # If @available flag isnt set, only serve cached copy. Accessing
+  # LiveAPI when it's not available (e.g. device is being destroyed) can result
+  # in bad data or even crashes.
   # 
   deviceId : ->
     if @available
-      @thisDeviceId ?= parseInt((new LiveAPI "this_device").id)
+      @thisDeviceId ?= @objectId "this_device"
     else if @thisDeviceId
       @thisDeviceId
     else
@@ -28,12 +29,46 @@ class Live
   # 
   playerId: ->
     if @available
-      @thisPlayerId ?= parseInt((new LiveAPI "this_device canonical_parent").id)
+      @thisPlayerId ?= @objectId "this_device canonical_parent"
     else if @thisPlayerId
       @thisPlayerId
     else
       logger.warn "Cached playerId and LiveAPI are both unavilable"
       null
+
+  # Given a Live object ID, walk up ancestor tree to build a human-readable
+  # name string of the form:
+  # 
+  #   Track > Rack > Etc.
+  # 
+  humanName: (id) ->
+    liveObject = new LiveAPI "id #{id}"
+    ancestorNames = loop
+      liveObject.path = @parentPath liveObject
+      break if liveObject.path is "live_set"
+      name = liveObject.get("name").toString()
+      name unless name is "Chain"
+    (name for name in ancestorNames when name?).reverse().join(" > ")
+
+  # Return Live path to object at toId, attempting to return a relative path
+  # from fromId if they're in the same track--otherwise, regular absolute path
+  # is fine.
+  # 
+  # Use LiveAPI to get the paths, tokenize them, and process the tokens.
+  # 
+  relativePath: (toId, fromId) ->
+    toPathTokens = @pathTokens toId
+    fromPathTokens = @pathTokens fromId
+    unless toPathTokens[0] is fromPathTokens[0]
+      return "live_set #{toPathTokens.join(" ")}"
+    else
+      path = "this_device "
+      for depth of toPathTokens
+        if toPathTokens[depth] isnt fromPathTokens[depth]
+          path += "canonical_parent " for n in [1..fromPathTokens.length-depth]
+          path += toPathTokens[depth..].join(" ")
+          break
+      return path
 
   # Check that device was inserted into effects rack.
   # 
@@ -76,6 +111,38 @@ class Live
       Persistence::connection().overrideNow
     else
       (new LiveAPI "live_set").get("current_song_time")
+
+  # Return integer Live ID for object at given path.
+  # 
+  objectId: (path) ->
+    parseInt((new LiveAPI path).id)
+
+  # Remove superfluous punctuation from Live object path.
+  # 
+  objectPath: (liveObject) ->
+    liveObject.path.replace(/"/g, '')
+
+  # Utility: Return path to parent, given Live object.
+  # 
+  parentPath: (liveObject) ->
+    "#{@objectPath liveObject} canonical_parent"
+
+  # Return Live absolute path, broken into tokens given an ID.
+  # 
+  pathTokens: (id) ->
+    path = @objectPath(new LiveAPI "id #{id}")
+    path = path.replace "live_set ", ""
+    path.match(/\w+ \d+/g)
+
+  # Sanity check.
+  # 
+  # When LiveAPI is no longer available (i.e., device is being destroyed),
+  # it will still behave normally, but return meaningless, stale data.
+  # 
+  # Ask it a question that it should be able to answer in a sane state of mind.
+  # 
+  isAvailable: ->
+    (new LiveAPI "live_app").type isnt (new LiveAPI "live_set").type
 
   # After a script reload, our "cache" globals will be lost.
   # Force populate them now in case the LiveAPI is no longer available

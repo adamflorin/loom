@@ -15,7 +15,7 @@ class Loom::Modules.Echo extends Module
   # 
   remoteOutputComplete: (args) ->
     [remotePlayerId, time] = args
-    if remotePlayerId is @parameters.followed.playerId()
+    if remotePlayerId is @parameters.followed.selectedPlayerId
       remotePlayer = Player::load remotePlayerId
       @echoedGesture = remotePlayer.lastPastGesture()?.cloneAfterTime(time, @)
       @player.play(time, @id)

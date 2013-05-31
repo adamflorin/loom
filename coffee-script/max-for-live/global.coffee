@@ -15,7 +15,7 @@
 # 
 logger = new Logger config.disableLogger?
 
-# Pass all messages directly to Loom: initDevice, destroyDevice, etc.
+# Pass all messages directly to Loom.
 # 
 anything = ->
   try

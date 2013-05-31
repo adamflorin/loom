@@ -25,7 +25,11 @@ class Loom
     Events: {}
     Parameters: {}
 
-    # Create player if necessary and own module, unless device is not in rack.
+    # Create own module, and player if necessary, unless device is not in rack.
+    # Otherwise, destroy.
+    # 
+    # This is called when device is created or on observeDevices or on script
+    # reload.
     # 
     # Note: There's no harm in calling initDevice redundantly.
     # 
@@ -61,21 +65,38 @@ class Loom
     # 
     initModule: (moduleClassName) ->
       module = @Modules[moduleClassName]::load Live::deviceId()
+      alreadyInitializing = module.paramsInitializing
+      module.paramsInitializing = true
       module.save()
-      @scheduleEvents [module.uiEvent("initParams")]
+      unless alreadyInitializing
+        @scheduleEvents [module.uiEvent("initParams")]
 
-    # Set module parameter. If Live isn't ready yet (haven't received initDevice)
+    # Set module parameter. If Live isn't ready yet (haven't received init)
     # then do nothing.
     # 
     parameter: (name, value...) ->
       if Live::available
         Module::update Live::deviceId(), (module) -> module.set name, value
 
-    # Give modules the chance to update their interfaces after player layout
-    # changes.
+    # Called when [pattrstorage] dump is complete.
     # 
-    populate: ->
-      player.populate?() for player in Player::loadAll()
+    paramsInitialized: ->
+      if Live::available
+        Module::update Live::deviceId(), (module) ->
+          module.paramsInitializing = false
+      @populateDevice()
+
+    # Update module interfaces after player layout changes.
+    # 
+    # Note: If multiple devices are deleted in one keystroke, some of them will
+    # attempt to populate themselves even though they can't, because they do
+    # not yet realize that they no longer have access to the LiveAPI, and the
+    # mere fact of testing for that would crash Live.
+    # 
+    populateDevice: ->
+      if Live::isAvailable()
+        Module::update Live::deviceId(), (module) ->
+          module.populate()
 
     # Destroy device.
     # 
@@ -89,6 +110,16 @@ class Loom
       if Module::exists deviceId
         (Module::load deviceId).destroy()
         @removePlayerModule Live::playerId(), deviceId
+        @populateAll()
+
+    # When this device is being destroyed, other devices may need to be
+    # re-populated. The LiveAPI is not available now, so just prompt each
+    # remaining device to populate itself, via its JS context.
+    # 
+    populateAll: ->
+      for moduleId in Module::allIds()
+        deviceContext = Persistence::deviceEnvironment moduleId, "context"
+        deviceContext.Loom::populateDevice() unless not deviceContext?
 
     # Remove module from player. If that was the last module, destroy player.
     # Otherwise, save it. It's possible user is moving multiple modules at once
@@ -104,7 +135,6 @@ class Loom
         player.save()
       else
         player.destroy()
-        @populate() if Live::available
 
   # Observers
   # 
@@ -155,7 +185,8 @@ class Loom
     # If device has changed players, may have to create or destroy
     # new or old players, respectively, and re-init.
     # 
-    # Ignore "bang" argument, and just  get the device IDs from LiveAPI.
+    # This is also called if an ancestor's name has changed (in case player
+    # name menus need to be updated).
     # 
     observeDevices: ->
       if Live::available
@@ -167,7 +198,7 @@ class Loom
           @removePlayerModule(oldPlayerId, Live::deviceId())
         else
           Player::update Live::playerId(), (player) -> player.refreshModuleIds()
-        @populate()
+        @populateDevice()
     
   # Messages
   # 
