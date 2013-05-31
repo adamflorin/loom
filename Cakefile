@@ -32,7 +32,7 @@ SOURCE_FILES = [
   "loom/parameter"
   "loom/parameters/gaussian"
   "loom/parameters/numeric"
-  "loom/parameters/other"
+  "loom/parameters/remotePlayer"
   "loom/parameters/pitches"
   "loom/gesture"
   "loom/event"
