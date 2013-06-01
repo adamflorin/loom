@@ -38,7 +38,7 @@ class Loom
       Live::resetCache()
       Persistence::deviceEnvironment Live::deviceId(), "context", thisDeviceContext
       if @deviceIsUsable()
-        @initModule jsarguments[1]
+        @initModule jsarguments[1] unless Module::exists Live::deviceId()
         player = Player::load Live::playerId()
         player.refreshModuleIds()
         player.save()
@@ -218,7 +218,7 @@ class Loom
           @removePlayerModule(oldPlayerId, Live::deviceId())
         else
           Player::update Live::playerId(), (player) -> player.refreshModuleIds()
-        @populateDevice()
+        @populateAll()
     
   # Messages
   # 
