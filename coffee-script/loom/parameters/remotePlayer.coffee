@@ -93,6 +93,9 @@ class Loom::Parameters.RemotePlayer extends Parameter
   setAll: ->
     if @selectedPlayerId? and not Player::exists @selectedPlayerId
       @selectedPlayerId = @selectedPlayerPath = null
+      @selectedPlayerIndex = constrain(
+        @selectedPlayerIndex,
+        @otherPlayerIds().length-1)
 
     if @selectedPlayerId?
       @setIndexFromId()

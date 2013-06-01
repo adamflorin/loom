@@ -6,8 +6,10 @@
 
 # Constrain value between 0.0-1.0.
 # 
-constrain = (number) ->
-  Math.max(0.0, Math.min(1.0, number))
+constrain = (number, max, min) ->
+  max ?= 1.0
+  min ?= 0.0
+  Math.max(min, Math.min(max, number))
 
 # Return boolean, given chance of returning heads as a fraction of 1.0.
 # 
