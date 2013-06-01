@@ -26,7 +26,9 @@ class Loom::Modules.Count extends Module
         for note in gesture.events
           repeatEvents.push new (Loom::Events["Note"])
             at: note.at + (gesture.endAt()-gesture.startAt()) * iteration
-            duration: note.duration
             deviceId: note.deviceId
+            pitch: note.pitch
+            velocity: note.velocity
+            duration: note.duration
     gesture.events.push event for event in repeatEvents
     return gesture
