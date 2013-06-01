@@ -41,7 +41,6 @@ class Loom
         @initModule jsarguments[1]
         player = Player::load Live::playerId()
         player.refreshModuleIds()
-        player.clearGestures()
         player.save()
       else
         @destroyDevice()
