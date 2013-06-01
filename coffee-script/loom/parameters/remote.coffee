@@ -1,5 +1,5 @@
 # 
-# remotePlayer.coffee: Input menu to select other Loom player in this Live set.
+# remote.coffee: Input menu to select other Loom player in this Live set.
 # 
 # There are two forms for storing the selected player:
 # 
@@ -22,7 +22,7 @@
 # Copyright 2013 Adam Florin
 # 
 
-class Loom::Parameters.RemotePlayer extends Parameter
+class Loom::Parameters.Remote extends Parameter
   mixin @, Serializable
   @::serialized "selectedPlayerIndex", "selectedPlayerPath", "selectedPlayerId"
   

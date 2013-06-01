@@ -8,7 +8,7 @@ class Loom::Modules.Follow extends Module
 
   # Register UI inputs
   # 
-  accepts: followed: "RemotePlayer"
+  accepts: followed: "Remote"
 
   # Module API contractually invoked by remote player upon scheduling a gesture.
   # 

@@ -8,7 +8,7 @@ class Loom::Modules.Echo extends Module
 
   # Register UI inputs
   # 
-  accepts: followed: "RemotePlayer"
+  accepts: followed: "Remote"
 
   # When remote player completes a gesture, grab its last gesture, clone it,
   # and put it on our own player's queue.
