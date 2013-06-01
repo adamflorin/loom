@@ -43,11 +43,24 @@ class Module
       if major is "loom-module-ui"
         @[minor] = values[0]
       else
-        @parameters[major].set(
-          minor,
-          if values.length == 1 then values[0] else values)
+        @setParameter major, minor,
+          if values.length == 1 then values[0] else values
     else
       @[name] = values[0]
+
+  # Set parameter property, optionally processing data if handler is specified
+  # in the form:
+  # 
+  #   onParameterValue:
+  #     <parameterName>:
+  #       <propertyName>: (value) ->
+  #         # ...
+  # 
+  setParameter: (parameterName, propertyName, value) ->
+    setter = @onParameterValue?[parameterName]?[propertyName]
+    @parameters[parameterName].set(
+      propertyName,
+      setter?.call(@, value) || value)
 
   # Builds parameter class based on module's `accepts` declaration of the form:
   # 
@@ -118,3 +131,8 @@ class Module
   # 
   classFromName: (name) ->
     Loom::Modules[name]
+
+  # Load player, assuming this is called in device's context.
+  # 
+  loadPlayer: ->
+    Player::load Live::playerId()

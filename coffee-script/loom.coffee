@@ -197,7 +197,7 @@ class Loom
             Player::update Live::playerId(), (player) -> player.transportStart()
         else
           Persistence::deviceEnvironment Live::deviceId(), "transportPlaying", no
-          Player::update Live::playerId(), (player) -> player.clearGestures()
+          Player::update Live::playerId(), (player) -> player.transportStop()
 
     # Observe when module is added, removed or moved in the chain.
     # Normally, just re-sequence the modules within a given player.

@@ -32,6 +32,12 @@ class Player
   transportStart: () ->
     @applyModules "transportStart"
 
+  # Transport has stopped. Clear gestures.
+  # 
+  transportStop: ->
+    @applyModules "transportStop"
+    @clearGestures()
+
   # Start playing: generate a gesture and output its events.
   # 
   # If the last generated gesture hasn't begun yet, don't generate. The
@@ -71,6 +77,7 @@ class Player
   # 
   clearGestures: ->
     @pastGestures = []
+    
     Loom::clearEventQueue(@moduleIds)
 
   # Notification from patcher that all scheduled events have been dispatched.
@@ -86,12 +93,13 @@ class Player
   # returning an object of the same type as the argument.
   # 
   applyModules: (method, methodArgs) ->
-    @loadModules()
-    for module in @modules when module.mute is 0
-      if module[method]?
-        if randomBoolean(module.probability)
-          @activatedModuleIds.push module.id
-          methodArgs = module[method](methodArgs)
+    @modules = for moduleId in @moduleIds
+      Module::update moduleId, (module) =>
+        module.player = @
+        if module.mute is 0 and module[method]?
+          if randomBoolean(module.probability)
+            @activatedModuleIds.push module.id
+            methodArgs = module[method](methodArgs)
     return methodArgs
 
   # Tell all other players to apply a module method.
@@ -100,12 +108,6 @@ class Player
     for remotePlayerId in (id for id in @allIds() when parseInt(id) isnt @id)
       @update remotePlayerId, (remotePlayer) ->
         remotePlayer.applyModules(method, methodArgs)
-
-  # Lazily load modules.
-  # 
-  loadModules: ->
-    @modules ?= for moduleId in @moduleIds when Module::exists moduleId
-      Module::load moduleId, player: @
 
   # Always output from last module in player. If output comes from an earlier
   # module, and module downstream are listening to MIDI input, unspecified

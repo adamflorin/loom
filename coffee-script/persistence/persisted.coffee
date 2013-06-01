@@ -37,6 +37,7 @@ class Persisted
       instance = @load(id)
       callback instance
       instance.save()
+      return instance
 
   # Instantiate objects for all stored items.
   # 
