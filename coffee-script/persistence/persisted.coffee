@@ -42,7 +42,7 @@ class Persisted
   # Instantiate objects for all stored items.
   # 
   loadAll: ->
-    @load parseInt(id) for id in @allIds() when @exists parseInt(id)
+    @load id for id in @allIds()
   
   # Invoke instantiated object's serialize method and store the result.
   # 

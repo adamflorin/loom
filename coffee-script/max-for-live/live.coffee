@@ -140,6 +140,37 @@ class Live
     path = path.replace "live_set ", ""
     path.match(/\w+ \d+/g)
 
+  # Determine output players for each player ID.
+  # 
+  # Because of the enormous overhead of passing MIDI through an M4L
+  # device, it's critical that MIDI output come out of the last possible
+  # device in a track--even if that device belongs to another player.
+  # 
+  # Go through all players and determine which is the last player in each
+  # track, by sorting all players linearly in set and then making the
+  # trackLastPlayerIds array, which contains the last player ID for each track.
+  # 
+  # Return array of playerId/outputPlayerId pairs.
+  # 
+  outputPlayers: (playerIds) ->
+    playerIdentifiers = for id in playerIds
+      id: id
+      tokens: @pathTokens id
+    playerIdentifiers.sort (first, second) ->
+      for index in [0..Math.min(first.tokens.length, second.tokens.length)-1]
+        comparison = first.tokens[index].localeCompare second.tokens[index]
+        return comparison unless comparison is 0
+    trackLastPlayerIds = []
+    for identifier in playerIdentifiers
+      identifier.track = parseInt identifier.tokens[0].match(/tracks (\d+)/)[1]
+      trackLastPlayerIds[identifier.track] = identifier.id
+    for id in playerIds
+      track = do ->
+        for identifier in playerIdentifiers when identifier.id is id
+          return identifier.track
+      playerId: id
+      outputPlayerId: trackLastPlayerIds[track]
+
   # Sanity check.
   # 
   # When LiveAPI is no longer available (i.e., device is being destroyed),

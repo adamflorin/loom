@@ -7,7 +7,7 @@
 class Player
   mixin @, Persisted
   mixin @, Serializable
-  @::serialized "moduleIds", "pastGestures"
+  @::serialized "moduleIds", "pastGestures", "outputModuleId"
   
   # How many past gestures to store.
   # 
@@ -26,6 +26,7 @@ class Player
   # 
   refreshModuleIds: ->
     @moduleIds = (id for id in Live::siblingDeviceIds() when Module::exists(id))
+    @outputModuleId ?= @lastModuleId()
 
   # Transport has started
   # 
@@ -56,7 +57,7 @@ class Player
   # 
   generateGesture: (time) ->
     gestureData = @applyModules "gestureData",
-      deviceId: @outputModuleId()
+      deviceId: @outputModuleId
       afterTime: time
     return @applyModules "processGesture", new Gesture(gestureData)
 
@@ -68,7 +69,7 @@ class Player
   scheduleGesture: (gesture) ->
     gesture.activatedModules =
       (module for module in @modules when module.id in @activatedModuleIds)
-    Loom::scheduleEvents gesture.allEvents(), gesture.deviceId
+    Loom::scheduleEvents gesture.allEvents(@id)
     @pastGestures.push gesture
     @pastGestures.shift() while @pastGestures.length > @NUM_PAST_GESTURES
 
@@ -82,7 +83,7 @@ class Player
 
   # Notification from patcher that all scheduled events have been dispatched.
   # 
-  eventQueueEmpty: ->
+  outputComplete: ->
     @applyModules "gestureOutputComplete"
     lastGestureEndsAt = @lastPastGesture()?.endAt()
     @applyModulesRemotely "remoteOutputComplete", [@id, lastGestureEndsAt]
@@ -113,7 +114,7 @@ class Player
   # module, and module downstream are listening to MIDI input, unspecified
   # behavior may occur.
   # 
-  outputModuleId: ->
+  lastModuleId: ->
     @moduleIds[-1..][0]
 
   # Next gesture should start after now, or end of last gesture, whichever is

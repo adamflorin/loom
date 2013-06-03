@@ -42,6 +42,7 @@ class Loom
         player = Player::load Live::playerId()
         player.refreshModuleIds()
         player.save()
+        @setOutputPlayers()
       else
         @destroyDevice()
         Live::available = yes
@@ -126,6 +127,20 @@ class Loom
     populateAll: ->
       for moduleId in Module::allIds()
         @inDeviceContext moduleId, (context) -> context.Loom::populateDevice()
+
+    # Set each player's outputModuleId to be the last Loom device in its
+    # entire track.
+    # 
+    # See Live::outputPlayers().
+    # 
+    setOutputPlayers: ->
+      players = Player::loadAll()
+      for route in Live::outputPlayers Player::allIds()
+        for player in players when player.id is route.playerId
+          player.outputModuleId = do ->
+            for outputPlayer in players when outputPlayer.id is route.outputPlayerId
+              return outputPlayer.lastModuleId()
+      player.save() for player in players
 
     # Destroy device.
     # 
@@ -241,38 +256,36 @@ class Loom
           player.activatedModuleIds.push Live::deviceId()
           player.play()
 
-    # Player entrypoint.
+    # Player entrypoint from Max.
     # 
-    # Notification from patcher that all events for this device have been
-    # dispatched.
+    # Notification sent from patcher when all of a player's MIDI events have
+    # been dispatched.
+    # 
+    # However, the player in question may not be this player. If it isn't,
+    # pass the message right along to an appropriate [js] context.
     # 
     # 'now' is the current time in beats (float). It comes straight from [when],
     # which is the most reliable way to determine current time. So just set up
     # an override, which will remain in place until the next call to
-    # eventQueueEmpty.
+    # done.
     # 
-    eventQueueEmpty: (now) ->
+    done: (playerId, now) ->
       if Live::transportPlaying()
         Persistence::connection().overrideNow = now
-        Player::update Live::playerId(), (player) -> player.eventQueueEmpty()
+        Player::update playerId, (player) -> player.outputComplete()
+
+    oy: (stuff...) -> logger.info stuff.toString()
 
     # Invoked by player.
     # 
     # Output array of events to [event-queue] and schedule next event.
     # 
     # Check destination device of each event and dispatch to appropriate jsthis.
+    # Note: events may be dispatched by another player's device. See
+    # Loom::setOutputPlayers().
     # 
-    # Note: It is indeterminate which device in a player's rack will output
-    # events, depending on which device received the initial "play" message.
-    # 
-    # If returnDeviceId is specified, notify Max that we expect that device to
-    # return here--in the form of an eventQueueEmpty message when events have
-    # all been dispatched.
-    # 
-    scheduleEvents: (events, returnDeviceId) ->
+    scheduleEvents: (events) ->
       outputDeviceIds = []
-
-      @outputFromDevice returnDeviceId, "return" if returnDeviceId?
 
       for event in events.sort((x, y) -> x.at - y.at)
         @outputFromDevice event.deviceId, event.output()

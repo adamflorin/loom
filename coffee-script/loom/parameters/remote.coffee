@@ -149,5 +149,9 @@ class Loom::Parameters.Remote extends Parameter
 
   # Return list of other player IDs.
   # 
+  # NOTE: This goes to Live for playerId. Therefore, anything which uses this
+  # helper must be called within device context, such as Loom::populateDevice()
+  # and Loom::parameter().
+  # 
   otherPlayerIds: ->
-    id for id in Player::allIds() when id isnt @playerId()
+    id for id in Player::allIds() when id isnt Live::playerId()

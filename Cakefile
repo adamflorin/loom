@@ -37,6 +37,7 @@ SOURCE_FILES = [
   "loom/parameters/pitches"
   "loom/gesture"
   "loom/event"
+  "loom/events/done"
   "loom/events/module"
   "loom/events/note"
   "loom/events/parameter"

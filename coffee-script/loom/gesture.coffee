@@ -10,6 +10,7 @@ class Gesture
   @::serialized "meter", "deviceId", "afterTime", "events", "activatedModules"
 
   DEFAULT_METER: 2
+  DONE_EVENT_DELAY_BEATS: 0.05
 
   # Ur-gesture
   # 
@@ -24,15 +25,19 @@ class Gesture
         duration: @meter
         deviceId: @deviceId
 
-  # Generate UI events for module patchers.
+  # Return all MIDI events, plus done event and UI events for all devices.
   # 
-  allEvents: ->
+  allEvents: (playerId) ->
+    done = new (Loom::Events["Done"])
+      at: @DONE_EVENT_DELAY_BEATS + Math.max (event.at for event in @events)...
+      deviceId: @deviceId
+      playerId: playerId
     uiEvents = []
     for module in @activatedModules
       uiEvents.push module.activated @startAt()
       for name, parameter of module.parameters when parameter.activated?
         uiEvents.push parameter.activated @startAt()
-    return @events.concat uiEvents
+    return @events.concat(done).concat(uiEvents)
 
   # Return a clone of self, but scheduled after given time, and for a given
   # device.
