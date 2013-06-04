@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+  <title>Loom</title>
+  <link rel="stylesheet" href="css/foundation.min.css" />
+  <style type="text/css" media="screen">
+    body {
+    }
+    canvas#threads {
+      background-color: #fff;
+      width: 100%;
+    }
+    #info {
+      padding-top: 1em;
+      background: #111;
+      position: absolute;
+      /*top: 200px;*/
+      text-align: center;
+    }
+    h1, h2, h4, label {
+      color: #f0f0f0;
+      font-weight: normal;
+      opacity: 0.9;
+    }
+    label {
+      margin-bottom: 0.5em;
+      color: #999;
+    }
+      label strong {
+        color: #fff;
+      }
+    input[type=text],
+    input[type=email] {
+      border: 5px solid white;
+      padding: 15px;
+    }
+    #form {
+      padding-top: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin-bottom: 1em;
+    }
+    .button {
+      background-color: #333;
+      border-color: #222;
+      margin-bottom: 0;
+    }
+  </style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+  <script src="js/paper-min.js" type="text/javascript"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      $('canvas#threads').height($(window).height());
+      $('#info').css({top: ($(window).height()-$('#info').height())/2});
+    });
+  </script>
+  <script type="text/paperscript" canvas="threads">
+    var threadSpacing = 100;
+    var threadPadding = 10;
+    var count = Math.ceil(view.bounds.width/threadSpacing);
+    var jut = 4;
+    var pathStyles = [
+      {strokeWidth: threadSpacing, strokeColor: 'black'},
+      {strokeWidth: threadSpacing - 2 * threadPadding, strokeColor: 'white'}
+    ]
+    for (var i=0; i<count; i++) {
+      var x = i*threadSpacing;
+      var xx = x+(Math.ceil(Math.random()*(jut*2+1))-jut)*threadSpacing;
+      for (var style=0; style<pathStyles.length; style++) {
+        var path = new Path();
+        path.strokeColor = pathStyles[style].strokeColor;
+        path.strokeWidth = pathStyles[style].strokeWidth;
+        path.add(new Point(x, 0 - threadSpacing));
+        path.add(new Point(xx, view.bounds.height + threadSpacing));
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="threads"></canvas>
+  <!-- <div class="row"> -->
+    <div id="info" class="large-12 columns">
+      <div class="columns">
+        <h2>
+          <strong>Loom</strong> is a modular generative music platform for Ableton Live.
+        </h2>
+        <h1><strong>loom</strong>makesmusic.com</h1>
+      </div>
+    </div>
+  <!-- </div> -->
+</body>
+</html>
