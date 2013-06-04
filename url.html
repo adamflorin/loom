@@ -12,18 +12,42 @@
       background-color: #fff;
       width: 100%;
     }
+    h1, h2, h4, label {
+      color: #f0f0f0;
+      font-weight: normal;
+      /*opacity: 0.9;*/
+    }
     #info {
       padding-top: 1em;
       background: #111;
       position: absolute;
       /*top: 200px;*/
       text-align: center;
-    }
-    h1, h2, h4, label {
-      color: #f0f0f0;
-      font-weight: normal;
       opacity: 0.9;
     }
+    .url {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+      .url h1 {
+        margin: auto;
+        display: block;
+        width: 980px;
+        padding: 28px;
+        background-color: #111;
+        color: #fff;
+        font-weight: 500;
+        font-size: 550%;
+        /*-webkit-text-stroke-width: 4px;*/
+        /*-webkit-text-stroke-color: white;*/
+        /*text-shadow:
+            -4px -4px 0 #fff,
+            4px -4px 0 #fff,
+            -4px 4px 0 #fff,
+            4px 4px 0 #fff;  */
+      }
+
     label {
       margin-bottom: 0.5em;
       color: #999;
@@ -39,7 +63,7 @@
     #form {
       padding-top: 10px;
       background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
+      border-radius: 4px;
       margin-bottom: 1em;
     }
     .button {
@@ -86,8 +110,10 @@
         <h2>
           <strong>Loom</strong> is a modular generative music platform for Ableton Live.
         </h2>
-        <h1><strong>loom</strong>makesmusic.com</h1>
       </div>
+    </div>
+    <div class="url">
+      <h1><strong>loom</strong>makesmusic.com</h1>
     </div>
   <!-- </div> -->
 </body>
