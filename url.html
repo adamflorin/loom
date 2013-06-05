@@ -9,7 +9,7 @@
     body {
     }
     canvas#threads {
-      background-color: #fff;
+      background-color: #111;
       width: 100%;
     }
     h1, h2, h4, label {
@@ -81,37 +81,89 @@
     });
   </script>
   <script type="text/paperscript" canvas="threads">
-    var threadSpacing = 100;
-    var threadPadding = 10;
-    var count = Math.ceil(view.bounds.width/threadSpacing);
-    var jut = 4;
-    var pathStyles = [
-      {strokeWidth: threadSpacing, strokeColor: 'black'},
-      {strokeWidth: threadSpacing - 2 * threadPadding, strokeColor: 'white'}
-    ]
-    for (var i=0; i<count; i++) {
-      var x = i*threadSpacing;
-      var xx = x+(Math.ceil(Math.random()*(jut*2+1))-jut)*threadSpacing;
-      for (var style=0; style<pathStyles.length; style++) {
-        var path = new Path();
-        path.strokeColor = pathStyles[style].strokeColor;
-        path.strokeWidth = pathStyles[style].strokeWidth;
-        path.add(new Point(x, 0 - threadSpacing));
-        path.add(new Point(xx, view.bounds.height + threadSpacing));
+    var GRID_UNIT = 50;
+    var ROW_HEIGHT = GRID_UNIT * 6;
+    var THREAD_PADDING = 10;
+    var PATH_STYLES = [
+      {strokeWidth: GRID_UNIT, strokeColor: 'black'},
+      {strokeWidth: GRID_UNIT - 2 * THREAD_PADDING, strokeColor: 'white'}
+    ];
+    var COLUMNS_AFIELD = 5;
+    var SLIDE_SPEED = 10; // px/s
+    var threadCount = Math.ceil(view.size.width/GRID_UNIT);
+    var threads = [];
+    var threadPaths = [[], []];
+
+    // 
+    // 
+    function calculateNextRow() {
+      var row = threads.length;
+      for (var threadIndex=0; threadIndex<threadCount; threadIndex++) {
+        if (threads[row] == null) threads[row] = [];
+        if (threads[row][threadIndex] == null) threads[row][threadIndex] = threadIndex;
+        if (threads[row+1] == null) threads[row+1] = [];
+
+        // select next column for thread
+        if (threads[row+1][threadIndex] == null) {
+          var toColumn = threads[row][threadIndex] +
+            Math.floor(Math.random()*(COLUMNS_AFIELD*2+1)) - COLUMNS_AFIELD;
+          toColumn = Math.max(0, Math.min(threadCount-1, toColumn));
+          var wanderDistance = 1;
+          var wanderLeft = Math.floor(Math.random()+0.5) == 0;
+          while (threads[row+1].indexOf(toColumn) > -1) {
+            toColumn = toColumn + (wanderLeft ? -1 : 1) * wanderDistance;
+            toColumn = Math.max(0, Math.min(threadCount-1, toColumn));
+            wanderDistance += 1;
+            wanderLeft = !wanderLeft;
+            if (wanderDistance > threadCount) break;
+          }
+          threads[row+1][threadIndex] = toColumn;
+        }
+
+        // draw
+        for (var style=0; style<PATH_STYLES.length; style++) {
+          var isNew = (threadPaths[style][threadIndex] == null);
+          if (isNew) {
+            threadPaths[style][threadIndex] = new Path();
+            threadPaths[style][threadIndex].strokeColor = PATH_STYLES[style].strokeColor;
+            threadPaths[style][threadIndex].strokeWidth = PATH_STYLES[style].strokeWidth;
+          }
+          for (var path = isNew ? 0 : 1; path<=1; path++) {
+            threadPaths[style][threadIndex].addSegments([[
+              [ threads[row+path][threadIndex]*GRID_UNIT,
+                ((row+path) * ROW_HEIGHT)],
+              new Point({angle: -90, length: ROW_HEIGHT*0.5}),
+              new Point({angle: 90, length: ROW_HEIGHT*0.5})
+            ]]);
+          }
+        }
       }
+    }
+
+    // Go!
+    // 
+    calculateNextRow();
+
+    // Animate scroll
+    // 
+    function onFrame(event) {
+      view.scrollBy([0, event.delta * SLIDE_SPEED]);
+      var visiblePixels = view.center.y + view.size.height/2;
+      var preparedPixels = (threads.length-1) * ROW_HEIGHT;
+      if (visiblePixels > preparedPixels - GRID_UNIT) calculateNextRow();
     }
   </script>
 </head>
 <body>
   <canvas id="threads"></canvas>
   <!-- <div class="row"> -->
-    <div id="info" class="large-12 columns">
+<!--     <div id="info" class="large-12 columns">
       <div class="columns">
         <h2>
           <strong>Loom</strong> is a modular generative music platform for Ableton Live.
         </h2>
       </div>
-    </div>
+    </div> -->
     <div class="url">
       <h1><strong>loom</strong>makesmusic.com</h1>
     </div>
