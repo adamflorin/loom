@@ -1,0 +1,45 @@
+body {
+  background: #111;
+}
+canvas#threads {
+  background-color: #222;
+  width: 100%;
+}
+#info {
+  padding-top: 1em;
+}
+h2, h4, label {
+  color: #f0f0f0;
+  font-weight: normal;
+  opacity: 0.9;
+}
+label {
+  margin-bottom: 0.5em;
+  color: #999;
+}
+  label strong {
+    color: #fff;
+  }
+input[type=text],
+input[type=email] {
+  border: 5px solid white;
+  padding: 15px;
+}
+input[type=checkbox] {
+  float: left;
+  margin-right: 0.5em;
+}
+.buttons {
+  clear:left;
+}
+#form {
+  padding-top: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+.button {
+  background-color: #333;
+  border-color: #222;
+  margin-bottom: 0;
+}

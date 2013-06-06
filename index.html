@@ -5,46 +5,7 @@
   <meta name="viewport" content="width=device-width" />
   <title>Loom</title>
   <link rel="stylesheet" href="css/foundation.min.css" />
-  <style type="text/css" media="screen">
-    body {
-      background: #111;
-    }
-    canvas#threads {
-      background-color: #222;
-      width: 100%;
-    }
-    #info {
-      padding-top: 1em;
-    }
-    h2, h4, label {
-      color: #f0f0f0;
-      font-weight: normal;
-      opacity: 0.9;
-    }
-    label {
-      margin-bottom: 0.5em;
-      color: #999;
-    }
-      label strong {
-        color: #fff;
-      }
-    input[type=text],
-    input[type=email] {
-      border: 5px solid white;
-      padding: 15px;
-    }
-    #form {
-      padding-top: 10px;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      margin-bottom: 1em;
-    }
-    .button {
-      background-color: #333;
-      border-color: #222;
-      margin-bottom: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="css/site.css" />
   <script src="js/jquery-1.10.1.min.js" type="text/javascript"></script>
   <script src="js/paper-min.js" type="text/javascript"></script>
   <script type="text/paperscript" src="js/threads.js" canvas="threads"></script>
@@ -69,7 +30,7 @@
         <h2><strong>Loom</strong> is a modular generative music platform for Ableton Live.</h2>
 
         <h4>
-          To receive updates and/or to request an invite to the private beta, please sign up here.
+          Currently in private beta. Please sign up to stay in the loop.
         </h4>
         <br/>
       </div>
@@ -80,19 +41,21 @@
           <form action="http://rebakery.us1.list-manage.com/subscribe/post?u=7ffa50a3521b6da274902d7b0&amp;id=373a7c4dcc" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 
             <div>
-              <label for="mce-EMAIL"><strong>Email</strong> </label>
+              <!-- <label for="mce-EMAIL"><strong>Email</strong> </label> -->
               <input type="email" value="" name="EMAIL" placeholder="your@email.com" class="required email" id="mce-EMAIL">
             </div>
             <div>
-              <label for="mce-NAME">Name </label>
-              <input type="text" value="" name="NAME" class="" id="mce-NAME">
+              <!-- <label for="mce-NAME">Name </label> -->
+              <input type="text" value="" name="NAME" placeholder="Your Name (Optional)" class="" id="mce-NAME">
             </div>
-            <div>
-              <label for="mce-MESSAGE">Signup Message </label>
-              <!-- <input type="text" value="" name="MESSAGE" class="" > -->
-              <textarea name="MESSAGE" id="mce-MESSAGE"></textarea>
+            <div class="mc-field-group input-group">
+              <input type="checkbox" value="1" name="group[3861][1]" id="mce-group[3861]-3861-0">
+              <label for="mce-group[3861]-3861-0">Request invite to private beta</label>
             </div>
-            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            <div class="buttons">
+              <br/>
+              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
           </form>
         </div>
         <!-- End mc_embed_signup-->
