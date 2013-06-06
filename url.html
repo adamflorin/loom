@@ -29,6 +29,7 @@
       position: absolute;
       bottom: 0;
       width: 100%;
+      opacity: 0.95;
     }
       .url h1 {
         margin: auto;
@@ -74,99 +75,33 @@
   </style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
   <script src="js/paper-min.js" type="text/javascript"></script>
-  <script type="text/javascript" charset="utf-8">
+  <script type="text/paperscript" src="js/threads.js" canvas="threads"></script>
+  <script type="text/javascript">
     $(document).ready(function() {
-      $('canvas#threads').height($(window).height());
-      $('#info').css({top: ($(window).height()-$('#info').height())/2});
+      $('body').keyup(function(event) {
+        if (event.keyCode == 32) $('#info, .url').toggle();
+      });
     });
-  </script>
-  <script type="text/paperscript" canvas="threads">
-    var GRID_UNIT = 50;
-    var ROW_HEIGHT = GRID_UNIT * 6;
-    var THREAD_PADDING = 10;
-    var PATH_STYLES = [
-      {strokeWidth: GRID_UNIT, strokeColor: 'black'},
-      {strokeWidth: GRID_UNIT - 2 * THREAD_PADDING, strokeColor: 'white'}
-    ];
-    var COLUMNS_AFIELD = 5;
-    var SLIDE_SPEED = 10; // px/s
-    var threadCount = Math.ceil(view.size.width/GRID_UNIT);
-    var threads = [];
-    var threadPaths = [[], []];
-
-    // 
-    // 
-    function calculateNextRow() {
-      var row = threads.length;
-      for (var threadIndex=0; threadIndex<threadCount; threadIndex++) {
-        if (threads[row] == null) threads[row] = [];
-        if (threads[row][threadIndex] == null) threads[row][threadIndex] = threadIndex;
-        if (threads[row+1] == null) threads[row+1] = [];
-
-        // select next column for thread
-        if (threads[row+1][threadIndex] == null) {
-          var toColumn = threads[row][threadIndex] +
-            Math.floor(Math.random()*(COLUMNS_AFIELD*2+1)) - COLUMNS_AFIELD;
-          toColumn = Math.max(0, Math.min(threadCount-1, toColumn));
-          var wanderDistance = 1;
-          var wanderLeft = Math.floor(Math.random()+0.5) == 0;
-          while (threads[row+1].indexOf(toColumn) > -1) {
-            toColumn = toColumn + (wanderLeft ? -1 : 1) * wanderDistance;
-            toColumn = Math.max(0, Math.min(threadCount-1, toColumn));
-            wanderDistance += 1;
-            wanderLeft = !wanderLeft;
-            if (wanderDistance > threadCount) break;
-          }
-          threads[row+1][threadIndex] = toColumn;
-        }
-
-        // draw
-        for (var style=0; style<PATH_STYLES.length; style++) {
-          var isNew = (threadPaths[style][threadIndex] == null);
-          if (isNew) {
-            threadPaths[style][threadIndex] = new Path();
-            threadPaths[style][threadIndex].strokeColor = PATH_STYLES[style].strokeColor;
-            threadPaths[style][threadIndex].strokeWidth = PATH_STYLES[style].strokeWidth;
-          }
-          for (var path = isNew ? 0 : 1; path<=1; path++) {
-            threadPaths[style][threadIndex].addSegments([[
-              [ threads[row+path][threadIndex]*GRID_UNIT,
-                ((row+path) * ROW_HEIGHT)],
-              new Point({angle: -90, length: ROW_HEIGHT*0.5}),
-              new Point({angle: 90, length: ROW_HEIGHT*0.5})
-            ]]);
-          }
-        }
-      }
-    }
-
-    // Go!
-    // 
-    calculateNextRow();
-
-    // Animate scroll
-    // 
-    function onFrame(event) {
-      view.scrollBy([0, event.delta * SLIDE_SPEED]);
-      var visiblePixels = view.center.y + view.size.height/2;
-      var preparedPixels = (threads.length-1) * ROW_HEIGHT;
-      if (visiblePixels > preparedPixels - GRID_UNIT) calculateNextRow();
-    }
   </script>
 </head>
 <body>
   <canvas id="threads"></canvas>
-  <!-- <div class="row"> -->
-<!--     <div id="info" class="large-12 columns">
-      <div class="columns">
-        <h2>
-          <strong>Loom</strong> is a modular generative music platform for Ableton Live.
-        </h2>
-      </div>
-    </div> -->
-    <div class="url">
-      <h1><strong>loom</strong>makesmusic.com</h1>
+  <script type="text/javascript" charset="utf-8">
+    $('canvas#threads').height($(window).height());
+  </script>
+  
+  <div id="info" class="large-12 columns">
+    <div class="columns">
+      <h2>
+        <strong>Loom</strong> is a modular generative music platform for Ableton Live.
+      </h2>
     </div>
-  <!-- </div> -->
+  </div>
+  <script type="text/javascript">
+    $('#info').css({top: ($(window).height()-$('#info').height())/2});
+  </script>
+  <div class="url hide">
+    <h1><strong>loom</strong>makesmusic.com</h1>
+  </div>
 </body>
 </html>
