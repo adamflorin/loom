@@ -137,7 +137,3 @@ function randomIterator(iterations, callback) {
 // 
 function visiblePixels() { return view.center.y + view.size.height/2; }
 function preparedPixels() { return (threads.length-1) * ROW_HEIGHT; }
-
-// scroll down by one row rather than fix curve bug in top row
-// 
-// view.scrollBy([0, ROW_HEIGHT]);
