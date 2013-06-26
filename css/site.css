@@ -8,10 +8,25 @@ canvas#threads {
 #info {
   padding-top: 1em;
 }
+h2, h4, label, input[type="text"], input[type="email"], .button {
+  font-family: KyrialDisplayProRegular, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
 h2, h4, label {
   color: #f0f0f0;
   font-weight: normal;
   opacity: 0.9;
+}
+h2 {
+  font-family: KyrialProDisplayUltraLight;
+  font-size: 260%;
+}
+  h2 strong {
+    font-family: KyrialDisplayProRegular;
+    font-weight: normal;
+  }
+h4 {
+  font-family: KyrialProDisplayUltraLight;
+  font-size: 120%;
 }
 label {
   margin-bottom: 0.5em;

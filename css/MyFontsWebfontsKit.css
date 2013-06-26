@@ -1,0 +1,32 @@
+/* @license
+ * MyFonts Webfont Build ID 2588699, 2013-06-25T21:23:25-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Kyrial Display Pro by Mostardesign
+ * URL: http://www.myfonts.com/fonts/mostardesign/kyrial-display-pro/regular/
+ * 
+ * Webfont: Kyrial Pro Display Ultra Light by Mostardesign
+ * URL: http://www.myfonts.com/fonts/mostardesign/kyrial-display-pro/ultra-light/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=2588699
+ * Webfonts copyright: Copyright (c) Olivier Gourvat - Mostardesign Studio, 2011. All rights reserved.
+ * 
+ * © 2013 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/27801b");
+
+  
+@font-face {font-family: 'KyrialDisplayProRegular';src: url('../webfonts/27801B_0_0.eot');src: url('../webfonts/27801B_0_0.eot?#iefix') format('embedded-opentype'),url('../webfonts/27801B_0_0.woff') format('woff'),url('../webfonts/27801B_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'KyrialProDisplayUltraLight';src: url('../webfonts/27801B_1_0.eot');src: url('../webfonts/27801B_1_0.eot?#iefix') format('embedded-opentype'),url('../webfonts/27801B_1_0.woff') format('woff'),url('../webfonts/27801B_1_0.ttf') format('truetype');}
+ 
