@@ -1,5 +1,5 @@
 body {
-  background: #111;
+  background-color: #221638;
 }
 canvas#threads {
   background-color: #222;
@@ -38,7 +38,7 @@ label {
 input[type=text],
 input[type=email] {
   border: 5px solid white;
-  padding: 15px;
+  height: 3em;
 }
 input[type=checkbox] {
   float: left;
@@ -58,3 +58,32 @@ input[type=checkbox] {
   border-color: #222;
   margin-bottom: 0;
 }
+
+#video-wrapper {
+  background-color: #000;
+}
+#video-columns {
+  margin-top: 4em;
+  margin-bottom: 4em;
+}
+#video a.play {
+  display: block;
+  text-align: center;
+  /*position: relative;*/
+}
+  #video a.play div {
+    background: url('/images/thumbnail-360p.jpg') no-repeat left bottom;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+  }
+  #video a.play:hover div {
+    opacity: 1;
+    transition: opacity 0.1s;
+  }
+  #video a.play img {
+    position: absolute;
+    top: 0;
+  }
