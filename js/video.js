@@ -19,7 +19,7 @@ $(document).ready(function() {
   *
   */
   $video.find('a.play').click(function() {
-    $(this).fadeOut();
+    $(this).hide();
     $(video_html).width(videoWidth).height(videoHeight).appendTo('#video');
     return false;
   });
