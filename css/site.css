@@ -84,6 +84,7 @@ input[type=checkbox] {
     transition: opacity 0.1s;
   }
   #video a.play img {
+    opacity: 0.8;
     position: absolute;
     top: 0;
   }
