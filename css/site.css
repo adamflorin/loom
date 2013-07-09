@@ -8,6 +8,10 @@ canvas#threads {
 #info {
   padding-top: 1em;
 }
+  #info a {
+    color: #fff;
+    font-weight: bold;
+  }
 h2, h4, label, input[type="text"], input[type="email"], .button {
   font-family: KyrialDisplayProRegular, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
