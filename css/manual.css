@@ -1,0 +1,96 @@
+body {
+  background-color: #f8f8f8;
+  font-family: KyrialDisplayProRegular, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: KyrialProDisplayUltraLight;
+  color: #333;
+}
+/*h2 {
+  font-size: 1.8em;
+  margin: 1em 0 0;
+}*/
+h1 strong,
+h2 strong,
+h3 strong,
+h4 strong {
+  font-family: KyrialDisplayProRegular, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #330096;
+}
+a:hover {
+  color: #330096; 
+  text-decoration: underline;
+}
+p, ul {
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+}
+u {
+  text-decoration: none;
+  border-bottom: 3px solid #e0e0e0;
+}
+header {
+  padding: 100px 0 20px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 40px 0;
+}
+
+#install {
+  background: url('../images/alp.png') no-repeat 0 0;
+  min-height: 106px;
+  padding: 5px 0 0 120px;
+}
+
+.note {
+  text-transform: uppercase;
+  font-size: 0.8em;
+  color: #ccc;
+}
+
+#diagram {
+  text-align: center;
+  padding: 20px 0;
+}
+
+ul li {
+  margin: 20px 0;
+}
+ul small,
+p small {
+  display: block;
+  font-size: 0.8em;
+}
+
+.parameter {
+  margin: 1.5em 0;
+  padding: 0 0 0 220px;
+}
+
+#probability.parameter {
+  background: url('../images/probability.png') no-repeat 0 0;
+  min-height: 100px;
+}
+
+#gaussian.parameter {
+  background: url('../images/gaussian.png') no-repeat 0 0;
+  min-height: 280px;
+}
+
+#remote.parameter {
+  background: url('../images/remote.png') no-repeat 0 0;
+  min-height: 100px;
+}
+
+#thanks {
+  text-transform: uppercase;
+  text-align: center;
+  padding: 4em 0 6em;
+}

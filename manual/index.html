@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+  <title>Loom</title>
+  <link rel="stylesheet" href="../css/foundation.min.css" />
+  <link rel="stylesheet" href="../css/MyFontsWebfontsKit.css" />
+  <link rel="stylesheet" href="../css/manual.css" />
+  <script src="js/jquery-1.10.1.min.js" type="text/javascript"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-2594387-3', 'loommakesmusic.com');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+  <div class="row">
+    <div class="large-8 large-centered columns">
+
+      <header>
+        <h2>
+          <strong>Loom</strong> is a collection of Max For Live devices which generate MIDI.
+        </h2>
+
+        <div class="note">
+          * Live 9 + Max For Live required
+        </div>
+      </header>
+
+      <hr>
+
+      <div id="install">
+        <p>
+          To install, open Loom.alp and install it wherever you like.
+        </p>
+
+        <p>
+          I like to put it next to the <a href="https://www.ableton.com/en/articles/where-are-my-user-presets-saved/" target="_new">User Library</a> and then <u>Add Folder...</u>
+          in Live's Browser to point to it.
+        </p>
+      </div>
+
+      <hr>
+
+      <p>
+        The Loom pack contains <u>players</u> and <u>modules</u>.
+      </p>
+
+      <p>
+        A <u>player</u> is a group of one or more <u>modules</u> in a MIDI Effect Rack.
+      </p>
+
+      <div id="diagram">
+        <img src="../images/players-and-modules.png" width="593" height="204">
+      </div>
+
+      <p>
+        Start with the <u>players</u> to get a feel for Loom, and then start building your own with the <u>modules</u>!
+      </p>
+
+      <hr>
+      
+      <p>
+        Each <u>module</u> affects the <u>player</u>'s behavior in a different way.
+        Some <u>modules</u> determine when a <u>player</u> starts or stops; others
+        specify the rhythm, pitch, and velocity of the generated MIDI notes; yet
+        others make decisions based on the output of other <u>players</u> in the Live set.
+      </p>
+
+      <ul>
+
+        <li>
+          <u>Trigger</u> begins generating.
+          <small>
+            - If <u>Start on Play</u> is checked, begin generating whenever the Live transport starts
+            <br>
+            - By default, <u>Trigger</u> will being playing upon MIDI note input.
+            If <u>Pitch</u> is checked, only the note number specified will be listened to
+            <br>
+            - Clicking the <u>Impulse</u> button will also trigger a gesture
+          </small>
+        </li>
+
+        <li>
+          <u>Phrase</u> decides how many gestures to generate in a single phrase: a random number, or <u>forever</u>.
+        </li>
+
+        <li>
+          <u>Meter</u> sets the rhythmic meter of a gesture by powers of two.
+        </li>
+
+        <li>
+          <u>Pitch</u> sets the pitch of all notes in a gesture.
+          <small>
+            - The Gaussian parameter sets the range over three octaves
+            <br>
+            - Pitches may be clicked or entered with MIDI In.
+          </small>
+        </li>
+
+        <li>
+          <u>Count</u> sets the number of notes in a gesture.
+        </li>
+
+        <li>
+          <u>Follow</u> generates a gesture when the remote player has played a gesture.
+        </li>
+
+        <li>
+          <u>Echo</u> plays the last gesture from a remote player.
+        </li>
+
+        <li>
+          <u>Loop</u> repeats the last few gestures in sequence.
+        </li>
+      </ul>
+
+      <div class="note">
+        * More modules are planned and will be added in future versions of Loom.
+      </div>
+
+      <hr>
+
+      <p>
+        Some <u>parameters</u> are reused among different <u>modules:</u>
+      </p>
+
+      <p class="parameter" id="probability">
+        Each module has a <u>probability</u> that it will be executed upon each
+        gesture generation. When a module is executed, the Module Probability pane flashes.
+      </p>
+
+      <p class="parameter" id="gaussian">
+        A <u>Gaussian</u> parameter generates a random number, weighted toward a mean.
+        <small>
+          - The <u>Deviation</u> specifies how far from the mean the random values
+            may land
+          <br>
+          - The <u>Inertia</u> specifies how far each generated value will be from the
+            last generated value.
+        </small>
+        The center and deviation may be altered by clicking directly in the graph box.
+      </p>
+
+      <p class="parameter" id="remote">
+        A <u>remote</u> parameter points to another player within the open Live set,
+        with a name such as "Track > Rack".
+      </p>
+
+      <hr>
+
+      <p>
+        <u>Players</u> generate <u>gestures</u>, which are, simply put, collections of timed
+        MIDI events, of any duration and containing any number of MIDI notes.
+      </p>
+
+      <p>
+        All gestures begin life as a single pulse (a half note at middle C), and take shape as they are processed by modules.
+      </p>
+
+      <p>
+        Modules are always executed from left to right, meaning that modules which come later in the chain may process and even overwrite the gesture output of earlier modules.
+      </p>
+
+      <p>
+         A given track may contain multiple Loom Players. Multiple Loom Player racks may be nested in a parent rack (as is the case in several example Players).
+      </p>
+
+      <hr>
+
+      <div id="thanks">
+        Thanks for playing
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
