@@ -54,22 +54,54 @@
     <div class="large-9 large-centered columns">
       <h2>Concepts</h2>
       <p>
-        A few concepts will make Loom clear.
+        Loom generates MIDI patterns one <u>gesture</u> at a time.
       </p>
-      <ul>
-        <li>
-          A <u>gesture</u> is a rhythmic grouping of notes
-        </li>
-        <li>
-          A <u>phrase</u> is a sequence of gestures
-        </li>
-        <li>
-          A <u>player</u> is an instance of the Loom plugin
-        </li>
-        <li>
-          A <u>generator</u> is a random number generator
-        </li>
-      </ul>
+      <p>
+        A gesture is a rhythmic grouping of notes.
+      </p>
+      <p>
+        For example, consider this <u>phrase</u>, displayed on a flat grid:
+      </p>
+      <p style="text-align: center">
+        <img src="../images/notes-grid.png" width="687" height="144"/>
+      </p>
+      <p>
+        It could be expressed as a sequence of gestures of one or more notes each:
+      </p>
+      <p style="text-align: center">
+        <img src="../images/notes-gestured.png" width="687" height="145"/>
+      </p>
+      <p>
+        …where the notes within each gesture are always of equal duration.
+        The gesture may also contain rests (also of equal duration) before or after
+        the notes.
+      </p>
+      <hr/>
+      <p>
+        Every instance of the Loom plugin is a <u>player</u>.
+      </p>
+      <p>
+        Players may hand off control amongst one another.
+        (See <u>Phrasing</u> below.)
+      </p>
+      <hr/>
+      <p>
+        A <u>generator</u> is a random number generator:
+      </p>
+      <p style="text-align: center">
+        <img src="../images/gaussian-v0.6.0.png" width="430" height="132">
+      </p>
+      <p>
+        The bars represent a normal distribution of random numbers from low to high.
+      </p>
+      <p>
+        The <u>mean</u> shifts the probability from low to high
+        (meaning based on context).
+      </p>
+      <p>
+        The <u>deviation</u> expands the probability that the generated number
+        will fall further from the mean.
+      </p>
       <hr/>
     </div>
   </div>
@@ -83,7 +115,10 @@
       <br/>
       <br/>
       <br/>
-      <p>Loom's controls are organized in several regions based on functionality:</p>
+      <p>
+        Broadly, Loom has two types of controls: interplayer/phrasing settings,
+        and gesture parameters.
+      </p>
     </div>
   </div>
 
@@ -250,31 +285,23 @@
           is used, MIDI thru will be blocked.)
         </li>
         <li>
-          TODOC: preview mode
+          When a gesture parameter is edited, the viewer will display a preview
+          of a possible resulting gesture (assuming deviation of all controls is zero).
         </li>
         <li>
-          nest in racks
+          Players may be nested in any number of racks for organization or
+          storage purposes.
         </li>
       </ul>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="large-9 large-centered columns">
-      <hr/>
-      <h2>Recipes</h2>
-      <p>Check the presets for now, come back soon for inspiration.</p>
       <hr/>
     </div>
   </div>
 
   <div class="row">
     <div class="large-9 large-centered columns">
-
       <div id="thanks">
         Thanks for playing
       </div>
-
     </div>
   </div>
 </body>
