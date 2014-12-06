@@ -72,9 +72,7 @@
         <img src="../images/notes-gestured.png" width="687" height="145"/>
       </p>
       <p>
-        …where the notes within each gesture are always of equal duration.
-        The gesture may also contain rests (also of equal duration) before or after
-        the notes.
+        …where the notes (and rests) within each gesture are always of equal duration.
       </p>
       <hr/>
       <p>
@@ -130,8 +128,8 @@
       <div class="large-8 columns">
         <h3><u>Phrasing</u></h3>
         <p>
-          Phrasing determines determine when a player
-          starts and stops, relative to other players.
+          Phrasing determines when a player starts and stops,
+          relative to other players.
         </p>
         <ul>
           <li>
@@ -145,8 +143,7 @@
             if box is checked
             and player is selected from the below menu—respectively,
             either after the other player has finished a phrase,
-            or at the same time as the other player starts—on
-            selection of other player in menu
+            or at the same time as the other player starts
           </li>
           <li>
             <u>continue</u> playing forever (∞) or for a finite
@@ -154,9 +151,10 @@
             specified by generator below
           </li>
           <li>
-            <u>pass to neighbor</u> randomly selects an adjacent player
-            (i.e. in the same track or rack) and plays it
-            when this player is done
+            if <u>pass to neighbor</u> is checked,
+            when this player is done,
+            randomly select an adjacent player
+            (i.e. in the same track or rack) and play it
           </li>
         </ul>
       </div>
@@ -170,7 +168,10 @@
       </div>
       <div class="large-8 columns">
         <h3><u>Viewer</u></h3>
-        <p>The <u>Viewer</u> displays generated gestures, one at a time.</p>
+        <p>
+          The <u>Viewer</u> displays generated gestures, one at a time,
+          as Loom only generates one gesture at a time.
+        </p>
       </div>
     </div>
   </div>
@@ -282,7 +283,7 @@
           If there are multiple players in a same track, their MIDI events
           will ALL be output from the LAST player. MIDI is passed through each,
           and can be accessed in any player. (But if <u>Pitch</u> <u>MIDI in</u>
-          is used, MIDI thru will be blocked.)
+          is used, MIDI thru will be blocked at that player.)
         </li>
         <li>
           When a gesture parameter is edited, the viewer will display a preview
