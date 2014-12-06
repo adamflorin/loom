@@ -20,11 +20,13 @@
 </head>
 <body>
   <div class="row">
-    <div class="large-8 large-centered columns">
+    <div class="large-9 large-centered columns">
 
       <header>
         <h2>
-          <strong>Loom</strong> is a collection of Max For Live devices which generate MIDI.
+          <strong>Loom</strong> makes generative music
+          <br>
+          in Ableton Live.
         </h2>
 
         <div class="note">
@@ -32,7 +34,7 @@
         </div>
       </header>
 
-      <hr>
+      <hr/>
 
       <div id="install">
         <p>
@@ -44,134 +46,230 @@
           in Live's Browser to point to it.
         </p>
       </div>
+      <hr/>
+    </div>
+  </div>
 
-      <hr>
-
+  <div class="row">
+    <div class="large-9 large-centered columns">
+      <h2>Concepts</h2>
       <p>
-        The Loom pack contains <u>players</u> and <u>modules</u>.
+        A few concepts will make Loom clear.
       </p>
-
-      <p>
-        A player is a group of one or more modules in a MIDI Effect Rack.
-      </p>
-
-      <div id="diagram">
-        <img src="../images/players-and-modules.png" width="593" height="204">
-      </div>
-
-      <p>
-        Start with the players to get a feel for Loom, and then start building your own with the modules!
-      </p>
-
-      <hr>
-      
-      <p>
-        Each module affects the player's behavior in a different way.
-        Some modules determine when a player starts or stops; others
-        specify the rhythm, pitch, and velocity of the generated MIDI notes; yet
-        others make decisions based on the output of other players in the Live set.
-      </p>
-
       <ul>
-
         <li>
-          <u>Trigger</u> begins generating.
-          <small>
-            - If <u>Start on Play</u> is checked, begin generating whenever the Live transport starts
-            <br>
-            - By default, Trigger will being playing upon MIDI note input.
-            If <u>Pitch</u> is checked, only the note number specified will be listened to
-            <br>
-            - Clicking the <u>Impulse</u> button will also trigger a gesture
-          </small>
+          A <u>gesture</u> is a rhythmic grouping of notes
         </li>
-
         <li>
-          <u>Phrase</u> decides how many gestures to generate in a single phrase: a random number, or <u>forever</u>.
+          A <u>phrase</u> is a sequence of gestures
         </li>
-
         <li>
-          <u>Meter</u> sets the rhythmic meter of a gesture by powers of two.
+          A <u>player</u> is an instance of the Loom plugin
         </li>
-
         <li>
-          <u>Pitch</u> sets the pitch of all notes in a gesture.
-          <small>
-            - The Gaussian parameter sets the range over three octaves
-            <br>
-            - Pitches may be clicked or entered with MIDI In.
-          </small>
-        </li>
-
-        <li>
-          <u>Count</u> sets the number of notes in a gesture.
-        </li>
-
-        <li>
-          <u>Follow</u> generates a gesture when the remote player has played a gesture.
-        </li>
-
-        <li>
-          <u>Echo</u> plays the last gesture from a remote player.
-        </li>
-
-        <li>
-          <u>Loop</u> repeats the last few gestures in sequence.
+          A <u>generator</u> is a random number generator
         </li>
       </ul>
+      <hr/>
+    </div>
+  </div>
 
-      <div class="note">
-        * More modules are planned and will be added in future versions of Loom.
+  <div class="row">
+    <div class="large-9 large-centered columns">
+      <h2>Controls</h2>
+      <div class="loom-all">
+        <img src="../images/v0.6.0-all.png" width="697" height="171"/>
       </div>
+      <br/>
+      <br/>
+      <br/>
+      <p>Loom's controls are organized in several regions based on functionality:</p>
+    </div>
+  </div>
 
-      <hr>
+  <div class="row">
+    <div class="loom-region large-9 large-centered columns">
+      <div class="large-4 columns">
+        <img src="../images/v0.6.0-phrasing.png" width="166" height="155"/>
+      </div>
+      <div class="large-8 columns">
+        <h3><u>Phrasing</u></h3>
+        <p>
+          Phrasing determines determine when a player
+          starts and stops, relative to other players.
+        </p>
+        <ul>
+          <li>
+            if <u>on play</u> is checked, play when Live transport starts
+          </li>
+          <li>
+            play immediately when <u>now</u> is pressed
+          </li>
+          <li>
+            play <u>after</u> or <u>with</u> another player
+            if box is checked
+            and player is selected from the below menu—respectively,
+            either after the other player has finished a phrase,
+            or at the same time as the other player starts—on
+            selection of other player in menu
+          </li>
+          <li>
+            <u>continue</u> playing forever (∞) or for a finite
+            number of gestures (▾),
+            specified by generator below
+          </li>
+          <li>
+            <u>pass to neighbor</u> randomly selects an adjacent player
+            (i.e. in the same track or rack) and plays it
+            when this player is done
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-      <p>
-        Some <u>parameters</u> are reused among different <u>modules:</u>
-      </p>
+  <div class="row">
+    <div class="loom-region large-9 large-centered columns">
+      <div class="large-4 columns">
+        <img src="../images/v0.6.0-viewer.png" width="161" height="96"/>
+      </div>
+      <div class="large-8 columns">
+        <h3><u>Viewer</u></h3>
+        <p>The <u>Viewer</u> displays generated gestures, one at a time.</p>
+      </div>
+    </div>
+  </div>
 
-      <p class="parameter" id="probability">
-        Each module has a <u>probability</u> that it will be executed upon each
-        gesture generation. When a module is executed, the module probability pane flashes.
-      </p>
+  <div class="row">
+    <div class="loom-region large-9 large-centered columns">
+      <div class="large-4 columns">
+        <img src="../images/v0.6.0-loop.png" width="160" height="73"/>
+      </div>
+      <div class="large-8 columns">
+        <h3><u>Loop</u></h3>
+        <p>
+          When <u>Loop</u> is enabled, previously generated gestures
+          are repeated, and highlighted in the loop display as they are
+          being output.
+        </p>
+        <ul>
+          <li>
+            the number of gestures may be adjusted by the generator
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-      <p class="parameter" id="gaussian">
-        A <u>Gaussian</u> parameter generates a random number, weighted toward a mean.
-        <small>
-          - The <u>deviation</u> specifies how far from the mean the random values
-            may land
-          <br>
-          - The <u>inertia</u> specifies how far each generated value will be from the
-            last generated value.
-        </small>
-        The center and deviation may be altered by clicking directly in the graph box.
-      </p>
+  <div class="row">
+    <div class="loom-region large-9 large-centered columns">
+      <div class="large-4 columns">
+        <img src="../images/v0.6.0-rhythm.png" width="204" height="167"/>
+      </div>
+      <div class="large-8 columns">
+        <h3><u>Rhythm</u></h3>
+        <p>
+          <u>Rhythm</u> determines the rhythmic structure of each new gesture.
+        </p>
+        <ul>
+          <li>
+            the topmost generator is the beat—a subdivision of Live's
+            <br/>
+            <small>e.g. 1 = one beat = one quarter note = one crotchet</small>
+          </li>
+          <li>
+            the second generator multiplies or divides that beat, based on
+            the selection of the <u>×</u> or <u>÷</u> operator
+            <br/>
+            <small>e.g. multiplying by 3 yields dotted notes, dividing by 3 yields triplets</small>
+          </li>
+          <li>
+            the <u>× •</u> generator determines the number of notes
+          </li>
+          <li>
+            the <u>× ◦</u> generator determines the number of rests
+          </li>
+          <li>
+            if <u>post</u> is selected, rests will occur after the notes, not before
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-      <p class="parameter" id="remote">
-        A <u>remote</u> parameter points to another player within the open Live set,
-        with a name such as "Track > Rack".
-      </p>
+  <div class="row">
+    <div class="loom-region large-9 large-centered columns">
+      <div class="large-4 columns">
+        <img src="../images/v0.6.0-accent.png" width="161" height="51"/>
+      </div>
+      <div class="large-8 columns">
+        <h3><u>Accent</u></h3>
+        <p>
+          The <u>Accent</u> generator determines where the "accent"
+          (highest velocity) is placed in the gesture—earlier or later.
+        </p>
+      </div>
+    </div>
+  </div>
 
-      <hr>
+  <div class="row">
+    <div class="loom-region large-9 large-centered columns">
+      <div class="large-4 columns">
+        <img src="../images/v0.6.0-pitch.png" width="161" height="114"/>
+      </div>
+      <div class="large-8 columns">
+        <h3><u>Pitch</u></h3>
+        <p>
+          The <u>Pitch</u> region sets the pitch of each note in each gesture.
+        </p>
+        <ul>
+          <li>
+            if <u>MIDI in</u> is checked, notes may be selected by MIDI in this track
+          </li>
+          <li>
+            if <u>toggle</u> is additionally checked, notes will be alternately
+            selected or unselected based on MIDI input
+          </li>
+          <li>
+            pitch range is determined by the three-octave span of the generator
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-      <p>
-        Players generate <u>gestures</u>, which are, simply put, collections of timed
-        MIDI events, of any duration and containing any number of MIDI notes.
-      </p>
+  <div class="row">
+    <div class="large-9 large-centered columns">
+      <hr/>
+      <h2>General</h2>
+      <ul>
+        <li>
+          If there are multiple players in a same track, their MIDI events
+          will ALL be output from the LAST player. MIDI is passed through each,
+          and can be accessed in any player. (But if <u>Pitch</u> <u>MIDI in</u>
+          is used, MIDI thru will be blocked.)
+        </li>
+        <li>
+          TODOC: preview mode
+        </li>
+        <li>
+          nest in racks
+        </li>
+      </ul>
+    </div>
+  </div>
 
-      <p>
-        All gestures begin life as a single pulse (a half note at middle C), and take shape as they are processed by modules.
-      </p>
+  <div class="row">
+    <div class="large-9 large-centered columns">
+      <hr/>
+      <h2>Recipes</h2>
+      <p>Check the presets for now, come back soon for inspiration.</p>
+      <hr/>
+    </div>
+  </div>
 
-      <p>
-        Modules are always executed from left to right, meaning that modules which come later in the chain may process and even overwrite the gesture output of earlier modules.
-      </p>
-
-      <p>
-         A given track may contain multiple Loom players. Multiple Loom player racks may be nested in a parent rack (as is the case in several example Players).
-      </p>
-
-      <hr>
+  <div class="row">
+    <div class="large-9 large-centered columns">
 
       <div id="thanks">
         Thanks for playing
